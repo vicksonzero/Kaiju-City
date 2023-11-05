@@ -5,8 +5,8 @@ Fight Enormous Kaijus, Protect the small city
 # How to play
 
 Left stick: Move  
-Tap Right stick: Shoot closest target  
-Drag Right stick: Aim, release to shoot  
+Right stick (Tap): Shoot closest target  
+Right stick (Drag): Aim, release to shoot  
 Jump button: Jump
 
 
