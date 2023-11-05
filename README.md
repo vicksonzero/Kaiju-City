@@ -26,7 +26,9 @@ Jump button: Jump
     By: Unity
   - Name: Polyworks
     By: Off Axis Studios
-  Day-Night Skyboxes
+  - Name: Day-Night Skyboxes
+    By: Wello Soft
+    ByLink: https://assetstore.unity.com/publishers/11882
   - Name: DoTween
     By: Demigiant
 - Type: Kenney.nl
