@@ -1,9 +1,20 @@
 # Kaiju-City
 
+Fight Enormous Kaijus, Protect the small city
+
+# How to play
+
+Left stick: Move  
+Tap Right stick: Shoot closest target
+Drag Right stick: Aim, release to shoot
+Jump button: Jump
 
 
+# How to install
 
+## Unity Version
 
+2022.3.12f1
 
 # Credits
 
