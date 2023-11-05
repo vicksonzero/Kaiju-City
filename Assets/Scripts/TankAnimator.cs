@@ -23,7 +23,7 @@ public class TankAnimator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var thirdPersonController = GetComponent<ThirdPersonController>();
+        var thirdPersonController = GetComponent<ThirdPersonTankController>();
         // groundedOffset = thirdPersonController.GroundedOffset;
         groundedRadius = thirdPersonController.GroundedRadius;
         groundLayers = thirdPersonController.GroundLayers;
