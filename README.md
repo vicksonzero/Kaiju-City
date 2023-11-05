@@ -32,18 +32,15 @@ Jump button: Jump
 - Type: Kenney.nl
   - Name: Crosshair Pack
     License: CC0
-    Links: 
-      - https://kenney.nl/assets/crosshair-pack
+    Link: https://kenney.nl/assets/crosshair-pack
   - Name: Particle Pack
     License: CC0
-    Links: 
-      - https://kenney.nl/assets/particle-pack
+    Link: https://kenney.nl/assets/particle-pack
 - Type: Models
   - Name: Tank by KolosStudios [CC-BY] via Poly Pizza
     By: KolosStudios 
-    Links: 
-      - https://poly.pizza/m/egcLMSGiuA
-      - https://poly.pizza/u/KolosStudios
+    ByLink: https://poly.pizza/u/KolosStudios
+    Link: https://poly.pizza/m/egcLMSGiuA
     License: CC-BY 3.0
 - Type: Sound
 - Type: Music
