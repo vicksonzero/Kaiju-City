@@ -6,24 +6,24 @@ using UnityEngine.EventSystems;
 
 public class UIVirtualTouchZoneJoystickBg : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public UIVirtualTouchZone touchZone;
+    // public UIVirtualTouchZone touchZone;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (touchZone)
-        {
-            touchZone.OnBgRectPointerDown(eventData);
-            touchZone.OnPointerDown(eventData);
-        }
+    //     if (touchZone)
+    //     {
+    //         touchZone.OnBgRectPointerDown(eventData);
+    //         touchZone.OnPointerDown(eventData);
+    //     }
     }
     
     
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (touchZone)
-        {
-            touchZone.OnBgRectPointerUp(eventData);
-            touchZone.OnPointerUp(eventData);
-        }
+    //     if (touchZone)
+    //     {
+    //         touchZone.OnBgRectPointerUp(eventData);
+    //         touchZone.OnPointerUp(eventData);
+    //     }
     }
 }

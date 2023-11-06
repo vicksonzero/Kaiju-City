@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3585802185050818200}
   - component: {fileID: 4066557817319646162}
   - component: {fileID: 2640347285009224983}
-  - component: {fileID: 7665150654395245065}
   m_Layer: 5
   m_Name: Bg_Handle
   m_TagString: Untagged
@@ -76,19 +75,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7665150654395245065
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 287990232499927173}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0db85e6b7d17f2b4ab3dfeff5cf3e2cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  touchZone: {fileID: 4767772227563435448}
 --- !u!1 &1837564145867584781
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,7 @@ using UnityEngine;
 public class PlayerAiming : MonoBehaviour
 {
     public CinemachineVirtualCamera aimingCamera;
-
+    public CrosshairType startingCrosshairType;
 
     [Header("Crosshairs")]
     public RectTransform basicCrosshair;
@@ -25,6 +25,11 @@ public class PlayerAiming : MonoBehaviour
     private void Awake()
     {
         _starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+    }
+
+    private void Start()
+    {
+        UseCrosshair(startingCrosshairType);
     }
 
     // Update is called once per frame

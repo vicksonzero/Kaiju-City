@@ -53,11 +53,6 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     private void SetupHandle()
     {
         handlePositionStart = handleRect.anchoredPosition;
-        // if (handleRect)
-        // {
-        //     SetObjectActiveState(handleRect.gameObject, false);
-        //     SetObjectActiveState(bgRect.gameObject, false);
-        // }
     }
 
     private void Update()
@@ -73,20 +68,20 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         }
     }
 
-    public void OnBgRectPointerDown(PointerEventData eventData)
-    {
-        Debug.Log("OnBgRectPointerDown");
-        OutputButtonEventValue(true);
-    }
+    // public void OnBgRectPointerDown(PointerEventData eventData)
+    // {
+    //     Debug.Log("OnBgRectPointerDown");
+    //     OutputButtonEventValue(true);
+    // }
 
-    public void OnBgRectPointerUp(PointerEventData eventData)
-    {
-        Debug.Log("OnBgRectPointerUp");
+    // public void OnBgRectPointerUp(PointerEventData eventData)
+    // {
+    //     Debug.Log("OnBgRectPointerUp");
 
-        OutputButtonEventValue(false);
-        longPressIsDown = false;
-        longPressTimer = 0;
-    }
+    //     OutputButtonEventValue(false);
+    //     longPressIsDown = false;
+    //     longPressTimer = 0;
+    // }
 
 
     public void OnPointerDown(PointerEventData eventData)
@@ -101,6 +96,12 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
             // SetObjectActiveState(bgRect.gameObject, true);
             UpdateHandleRectPosition(handleRect, pointerDownPosition);
             UpdateHandleRectPosition(bgRect, pointerDownPosition);
+        }
+        if (Vector2.Distance(pointerDownPosition, handlePositionStart) < joystickRange)
+        {
+
+            //     longPressIsDown = false;
+            OutputButtonEventValue(true);
         }
     }
 
