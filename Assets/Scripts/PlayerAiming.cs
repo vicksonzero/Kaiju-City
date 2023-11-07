@@ -67,3 +67,71 @@ public class PlayerAiming : MonoBehaviour
         SelectCrosshair,
     }
 }
+
+public class CannonWeapon : MonoBehaviour
+{
+    public LayerMask canHitLayers;
+    public float aimMaxDistance = 1000f;
+
+    /// <summary>
+    /// Rotate the cannon with this
+    /// </summary>
+    public Transform turretBase;
+
+    /// <summary>
+    /// Pitch the cannon with this
+    /// </summary>
+    public Transform turretBarrel;
+
+    /// <summary>
+    /// Bullets spawn from here
+    /// </summary>
+    public Transform turretMuzzle;
+
+    /// <summary>
+    /// This point stores the current aim after raycast with screenRay
+    /// </summary>
+    public Transform targetPoint;
+
+    private PlayerAiming _playerAiming;
+
+    private void Start()
+    {
+        _playerAiming = GetComponent<PlayerAiming>();
+    }
+
+    public void Aim(Ray screenRay)
+    {
+        UpdateTargetPoint(screenRay);
+        UpdateTurret();
+    }
+
+    public void UpdateTargetPoint(Ray screenRay)
+    {
+        var isHit = Physics.Raycast(screenRay, out var hitInfo, aimMaxDistance, canHitLayers);
+
+        if (!isHit)
+        {
+            targetPoint.transform.position = screenRay.GetPoint(aimMaxDistance);
+        }
+        else
+        {
+            targetPoint.transform.position = hitInfo.point;
+        }
+    }
+
+    public void UpdateTurret()
+    {
+        turretBase.rotation
+        turretBarrel.rotation
+    }
+
+    private void OnEnable()
+    {
+
+    }
+    private void OnDisable()
+    {
+        _playerAiming.UseCrosshair(CrosshairType.CannonCrosshair);
+    }
+}

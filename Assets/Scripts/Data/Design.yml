@@ -1,0 +1,130 @@
+AttackUpgrades:
+  # point of base damage
+  KineticDmg: [ 100, 200, 300, 400, 500, 600 ]
+  # 能量屬性 point of base damage
+  PlasmaDmg: [0, 10, 25, 35]
+  # 照射屬性 point of base damage
+  BeamDmg: [0, 10, 25, 35]
+  # 爆破屬性 point of base damage
+  ExplosiveDmg: [0, 10, 25, 35]
+  # 燃燒屬性 point of base damage
+  FlameDmg: [0, 10, 25, 35]
+  
+  # in world meters
+  AttackRange: [ 100, 200, 300, 400, 500, 600 ]
+  # the homing level is shared across the game, attached to the missile. it concerns the range of detection as well as the amount of rotation per second
+  Homing: [ 1, 2, 3, 4, 5 ]
+  # world meters per seconds
+  BulletSpeed: [ 100, 200, 300, 400, 500, 600 ]
+  # seconds per bullet
+  Rapid: [ 0.5, 0.4, 0.3, 0.2, 0.1 ]
+  # seconds
+  Cooldown: [ 5, 4, 3, 2, 1, 0.5, 0.4, 0.3, 0.2, 0.1 ]
+  # percentage proc
+  AmmoReuse: [0, 0.1, 0.2, 0.3]
+  # on / off
+  AutoShoot: [0, 1]
+  # 炮塔有效角度 in degrees
+  TurretAngle: [30, 40, 50]
+  # 增加鎖定數
+  LockOnCount: [3, 4, 5]
+
+  # 特殊效果
+  # 擊暈效果 By level (shared across the game)
+  StunEffect: [0, 1, 2, 3]
+  # 減慢效果 By level (shared across the game)
+  SlowEffect: [0, 1, 2, 3]
+
+DefenseUpgrades:
+  # 自動救火 hp per second
+  AutoRepair: [0, 1, 2, 3.3, 4.4, 5.5]
+  # Damage reduction, shield battery
+  Shield: [0, 1, 2, 3, 4, 5]
+  # Damage reduction against physical
+  Armor: [0, 1, 2, 3, 4, 5]
+  # 減少操作相撞懲罰
+  HarmonizeControls: []
+
+MobilityUpgrades:
+  # 移速（地面）
+  GroundSpeed: []
+  # 加速（地面）
+  GroundAcceleration: []
+  # 轉向速度（地面）
+  GroundTurning: []
+  # 移速（空中）
+  AirSpeed: []
+  # 加速（空中）
+  AirAcceleration: []
+  # 轉向速度（空中）
+  AirTurning: []
+  Booster: []
+
+Ultimates:
+  # 究極
+  # 全彈發射 on / off
+  UltimateFullBurst: [0, 1]
+  # 宇宙射線 on / off
+  UltimateCosmicRay: [0, 1]
+  # 騎士踢 on / off
+  UltimateRiderKick: [0, 1]
+  # 終極斬 on / off
+  UltimateChop: [0, 1]
+  # 終極一文字斬 on / off
+  UltimateSlash: [0, 1]
+  # 終極十字斬 on / off
+  UltimateCrossSlash: [0, 1]
+
+
+UpgradeableSlots:
+  Weapon1: []
+  Weapon2: []
+  Weapon3: []
+  Weapon4: []
+  Body: []
+  Mobility: []
+
+Chips:
+  AttackChips:
+    - KineticDmg # increase base damage
+    - PlasmaDmg # 能量屬性 increase base damage
+    - BeamDmg # 照射屬性 increase base damage
+    - ExplosiveDmg # 爆破屬性 increase base damage
+    - FlameDmg # 燃燒屬性 increase base damage
+    - AttackRange # percentage increase
+    - Homing # 
+    - BulletSpeed # percentage increase
+    - Rapid # seconds per bullet
+    - Cooldown # seconds
+    - AmmoReuse # percentage proc
+    - AutoShoot # on / off
+    - TurretAngle # 炮塔有效角度 in degrees
+    - LockOnCount # 增加鎖定數
+    
+     # 特殊效果
+    - StunEffect # 擊暈效果 By level (shared across the game)
+    - SlowEffect # 減慢效果 By level (shared across the game)
+
+  DefenseChips:
+    - AutoRepair # hp per second
+    - Shield # Damage reduction, shield battery
+    - Armor # Damage reduction against physical
+    - HarmonizeControls # Damage reduction against co-op control misses
+
+  MobilityChips:
+    - GroundSpeed
+    - GroundAcceleration
+    - GroundTurning
+    - AirSpeed
+    - AirAcceleration
+    - AirTurning
+    - Booster
+
+  UltimateChips:
+     # 究極
+    - UltimateFullBurst # 全彈發射
+    - UltimateCosmicRay # 宇宙射線
+    - UltimateRiderKick # 騎士踢
+    - UltimateChop # 終極斬
+    - UltimateSlash # 終極一文字斬
+    - UltimateCrossSlash # 終極十字斬
