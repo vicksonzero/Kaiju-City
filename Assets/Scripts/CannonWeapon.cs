@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -57,19 +58,30 @@ public class CannonWeapon : MonoBehaviour
 
     public void UpdateTurret()
     {
-        var turretDisplacement = targetPoint.position - turretBase.position;
-        var horizontalRotation = Quaternion.LookRotation(
-            Vector3.ProjectOnPlane(turretDisplacement, transform.up),
-            transform.up);
-        turretBase.rotation =
-            Quaternion.Slerp(turretBase.rotation, horizontalRotation, turretRotationSpeed * Time.deltaTime);
+        var turretDisplacement = transform.InverseTransformPoint(targetPoint.position);
+        var horizontalLocalRotation = Quaternion.LookRotation(
+            Vector3.ProjectOnPlane(turretDisplacement, Vector3.up),
+            Vector3.up);
+        turretBase.localRotation =
+            Quaternion.Slerp(turretBase.localRotation, horizontalLocalRotation, turretRotationSpeed * Time.deltaTime);
 
         var barrelDisplacement = targetPoint.position - turretBarrel.position;
         var verticalAngle = Vector3.SignedAngle(turretBase.forward, barrelDisplacement, turretBase.right);
-        var verticalRotation = Quaternion.AngleAxis(-verticalAngle, -turretBase.right);
-        turretBarrel.localRotation = 
-            Quaternion.Slerp(turretBarrel.localRotation, verticalRotation, turretRotationSpeed * Time.deltaTime);
-           
+        Debug.Log($"VertAngle {verticalAngle}");
+        Debug.Log($"VertAngle {turretBarrel}");
+        var verticalLocalRotation = Quaternion.Euler(verticalAngle, 0, 0);
+        turretBarrel.localRotation = Quaternion.Slerp(turretBarrel.localRotation, verticalLocalRotation,
+            turretRotationSpeed * Time.deltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(turretBase.position, turretBase.position + turretBase.forward * 100f);
+        var turretDisplacement = turretBase.InverseTransformPoint(targetPoint.position);
+        Gizmos.DrawLine(turretBase.position, turretBase.position + Vector3.ProjectOnPlane(turretDisplacement, Vector3.up) * 100f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(turretBarrel.position, turretBarrel.position + turretBarrel.forward * 100f);
     }
 
     private void OnEnable()
