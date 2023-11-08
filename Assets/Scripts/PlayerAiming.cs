@@ -19,14 +19,14 @@ public class PlayerAiming : MonoBehaviour
     public RectTransform beamCrosshair;
     public RectTransform selectCrosshair;
 
-    private StarterAssetsInputs _starterAssetsInputs;
+    private StarterAssetsInputs _input;
 
     private CannonWeapon[] _weapons;
 
 
     private void Awake()
     {
-        _starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        _input = GetComponent<StarterAssetsInputs>();
     }
 
     private void Start()
@@ -38,7 +38,7 @@ public class PlayerAiming : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_starterAssetsInputs.aim)
+        if (_input.aim)
         {
             aimingCamera.gameObject.SetActive(true);
             UseCrosshair(CrosshairType.CannonCrosshair);
@@ -59,6 +59,14 @@ public class PlayerAiming : MonoBehaviour
             foreach (var weapon in _weapons)
             {
                 weapon.Aim(ray);
+            }
+        }
+
+        if (_input.shoot)
+        {
+            foreach (var weapon in _weapons)
+            {
+                weapon.TryShoot();
             }
         }
     }

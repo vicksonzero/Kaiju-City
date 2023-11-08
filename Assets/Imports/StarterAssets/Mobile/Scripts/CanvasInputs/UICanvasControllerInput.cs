@@ -36,6 +36,7 @@ namespace StarterAssets
         {
             Debug.Log($"VirtualAimInput {virtualAimState}");
             starterAssetsInputs.AimInput(virtualAimState);
+            
         }
         
     }

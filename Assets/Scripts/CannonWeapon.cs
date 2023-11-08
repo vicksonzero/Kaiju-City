@@ -29,6 +29,15 @@ public class CannonWeapon : MonoBehaviour
     /// </summary>
     public Transform targetPoint;
 
+    public GameObject bulletPrefab;
+
+    public float kineticDamage = 1;
+    public float bulletSpeed = 10;
+    public float rapid = 1.2f;
+    public float nextBulletReady = 0;
+    public float ammo = 100;
+    public float ammoMax = 100;
+
     private PlayerAiming _playerAiming;
 
     private void Start()
@@ -42,7 +51,16 @@ public class CannonWeapon : MonoBehaviour
         UpdateTurret();
     }
 
-    public void UpdateTargetPoint(Ray screenRay)
+    public void TryShoot()
+    {
+        if (Time.time > nextBulletReady)
+        {
+            ShootCannonBullet();
+            nextBulletReady = Time.time + rapid;
+        }
+    }
+
+    private void UpdateTargetPoint(Ray screenRay)
     {
         var isHit = Physics.Raycast(screenRay, out var hitInfo, aimMaxDistance, canHitLayers);
 
@@ -56,21 +74,21 @@ public class CannonWeapon : MonoBehaviour
         }
     }
 
-    public void UpdateTurret()
+    private void UpdateTurret()
     {
         var turretDisplacement = transform.InverseTransformPoint(targetPoint.position);
         var horizontalLocalRotation = Quaternion.LookRotation(
             Vector3.ProjectOnPlane(turretDisplacement, Vector3.up),
             Vector3.up);
         turretBase.localRotation =
-            Quaternion.Slerp(turretBase.localRotation, horizontalLocalRotation, turretRotationSpeed * Time.deltaTime);
+            Quaternion.RotateTowards(turretBase.localRotation, horizontalLocalRotation, turretRotationSpeed * Time.deltaTime);
 
         var barrelDisplacement = targetPoint.position - turretBarrel.position;
         var verticalAngle = Vector3.SignedAngle(turretBase.forward, barrelDisplacement, turretBase.right);
         Debug.Log($"VertAngle {verticalAngle}");
         Debug.Log($"VertAngle {turretBarrel}");
         var verticalLocalRotation = Quaternion.Euler(verticalAngle, 0, 0);
-        turretBarrel.localRotation = Quaternion.Slerp(turretBarrel.localRotation, verticalLocalRotation,
+        turretBarrel.localRotation = Quaternion.RotateTowards(turretBarrel.localRotation, verticalLocalRotation,
             turretRotationSpeed * Time.deltaTime);
     }
 
@@ -84,12 +102,20 @@ public class CannonWeapon : MonoBehaviour
         Gizmos.DrawLine(turretBarrel.position, turretBarrel.position + turretBarrel.forward * 100f);
     }
 
+    private void ShootCannonBullet()
+    {
+        var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation);
+        var rb = bullet.GetComponent<Rigidbody>();
+        rb.velocity = bullet.transform.forward * bulletSpeed;
+        
+    }
+
     private void OnEnable()
     {
     }
 
     private void OnDisable()
     {
-        _playerAiming.UseCrosshair(PlayerAiming.CrosshairType.CannonCrosshair);
+        // _playerAiming.UseCrosshair(PlayerAiming.CrosshairType.CannonCrosshair);
     }
 }
