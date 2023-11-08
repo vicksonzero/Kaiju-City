@@ -21,6 +21,8 @@ public class PlayerAiming : MonoBehaviour
 
     private StarterAssetsInputs _starterAssetsInputs;
 
+    private CannonWeapon[] _weapons;
+
 
     private void Awake()
     {
@@ -30,6 +32,7 @@ public class PlayerAiming : MonoBehaviour
     private void Start()
     {
         UseCrosshair(startingCrosshairType);
+        _weapons = GetComponents<CannonWeapon>();
     }
 
     // Update is called once per frame
@@ -45,9 +48,22 @@ public class PlayerAiming : MonoBehaviour
             aimingCamera.gameObject.SetActive(false);
             UseCrosshair(CrosshairType.BasicCrosshair);
         }
+
+        var mainCamera = Camera.main;
+        if (mainCamera)
+        {
+            var ray = mainCamera.ScreenPointToRay(new Vector3(
+                mainCamera.pixelWidth / 2f,
+                mainCamera.pixelHeight / 2f
+            ));
+            foreach (var weapon in _weapons)
+            {
+                weapon.Aim(ray);
+            }
+        }
     }
 
-    void UseCrosshair(CrosshairType newCrosshair)
+    public void UseCrosshair(CrosshairType newCrosshair)
     {
         if (basicCrosshair) basicCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.BasicCrosshair);
         if (cannonCrosshair) cannonCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.CannonCrosshair);
@@ -65,73 +81,5 @@ public class PlayerAiming : MonoBehaviour
         PlasmaCrosshair,
         BeamCrosshair,
         SelectCrosshair,
-    }
-}
-
-public class CannonWeapon : MonoBehaviour
-{
-    public LayerMask canHitLayers;
-    public float aimMaxDistance = 1000f;
-
-    /// <summary>
-    /// Rotate the cannon with this
-    /// </summary>
-    public Transform turretBase;
-
-    /// <summary>
-    /// Pitch the cannon with this
-    /// </summary>
-    public Transform turretBarrel;
-
-    /// <summary>
-    /// Bullets spawn from here
-    /// </summary>
-    public Transform turretMuzzle;
-
-    /// <summary>
-    /// This point stores the current aim after raycast with screenRay
-    /// </summary>
-    public Transform targetPoint;
-
-    private PlayerAiming _playerAiming;
-
-    private void Start()
-    {
-        _playerAiming = GetComponent<PlayerAiming>();
-    }
-
-    public void Aim(Ray screenRay)
-    {
-        UpdateTargetPoint(screenRay);
-        UpdateTurret();
-    }
-
-    public void UpdateTargetPoint(Ray screenRay)
-    {
-        var isHit = Physics.Raycast(screenRay, out var hitInfo, aimMaxDistance, canHitLayers);
-
-        if (!isHit)
-        {
-            targetPoint.transform.position = screenRay.GetPoint(aimMaxDistance);
-        }
-        else
-        {
-            targetPoint.transform.position = hitInfo.point;
-        }
-    }
-
-    public void UpdateTurret()
-    {
-        turretBase.rotation
-        turretBarrel.rotation
-    }
-
-    private void OnEnable()
-    {
-
-    }
-    private void OnDisable()
-    {
-        _playerAiming.UseCrosshair(CrosshairType.CannonCrosshair);
     }
 }

@@ -7,16 +7,16 @@ public class ChipSlot : MonoBehaviour
     public string displayName;
     public string description;
     public UpgradeType upgradeType;
-    public Chip chip;
+    public ChipSO chip;
 
-    public Chip RemoveChip()
+    public ChipSO RemoveChip()
     {
         var oldChip = chip;
         // TODO: do remove-chip callbacks
 
         return oldChip;
     }
-    public void AddChip(Chip chip)
+    public void AddChip(ChipSO chip)
     {
         this.chip = chip;
 

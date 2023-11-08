@@ -17,10 +17,10 @@ public class HidePanel : MonoBehaviour
     }
 
     public void Show() => Toggle(true);
-    public void Hide() => Toggle(true);
+    public void Hide() => Toggle(false);
 
     public void Toggle(bool value)
     {
-        gameObject.SetActiveSelf(value);
+        gameObject.SetActive(value);
     }
 }
