@@ -6,15 +6,15 @@ using UnityEngine;
 public class CountedEntity : MonoBehaviour
 {
     public string[] channels;
-    
+
     // Start is called before the first frame update
     void Start()
     {
-        EntityCounter.Inst.Add(channels, this);
+        if (EntityCounter.Inst) EntityCounter.Inst.Add(channels, this);
     }
 
     private void OnDestroy()
     {
-        EntityCounter.Inst.Remove(channels, this);
+        if (EntityCounter.Inst) EntityCounter.Inst.Remove(channels, this);
     }
 }

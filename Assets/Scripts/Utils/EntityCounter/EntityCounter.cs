@@ -12,15 +12,19 @@ public class EntityCounter : MonoBehaviour
         ? _entityCounter
         : FindObjectOfType<EntityCounter>();
 
-    private Dictionary<string, HashSet<CountedEntity>> _store = new();
+    private readonly Dictionary<string, HashSet<CountedEntity>> _store = new();
 
     public delegate void OnCountChanged(int count);
 
-    public Dictionary<string, OnCountChanged> CountChangedDelegates = new();
+    private readonly Dictionary<string, OnCountChanged> _countChangedDelegates = new();
 
     public void AddDelegate(string channel, OnCountChanged callback)
     {
-        CountChangedDelegates.TryAdd(channel, callback);
+        if (_countChangedDelegates.ContainsKey(channel))
+            _countChangedDelegates[channel] += callback;
+        else
+            _countChangedDelegates.Add(channel, callback);
+
         _store.TryAdd(channel, new HashSet<CountedEntity>());
         callback(_store[channel].Count);
     }
@@ -32,10 +36,8 @@ public class EntityCounter : MonoBehaviour
             _store.TryAdd(channel, new HashSet<CountedEntity>());
             _store[channel].Add(e);
 
-            if (CountChangedDelegates.TryGetValue(channel, out var onCountChanged))
-            {
+            if (_countChangedDelegates.TryGetValue(channel, out var onCountChanged))
                 onCountChanged?.Invoke(_store[channel].Count);
-            }
         }
     }
 
@@ -45,10 +47,13 @@ public class EntityCounter : MonoBehaviour
         {
             _store.TryAdd(channel, new HashSet<CountedEntity>());
             _store[channel].Remove(e);
-            if (CountChangedDelegates.TryGetValue(channel, out var onCountChanged))
-            {
+
+            if (_countChangedDelegates.TryGetValue(channel, out var onCountChanged))
                 onCountChanged?.Invoke(_store[channel].Count);
-            }
         }
+    }
+
+    public void ClearCallbacks(string channel)
+    {
     }
 }
