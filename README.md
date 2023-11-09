@@ -44,6 +44,11 @@ Jump button: Jump
     ByLink: https://poly.pizza/u/KolosStudios
     Link: https://poly.pizza/m/egcLMSGiuA
     License: CC-BY 3.0
+- Type: Sketchfab
+  - Name: wasp low poly modle
+    Link: https://skfb.ly/or89q
+    By: Maxscorpionz
+    License: CC-BY 4.0
 - Type: Sound
 - Type: Music
 ```

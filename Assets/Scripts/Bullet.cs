@@ -6,22 +6,43 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     public LayerMask explodeAtLayers;
+    public LayerMask damageTheseLayers;
     public Transform explosionPrefab;
 
+    public float kineticDamage;
+
     private Rigidbody _rb;
+    private Vector3 hitPointCandidate;
+    private Vector3 hitNormalCandidate;
 
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
     }
 
-    private void OnCollisionEnter(Collision col)
+    private void FixedUpdate()
     {
-        if (explodeAtLayers.Contains(col.gameObject.layer))
+        var hasHit = Physics.Raycast(transform.position, transform.forward,
+            out var hitInfo, _rb.velocity.magnitude, explodeAtLayers);
+        hitPointCandidate = (hasHit ? hitInfo.point : transform.position);
+        hitNormalCandidate = hasHit ? hitInfo.normal : -transform.forward;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(hitPointCandidate, hitPointCandidate + hitNormalCandidate);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (explodeAtLayers.Contains(other.gameObject.layer))
         {
-            // if (other.gameObject.TryGetComponent(out Health health)){
-            // health.takeDamage();
-            // }
+            if (other.TryGetComponent(out Health health))
+            {
+                health.TakeDamage(kineticDamage);
+            }
+
             // if (pierce) { ... }
             if (explosionPrefab)
             {
@@ -29,9 +50,9 @@ public class Bullet : MonoBehaviour
                 // var collisionNormal = transform.position - closestPoint;
                 Instantiate(
                     explosionPrefab,
-                    col.contacts[0].point,
+                    hitPointCandidate,
                     // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
-                    Quaternion.LookRotation(col.contacts[0].normal, Vector3.up));
+                    Quaternion.LookRotation(hitNormalCandidate, Vector3.up));
             }
 
             Destroy(gameObject);

@@ -29,7 +29,7 @@ public class CannonWeapon : MonoBehaviour
     /// </summary>
     public Transform targetPoint;
 
-    public GameObject bulletPrefab;
+    public Bullet bulletPrefab;
 
     public float kineticDamage = 1;
     public float bulletSpeed = 10;
@@ -85,8 +85,8 @@ public class CannonWeapon : MonoBehaviour
 
         var barrelDisplacement = targetPoint.position - turretBarrel.position;
         var verticalAngle = Vector3.SignedAngle(turretBase.forward, barrelDisplacement, turretBase.right);
-        Debug.Log($"VertAngle {verticalAngle}");
-        Debug.Log($"VertAngle {turretBarrel}");
+        // Debug.Log($"VertAngle {verticalAngle}");
+        // Debug.Log($"VertAngle {turretBarrel}");
         var verticalLocalRotation = Quaternion.Euler(verticalAngle, 0, 0);
         turretBarrel.localRotation = Quaternion.RotateTowards(turretBarrel.localRotation, verticalLocalRotation,
             turretRotationSpeed * Time.deltaTime);
@@ -107,7 +107,8 @@ public class CannonWeapon : MonoBehaviour
         var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation);
         var rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = bullet.transform.forward * bulletSpeed;
-        
+        bullet.kineticDamage = kineticDamage;
+
     }
 
     private void OnEnable()

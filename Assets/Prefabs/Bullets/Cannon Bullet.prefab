@@ -99,7 +99,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -183,7 +183,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explodeAtLayers:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 1664
+  damageTheseLayers:
+    serializedVersion: 2
+    m_Bits: 0
   explosionPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
     type: 3}
 --- !u!114 &2887683362024885741
