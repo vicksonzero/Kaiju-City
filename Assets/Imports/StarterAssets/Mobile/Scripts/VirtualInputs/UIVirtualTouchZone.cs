@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
@@ -22,9 +23,12 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     public RectTransform bgRect;
 
     [Header("Settings")]
+    public bool absoluteAiming;
+
     public bool clampToMagnitude;
 
     public float magnitudeMultiplier = 1f;
+    public float absoluteMagnitudeMultiplier = 10f;
     public bool invertXOutputValue;
     public bool invertYOutputValue;
     public Vector2 sensitivityModifiers = Vector2.one;
@@ -36,6 +40,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     //Stored Pointer Values
     private Vector2 pointerDownPosition;
     private Vector2 currentPointerPosition;
+    private Vector2? lastOutputPosition;
 
     [Header("Output")]
     public Event touchZoneOutputEvent;
@@ -89,6 +94,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         Debug.Log("OnPointerDown");
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
             eventData.pressEventCamera, out pointerDownPosition);
+        lastOutputPosition = null;
 
         if (handleRect)
         {
@@ -97,9 +103,9 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
             UpdateHandleRectPosition(handleRect, pointerDownPosition);
             UpdateHandleRectPosition(bgRect, pointerDownPosition);
         }
+
         if (Vector2.Distance(pointerDownPosition, handlePositionStart) < joystickRange)
         {
-
             //     longPressIsDown = false;
             OutputButtonEventValue(true);
         }
@@ -112,14 +118,21 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         var positionDelta = GetDeltaBetweenPositions(pointerDownPosition, currentPointerPosition);
 
-        var clampedPosition = ClampValuesToMagnitude(positionDelta);
+        var clampedPosition = absoluteAiming ? positionDelta : ClampValuesToMagnitude(positionDelta);
 
-        var invertedPosition = ApplyInversionFilter(clampedPosition);
+        var invertedPosition = ApplyInversionFilter(clampedPosition / joystickRange);
 
         var outputPosition = ApplySensitivityFilter(invertedPosition, sensitivityModifiers);
 
-        UpdateHandleRectPosition(handleRect, pointerDownPosition + clampedPosition * joystickRange);
-        OutputPointerEventValue(outputPosition * magnitudeMultiplier);
+        lastOutputPosition ??= outputPosition;
+
+        UpdateHandleRectPosition(handleRect, pointerDownPosition + clampedPosition);
+        OutputPointerEventValue(
+            absoluteAiming
+                ? (outputPosition - lastOutputPosition.Value) * absoluteMagnitudeMultiplier
+                : outputPosition * magnitudeMultiplier
+        );
+        lastOutputPosition = outputPosition;
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -170,7 +183,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     Vector2 ClampValuesToMagnitude(Vector2 position)
     {
-        return Vector2.ClampMagnitude(position, joystickRange) / joystickRange;
+        return Vector2.ClampMagnitude(position, joystickRange);
     }
 
     Vector2 ApplyInversionFilter(Vector2 position)

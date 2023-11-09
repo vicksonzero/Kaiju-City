@@ -28694,6 +28694,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 593346031307489181, guid: 7484ce6f8ca3d81408c606b5ae8b9ff3,
         type: 3}
+      propertyPath: absoluteInsideRange
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 593346031307489181, guid: 7484ce6f8ca3d81408c606b5ae8b9ff3,
+        type: 3}
       propertyPath: magnitudeMultiplier
       value: 3
       objectReference: {fileID: 0}
@@ -28976,6 +28981,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 7325739534687642245, guid: 7484ce6f8ca3d81408c606b5ae8b9ff3,
+        type: 3}
+      propertyPath: absoluteInsideRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8361770633040054537, guid: 7484ce6f8ca3d81408c606b5ae8b9ff3,
         type: 3}
@@ -37033,7 +37043,17 @@ PrefabInstance:
       objectReference: {fileID: 2039963252}
     - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
         type: 3}
+      propertyPath: absoluteAiming
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
+        type: 3}
       propertyPath: invertYOutputValue
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
+        type: 3}
+      propertyPath: absoluteInsideRange
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
@@ -37044,7 +37064,7 @@ PrefabInstance:
     - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
         type: 3}
       propertyPath: sensitivityModifiers.y
-      value: 0.4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
         type: 3}
