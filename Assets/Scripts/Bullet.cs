@@ -12,8 +12,8 @@ public class Bullet : MonoBehaviour
     public float kineticDamage;
 
     private Rigidbody _rb;
-    private Vector3 hitPointCandidate;
-    private Vector3 hitNormalCandidate;
+    private Vector3? hitPointCandidate;
+    private Vector3? hitNormalCandidate;
 
     private void Start()
     {
@@ -31,14 +31,17 @@ public class Bullet : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(hitPointCandidate, hitPointCandidate + hitNormalCandidate);
+        var p = hitPointCandidate ?? transform.position;
+        var n = hitNormalCandidate ?? -transform.forward;
+        Gizmos.DrawLine(p, p + n);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (explodeAtLayers.Contains(other.gameObject.layer))
         {
-            if (other.TryGetComponent(out Health health))
+            var health = other.GetComponentInParent<Health>();
+            if (health && damageTheseLayers.Contains(health.gameObject.layer))
             {
                 health.TakeDamage(kineticDamage);
             }
@@ -46,13 +49,15 @@ public class Bullet : MonoBehaviour
             // if (pierce) { ... }
             if (explosionPrefab)
             {
+                var p = hitPointCandidate ?? transform.position;
+                var n = hitNormalCandidate ?? -transform.forward;
                 // var closestPoint = other.ClosestPointOnBounds(transform.position);
                 // var collisionNormal = transform.position - closestPoint;
                 Instantiate(
                     explosionPrefab,
-                    hitPointCandidate,
+                    p,
                     // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
-                    Quaternion.LookRotation(hitNormalCandidate, Vector3.up));
+                    Quaternion.LookRotation(n, Vector3.up));
             }
 
             Destroy(gameObject);

@@ -42,7 +42,7 @@ public class Health : MonoBehaviour
 
     private void Die()
     {
-        Instantiate(deathAnimationPrefab, transform.position, Quaternion.identity);
+        Instantiate(deathAnimationPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }

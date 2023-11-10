@@ -18,7 +18,7 @@ public class WaspEnemyDeath : MonoBehaviour
     // Update is called once per frame
     void Die()
     {
-        if (explosionPrefab) Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        if (explosionPrefab) Instantiate(explosionPrefab, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }
