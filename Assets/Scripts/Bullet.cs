@@ -2,12 +2,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Bullet : MonoBehaviour
 {
-    public LayerMask explodeAtLayers;
+    [FormerlySerializedAs("explodeAtLayers")]
+    public LayerMask failAtLayers;
+
     public LayerMask damageTheseLayers;
     public Transform explosionPrefab;
+    public BulletFailTrigger failCollider;
 
     public float kineticDamage;
 
@@ -18,12 +22,15 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        if (!failCollider) failCollider = GetComponentInChildren<BulletFailTrigger>();
+        failCollider.ParentHitFail = OnHitFail;
+        failCollider.failAtLayers = failAtLayers;
     }
 
     private void FixedUpdate()
     {
         var hasHit = Physics.Raycast(transform.position, transform.forward,
-            out var hitInfo, _rb.velocity.magnitude, explodeAtLayers);
+            out var hitInfo, _rb.velocity.magnitude, failAtLayers);
         hitPointCandidate = (hasHit ? hitInfo.point : transform.position);
         hitNormalCandidate = hasHit ? hitInfo.normal : -transform.forward;
     }
@@ -38,29 +45,47 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (explodeAtLayers.Contains(other.gameObject.layer))
+        var health = other.GetComponentInParent<Health>();
+        if (health && damageTheseLayers.Contains(health.gameObject.layer))
         {
-            var health = other.GetComponentInParent<Health>();
-            if (health && damageTheseLayers.Contains(health.gameObject.layer))
-            {
-                health.TakeDamage(kineticDamage);
-            }
+            OnHitSuccess(health);
+        }
+    }
 
-            // if (pierce) { ... }
-            if (explosionPrefab)
-            {
-                var p = hitPointCandidate ?? transform.position;
-                var n = hitNormalCandidate ?? -transform.forward;
-                // var closestPoint = other.ClosestPointOnBounds(transform.position);
-                // var collisionNormal = transform.position - closestPoint;
-                Instantiate(
-                    explosionPrefab,
-                    p,
-                    // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
-                    Quaternion.LookRotation(n, Vector3.up));
-            }
+    private void OnHitFail()
+    {
+        if (explosionPrefab)
+        {
+            var p = hitPointCandidate ?? transform.position;
+            var n = hitNormalCandidate ?? -transform.forward;
+            // var closestPoint = other.ClosestPointOnBounds(transform.position);
+            // var collisionNormal = transform.position - closestPoint;
+            Instantiate(
+                explosionPrefab,
+                p,
+                // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
+                Quaternion.LookRotation(n, Vector3.up));
+        }
 
-            Destroy(gameObject);
+        Destroy(gameObject);
+    }
+
+    private void OnHitSuccess(Health health)
+    {
+        health.TakeDamage(kineticDamage);
+
+        // if (pierce) { ... }
+        if (explosionPrefab)
+        {
+            var p = hitPointCandidate ?? transform.position;
+            var n = hitNormalCandidate ?? -transform.forward;
+            // var closestPoint = other.ClosestPointOnBounds(transform.position);
+            // var collisionNormal = transform.position - closestPoint;
+            Instantiate(
+                explosionPrefab,
+                p,
+                // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
+                Quaternion.LookRotation(n, Vector3.up));
         }
     }
 }

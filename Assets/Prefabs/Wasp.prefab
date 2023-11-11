@@ -61,7 +61,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 451517515494305718}
@@ -292,9 +292,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   hpMax: 100
-  bleedPrefab: {fileID: 0}
+  bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
+    type: 3}
   deathAnimationPrefab: {fileID: 9071840739670536519, guid: a5c20f67ff426584e8b24e5a598ca84a,
     type: 3}
+  canDie: 1
 --- !u!114 &2555390903790146772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,11 +416,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Charging Particle System
-      objectReference: {fileID: 0}
-    - target: {fileID: 8179224146032797054, guid: c5ee387fa9e1e274d98b787da1c055d6,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -8,8 +8,6 @@ public class WaspEnemyGun : MonoBehaviour
 {
     public delegate void OnChargeComplete();
 
-    public OnChargeComplete ChargeCompleted;
-
     public float chargeTime = 1.2f;
 
     public float chargeTimer = 0;
@@ -24,10 +22,10 @@ public class WaspEnemyGun : MonoBehaviour
 
     public Transform chargeBall;
 
-    [FormerlySerializedAs("chargeParticles")]
     public ParticleSystem chargePs;
 
     public Bullet bulletPrefab;
+    public Transform bulletDisplayList;
     public Transform turretMuzzle;
 
     private Tween _ballTween;
@@ -80,8 +78,7 @@ public class WaspEnemyGun : MonoBehaviour
 
     private void ShootCannonBullet()
     {
-        Debug.Log("ShootCannonBullet");
-        var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation);
+        var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation, bulletDisplayList);
         var rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = bullet.transform.forward * bulletSpeed;
         bullet.kineticDamage = kineticDamage;

@@ -11,6 +11,8 @@ public class Health : MonoBehaviour
 
     public Transform deathAnimationPrefab;
 
+    public bool canDie = true;
+
 
     // private Death _death; // TODO: some entities can take damage, but not die?
 
@@ -29,7 +31,7 @@ public class Health : MonoBehaviour
                 hitPoint ?? transform.position,
                 Quaternion.LookRotation(hitNormal ?? transform.forward, Vector3.up));
 
-        if (hp <= 0)
+        if (hp <= 0 && canDie)
         {
             Die();
         }
