@@ -276,7 +276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b74f7acabbd85549b74630775f3aca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackInterval: 30
+  attackInterval: 4
   attackTimer: 0
 --- !u!114 &9073231562685117886
 MonoBehaviour:
@@ -309,7 +309,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chargeTime: 2
   chargeTimer: 0
-  bulletSpeed: 2
+  burstCount: 3
+  burstInterval: 0.16
+  bulletSpeed: 4
   kineticDamage: 10
   target: {fileID: 0}
   chargeBall: {fileID: 451517515494305718}

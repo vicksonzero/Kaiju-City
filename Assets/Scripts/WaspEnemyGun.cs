@@ -1,10 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using EditorCools;
-using Unity.VisualScripting;
+using JetBrains.Annotations;
 using UnityEngine.Serialization;
 
 public class WaspEnemyGun : MonoBehaviour
@@ -16,6 +13,9 @@ public class WaspEnemyGun : MonoBehaviour
     public float chargeTime = 1.2f;
 
     public float chargeTimer = 0;
+
+    public int burstCount = 1;
+    public float burstInterval = 0.3f;
     public float bulletSpeed = 2f;
     public float kineticDamage = 10;
 
@@ -31,6 +31,9 @@ public class WaspEnemyGun : MonoBehaviour
     public Transform turretMuzzle;
 
     private Tween _ballTween;
+
+    [CanBeNull]
+    private Tween _burstFireTween;
 
     // Start is called before the first frame update
     void Start()
@@ -49,9 +52,12 @@ public class WaspEnemyGun : MonoBehaviour
         }
         else
         {
-            ShootCannonBullet();
-            // ChargeCompleted?.Invoke();
             StopCharging();
+            _burstFireTween?.Kill();
+            ShootCannonBullet();
+            _burstFireTween = DOVirtual.DelayedCall(burstInterval, ShootCannonBullet)
+                .SetLoops(burstCount - 1);
+            // ChargeCompleted?.Invoke();
         }
     }
 
@@ -66,6 +72,7 @@ public class WaspEnemyGun : MonoBehaviour
     public void StopCharging()
     {
         _ballTween.Kill();
+        _burstFireTween?.Kill();
         chargeTimer = -1;
         chargeBall.localScale = Vector3.zero;
         chargePs.Stop(true);
@@ -73,6 +80,7 @@ public class WaspEnemyGun : MonoBehaviour
 
     private void ShootCannonBullet()
     {
+        Debug.Log("ShootCannonBullet");
         var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation);
         var rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = bullet.transform.forward * bulletSpeed;
@@ -82,5 +90,6 @@ public class WaspEnemyGun : MonoBehaviour
     private void OnDestroy()
     {
         _ballTween.Kill();
+        _burstFireTween?.Kill();
     }
 }
