@@ -11,6 +11,9 @@ public class Bullet : MonoBehaviour
 
     public LayerMask damageTheseLayers;
     public Transform explosionPrefab;
+    public Transform effectDisplayList;
+
+    public BulletSuccessTrigger successCollider;
     public BulletFailTrigger failCollider;
 
     public float kineticDamage;
@@ -25,6 +28,11 @@ public class Bullet : MonoBehaviour
         if (!failCollider) failCollider = GetComponentInChildren<BulletFailTrigger>();
         failCollider.ParentHitFail = OnHitFail;
         failCollider.failAtLayers = failAtLayers;
+
+        if (!successCollider) successCollider = GetComponentInChildren<BulletSuccessTrigger>();
+        successCollider.ParentHitSuccess = OnHitSuccess;
+        successCollider.damageTheseLayers = damageTheseLayers;
+        effectDisplayList = DisplayListRepository.Inst.effectDisplayList;
     }
 
     private void FixedUpdate()
@@ -43,28 +51,20 @@ public class Bullet : MonoBehaviour
         Gizmos.DrawLine(p, p + n);
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        var health = other.GetComponentInParent<Health>();
-        if (health && damageTheseLayers.Contains(health.gameObject.layer))
-        {
-            OnHitSuccess(health);
-        }
-    }
-
     private void OnHitFail()
     {
         if (explosionPrefab)
         {
-            var p = hitPointCandidate ?? transform.position;
-            var n = hitNormalCandidate ?? -transform.forward;
+            var p = transform.position;
+            var n = -transform.forward;
             // var closestPoint = other.ClosestPointOnBounds(transform.position);
             // var collisionNormal = transform.position - closestPoint;
             Instantiate(
                 explosionPrefab,
                 p,
                 // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
-                Quaternion.LookRotation(n, Vector3.up));
+                Quaternion.LookRotation(n, Vector3.up),
+                effectDisplayList);
         }
 
         Destroy(gameObject);
@@ -72,7 +72,8 @@ public class Bullet : MonoBehaviour
 
     private void OnHitSuccess(Health health)
     {
-        health.TakeDamage(kineticDamage);
+        Debug.Log($"OnHitSuccess {health.name}");
+        health.TakeDamage(kineticDamage, transform);
 
         // if (pierce) { ... }
         if (explosionPrefab)
@@ -85,7 +86,10 @@ public class Bullet : MonoBehaviour
                 explosionPrefab,
                 p,
                 // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
-                Quaternion.LookRotation(n, Vector3.up));
+                Quaternion.LookRotation(n, Vector3.up),
+                effectDisplayList);
         }
+
+        Destroy(gameObject);
     }
 }

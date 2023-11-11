@@ -30,6 +30,7 @@ public class CannonWeapon : MonoBehaviour
     public Transform targetPoint;
 
     public Bullet bulletPrefab;
+    public Transform bulletDisplayList;
 
     public float kineticDamage = 1;
     public float bulletSpeed = 10;
@@ -43,6 +44,7 @@ public class CannonWeapon : MonoBehaviour
     private void Start()
     {
         _playerAiming = GetComponent<PlayerAiming>();
+        bulletDisplayList = DisplayListRepository.Inst.bulletDisplayList;
     }
 
     public void Aim(Ray screenRay)
@@ -104,7 +106,8 @@ public class CannonWeapon : MonoBehaviour
 
     private void ShootCannonBullet()
     {
-        var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation);
+        Debug.Log("ShootCannonBullet");
+        var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation, bulletDisplayList);
         var rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = bullet.transform.forward * bulletSpeed;
         bullet.kineticDamage = kineticDamage;

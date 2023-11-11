@@ -37,6 +37,7 @@ public class WaspEnemyGun : MonoBehaviour
     void Start()
     {
         StopCharging();
+        bulletDisplayList = DisplayListRepository.Inst.bulletDisplayList;
     }
 
     // Update is called once per frame

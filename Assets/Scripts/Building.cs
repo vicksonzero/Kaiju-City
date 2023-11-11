@@ -30,6 +30,7 @@ public class Building : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        cube.name = $"{name} Cube";
     }
 
     // Update is called once per frame

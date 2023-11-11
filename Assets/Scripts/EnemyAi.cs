@@ -36,7 +36,7 @@ public class EnemyAi : MonoBehaviour
     [Button()]
     void FindTargetAndShoot()
     {
-        _target = _target ? _target : FindObjectOfType<Player>()?.transform;
+        _target = _target ? _target : FindObjectOfType<Player>()?.centerRoot;
         if (!_target) return;
         _weapon.target = _target;
         _weapon.StartCharging();
