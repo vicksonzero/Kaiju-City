@@ -72,7 +72,7 @@ public class Bullet : MonoBehaviour
 
     private void OnHitSuccess(Health health)
     {
-        Debug.Log($"OnHitSuccess {health.name}");
+        // Debug.Log($"OnHitSuccess {health.name}");
         health.TakeDamage(kineticDamage, transform);
 
         // if (pierce) { ... }

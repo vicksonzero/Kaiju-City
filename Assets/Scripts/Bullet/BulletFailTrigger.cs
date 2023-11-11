@@ -13,7 +13,7 @@ public class BulletFailTrigger : MonoBehaviour
         // Debug.Log($"BulletFailTrigger {other.gameObject.name}, {other.gameObject.layer}");
         if (failAtLayers.Contains(other.gameObject.layer))
         {
-            Debug.Log($"BulletFailTrigger");
+            // Debug.Log($"BulletFailTrigger");
             ParentHitFail();
         }
     }

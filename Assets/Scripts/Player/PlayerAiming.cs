@@ -42,6 +42,19 @@ public class PlayerAiming : MonoBehaviour
         {
             aimingCamera.gameObject.SetActive(true);
             UseCrosshair(CrosshairType.CannonCrosshair);
+            
+            var mainCamera = Camera.main;
+            if (mainCamera)
+            {
+                var ray = mainCamera.ScreenPointToRay(new Vector3(
+                    mainCamera.pixelWidth / 2f,
+                    mainCamera.pixelHeight / 2f
+                ));
+                foreach (var weapon in _weapons)
+                {
+                    weapon.Aim(ray);
+                }
+            }
         }
         else
         {
@@ -49,18 +62,7 @@ public class PlayerAiming : MonoBehaviour
             UseCrosshair(CrosshairType.BasicCrosshair);
         }
 
-        var mainCamera = Camera.main;
-        if (mainCamera)
-        {
-            var ray = mainCamera.ScreenPointToRay(new Vector3(
-                mainCamera.pixelWidth / 2f,
-                mainCamera.pixelHeight / 2f
-            ));
-            foreach (var weapon in _weapons)
-            {
-                weapon.Aim(ray);
-            }
-        }
+        
 
         if (_input.shoot)
         {
@@ -68,6 +70,15 @@ public class PlayerAiming : MonoBehaviour
             {
                 weapon.TryShoot();
             }
+        }
+    }
+
+    public void AimAtRay(Ray ray)
+    {
+        Debug.Log("AimAtRay");
+        foreach (var weapon in _weapons)
+        {
+            weapon.Aim(ray);
         }
     }
 

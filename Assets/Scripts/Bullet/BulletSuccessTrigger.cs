@@ -12,7 +12,7 @@ public class BulletSuccessTrigger : MonoBehaviour
         var health = other.GetComponentInParent<Health>();
         if (health && damageTheseLayers.Contains(health.gameObject.layer))
         {
-            Debug.Log($"BulletSuccessTrigger");
+            // Debug.Log($"BulletSuccessTrigger");
             ParentHitSuccess(health);
         }
     }

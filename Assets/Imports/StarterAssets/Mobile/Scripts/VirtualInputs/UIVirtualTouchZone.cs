@@ -46,6 +46,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     public Event touchZoneOutputEvent;
 
     public ButtonEvent touchZoneButtonOutputEvent;
+    public ButtonEvent touchZoneLongPressOutputEvent;
 
     private Vector2 handlePositionStart;
     public bool longPressIsDown;
@@ -67,7 +68,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
             longPressTimer += Time.deltaTime;
             if (longPressTimer > longPressDuration)
             {
-                OutputButtonEventValue(true);
+                OutputLongPressEventValue(true);
                 longPressIsDown = false;
             }
         }
@@ -106,7 +107,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         if (Vector2.Distance(pointerDownPosition, handlePositionStart) < joystickRange)
         {
-            //     longPressIsDown = false;
+            longPressIsDown = true;
             OutputButtonEventValue(true);
         }
     }
@@ -140,6 +141,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         pointerDownPosition = Vector2.zero;
         currentPointerPosition = Vector2.zero;
 
+        OutputLongPressEventValue(false);
         OutputButtonEventValue(false);
         longPressIsDown = false;
         longPressTimer = 0;
@@ -159,6 +161,11 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         Debug.Log($"OutputButtonEventValue {isDown}");
         touchZoneButtonOutputEvent.Invoke(isDown);
+    }
+    void OutputLongPressEventValue(bool isDown)
+    {
+        Debug.Log($"OutputLongPressEventValue {isDown}");
+        touchZoneLongPressOutputEvent.Invoke(isDown);
     }
 
     void OutputPointerEventValue(Vector2 pointerPosition)

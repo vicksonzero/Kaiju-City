@@ -106,7 +106,7 @@ public class CannonWeapon : MonoBehaviour
 
     private void ShootCannonBullet()
     {
-        Debug.Log("ShootCannonBullet");
+        // Debug.Log("ShootCannonBullet");
         var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation, bulletDisplayList);
         var rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = bullet.transform.forward * bulletSpeed;
@@ -114,12 +114,4 @@ public class CannonWeapon : MonoBehaviour
 
     }
 
-    private void OnEnable()
-    {
-    }
-
-    private void OnDisable()
-    {
-        // _playerAiming.UseCrosshair(PlayerAiming.CrosshairType.CannonCrosshair);
-    }
 }

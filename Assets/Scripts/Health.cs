@@ -36,7 +36,7 @@ public class Health : MonoBehaviour
     public void TakeDamage(float amount, Vector3? hitPoint, Vector3? hitNormal)
     {
         hp -= amount;
-        Debug.Log($"TakeDamage {name} {amount} hp={hp}");
+        // Debug.Log($"TakeDamage {name} {amount} hp={hp}");
 
         // spawn effects
         // TODO: should be personal to the enemy/tank/jet
