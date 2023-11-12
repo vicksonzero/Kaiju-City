@@ -73,7 +73,7 @@ public class PlayerAiming : MonoBehaviour
 
     public void AimAtRay(Ray ray)
     {
-        Debug.Log("AimAtRay");
+        // Debug.Log("AimAtRay");
         foreach (var weapon in _weapons)
         {
             weapon.Aim(ray);
