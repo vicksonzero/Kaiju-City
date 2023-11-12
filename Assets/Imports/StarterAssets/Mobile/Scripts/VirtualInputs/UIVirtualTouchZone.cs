@@ -23,6 +23,9 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     public RectTransform bgRect;
 
     [Header("Settings")]
+    public bool showHandleWhenNotInUse = true;
+
+    public bool showBgWhenNotInUse = true;
     public bool absoluteAiming;
 
     public bool clampToMagnitude;
@@ -101,8 +104,8 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         {
             // SetObjectActiveState(handleRect.gameObject, true);
             // SetObjectActiveState(bgRect.gameObject, true);
-            UpdateHandleRectPosition(handleRect, pointerDownPosition);
-            UpdateHandleRectPosition(bgRect, pointerDownPosition);
+            UpdateHandleRectPosition(handleRect, pointerDownPosition, true);
+            UpdateHandleRectPosition(bgRect, pointerDownPosition, true);
         }
 
         if (Vector2.Distance(pointerDownPosition, handlePositionStart) < joystickRange)
@@ -127,7 +130,8 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
         lastOutputPosition ??= outputPosition;
 
-        UpdateHandleRectPosition(handleRect, pointerDownPosition + clampedPosition);
+        UpdateHandleRectPosition(handleRect, pointerDownPosition + clampedPosition,
+            true);
         OutputPointerEventValue(
             absoluteAiming
                 ? (outputPosition - lastOutputPosition.Value) * absoluteMagnitudeMultiplier
@@ -152,8 +156,8 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         {
             // SetObjectActiveState(handleRect.gameObject, false);
             // SetObjectActiveState(bgRect.gameObject, false);
-            UpdateHandleRectPosition(handleRect, handlePositionStart);
-            UpdateHandleRectPosition(bgRect, handlePositionStart);
+            UpdateHandleRectPosition(handleRect, handlePositionStart, showHandleWhenNotInUse);
+            UpdateHandleRectPosition(bgRect, handlePositionStart, showBgWhenNotInUse);
         }
     }
 
@@ -162,6 +166,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         Debug.Log($"OutputButtonEventValue {isDown}");
         touchZoneButtonOutputEvent.Invoke(isDown);
     }
+
     void OutputLongPressEventValue(bool isDown)
     {
         Debug.Log($"OutputLongPressEventValue {isDown}");
@@ -173,8 +178,9 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         touchZoneOutputEvent.Invoke(pointerPosition);
     }
 
-    void UpdateHandleRectPosition(RectTransform handle, Vector2 newPosition)
+    void UpdateHandleRectPosition(RectTransform handle, Vector2 newPosition, bool showHandle)
     {
+        handle.gameObject.SetActive(showHandle);
         handle.anchoredPosition = newPosition;
     }
 

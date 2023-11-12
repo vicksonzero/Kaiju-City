@@ -2,34 +2,88 @@
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace StarterAssets
 {
     public class AutoLock : MonoBehaviour
     {
+        public float scanInterval = 0.5f;
         public Camera autoLockCamera;
         public RectTransform ui;
 
         public AutoLockIndicator autoLockIndicator;
+        public AutoLockIndicator autoLockCandidateIndicator;
 
+        public Transform targetCandidate;
         public Transform target;
 
         private PlayerAiming _aiming;
 
+        private StarterAssetsInputs _input;
+        private Player _player;
+        private bool _lastShootState = false;
+
+        private void Awake()
+        {
+            _input = GetComponent<StarterAssetsInputs>();
+            _aiming = GetComponent<PlayerAiming>();
+            _player = GetComponent<Player>();
+        }
+
         private void Start()
         {
-            _aiming = GetComponent<PlayerAiming>();
-            DOVirtual.DelayedCall(1, UpdateLock).SetLoops(-1);
+            DOVirtual.DelayedCall(scanInterval, UpdateLock).SetLoops(-1);
         }
 
         private void Update()
         {
             if (target)
             {
-                var ray = new Ray(autoLockCamera.transform.position,
-                    target.position - autoLockCamera.transform.position);
-                _aiming.AimAtRay(ray);
+                var screenPoint = autoLockCamera.WorldToViewportPoint(target.position);
+                if (screenPoint.x is < 0 or > 1 || screenPoint.y is < 0 or > 1)
+                {
+                    target = null;
+                    autoLockIndicator.SetTarget(null, true);
+                }
             }
+
+            if (targetCandidate)
+            {
+                var screenPoint = autoLockCamera.WorldToViewportPoint(targetCandidate.position);
+                if (screenPoint.x is < 0 or > 1 || screenPoint.y is < 0 or > 1)
+                {
+                    targetCandidate = null;
+                    autoLockCandidateIndicator.SetTarget(null, true);
+                }
+            }
+
+
+            var ray = target
+                ? new Ray(autoLockCamera.transform.position,
+                    target.position - autoLockCamera.transform.position)
+                : targetCandidate
+                    ? new Ray(autoLockCamera.transform.position,
+                        targetCandidate.position - autoLockCamera.transform.position)
+                    : new Ray(_player.centerRoot.position,
+                        _player.transform.forward);
+            _aiming.AimAtRay(ray);
+
+            if (_input.shoot)
+            {
+                if (!_lastShootState || (!target && targetCandidate))
+                {
+                    target = targetCandidate;
+                    autoLockIndicator.SetTarget(target, true);
+                }
+            }
+
+            if (!_input.shoot && _lastShootState)
+            {
+                UpdateLock();
+            }
+
+            _lastShootState = _input.shoot;
         }
 
         public void UpdateLock()
@@ -56,11 +110,11 @@ namespace StarterAssets
                 .OrderBy(x => Vector2.Distance(x.screenPoint, center))
                 .FirstOrDefault();
 
-            if (autoLockIndicator != null)
+            if (autoLockCandidateIndicator != null)
             {
                 var closestEnemy = closestEnemyResult?.enemy ? closestEnemyResult.enemy : null;
-                target = closestEnemy?.transform;
-                autoLockIndicator.SetTarget(target);
+                targetCandidate = closestEnemy?.transform;
+                autoLockCandidateIndicator.SetTarget(targetCandidate, false);
             }
         }
     }

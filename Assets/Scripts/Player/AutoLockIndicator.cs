@@ -11,10 +11,10 @@ namespace StarterAssets
         public Camera autoLockCamera;
         public RectTransform canvas;
 
-        public void SetTarget(Transform value)
+        public void SetTarget(Transform value, bool allowEffect)
         {
             if (target != value)
-                Play();
+                Play(allowEffect);
 
             target = value;
         }
@@ -35,10 +35,17 @@ namespace StarterAssets
             );
         }
 
-        public void Play()
+        public void Play(bool allowEffect)
         {
-            sprite.localScale = Vector3.one * 2f;
-            sprite.DOScale(Vector3.one, 0.3f).SetEase(Ease.InCubic);
+            if (!allowEffect)
+            {
+                sprite.localScale = Vector3.one;
+            }
+            else
+            {
+                sprite.localScale = Vector3.one * 2f;
+                sprite.DOScale(Vector3.one, 0.3f).SetEase(Ease.InCubic);
+            }
         }
     }
 }

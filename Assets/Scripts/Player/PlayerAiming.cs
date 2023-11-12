@@ -14,10 +14,10 @@ public class PlayerAiming : MonoBehaviour
     public RectTransform basicCrosshair;
 
     public RectTransform cannonCrosshair;
-    public RectTransform gunCrosshair;
-    public RectTransform plasmaCrosshair;
-    public RectTransform beamCrosshair;
-    public RectTransform selectCrosshair;
+    // public RectTransform gunCrosshair;
+    // public RectTransform plasmaCrosshair;
+    // public RectTransform beamCrosshair;
+    // public RectTransform selectCrosshair;
 
     private StarterAssetsInputs _input;
 
@@ -62,8 +62,6 @@ public class PlayerAiming : MonoBehaviour
             UseCrosshair(CrosshairType.BasicCrosshair);
         }
 
-        
-
         if (_input.shoot)
         {
             foreach (var weapon in _weapons)
@@ -86,10 +84,10 @@ public class PlayerAiming : MonoBehaviour
     {
         if (basicCrosshair) basicCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.BasicCrosshair);
         if (cannonCrosshair) cannonCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.CannonCrosshair);
-        if (gunCrosshair) gunCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.GunCrosshair);
-        if (plasmaCrosshair) plasmaCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.PlasmaCrosshair);
-        if (beamCrosshair) beamCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.BeamCrosshair);
-        if (selectCrosshair) selectCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.SelectCrosshair);
+        // if (gunCrosshair) gunCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.GunCrosshair);
+        // if (plasmaCrosshair) plasmaCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.PlasmaCrosshair);
+        // if (beamCrosshair) beamCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.BeamCrosshair);
+        // if (selectCrosshair) selectCrosshair.gameObject.SetActive(newCrosshair == CrosshairType.SelectCrosshair);
     }
 
     public enum CrosshairType
