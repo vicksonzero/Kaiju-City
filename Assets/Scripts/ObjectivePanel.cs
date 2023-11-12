@@ -14,7 +14,13 @@ public class ObjectivePanel : MonoBehaviour
     void Start()
     {
         EntityCounter.Inst.AddDelegate(channel,
-            (count) => { objectiveLabel.text = template.Replace("%count%", $"{count}"); });
+            (count) =>
+            {
+                objectiveLabel.text = template
+                        .Replace("%count%", $"{count}")
+                        .Replace("\\n", "\n")
+                    ;
+            });
     }
 
     // Update is called once per frame

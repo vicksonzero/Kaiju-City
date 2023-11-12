@@ -46,7 +46,7 @@ public class Health : MonoBehaviour
             Instantiate(bleedPrefab,
                 hitPoint ?? transform.position,
                 Quaternion.LookRotation(hitNormal ?? transform.forward, Vector3.up),
-                effectDisplayList);
+                transform);
 
         foreach (var bar in bars)
         {
