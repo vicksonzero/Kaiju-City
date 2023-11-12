@@ -15,7 +15,7 @@ public class BuildAutoIncrement : IPreprocessBuildWithReport
     {
         var so = ScriptableObject.CreateInstance<BuildNumberSO>();
 
-        PlayerSettings.bundleVersion = IncrementBuildNumber(PlayerSettings.bundleVersion).ToString();
+        so.buildNumber = IncrementBuildNumber(PlayerSettings.bundleVersion);
         switch (report.summary.platform)
         {
             case BuildTarget.StandaloneWindows:
@@ -36,9 +36,13 @@ public class BuildAutoIncrement : IPreprocessBuildWithReport
                 so.buildNumber = IncrementBuildNumber(PlayerSettings.Switch.displayVersion);
                 PlayerSettings.Switch.displayVersion = so.buildNumber.ToString();
                 break;
+            case BuildTarget.WebGL:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
+
+        PlayerSettings.bundleVersion = so.buildNumber.ToString();
 
         AssetDatabase.DeleteAsset(BuildNumberSO.BuildAssetPath);
         AssetDatabase.CreateAsset(so, BuildNumberSO.BuildAssetPath);

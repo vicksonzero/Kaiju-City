@@ -10,7 +10,8 @@ namespace StarterAssets
     {
         public float scanInterval = 0.5f;
         public Camera autoLockCamera;
-        public RectTransform ui;
+        public RectTransform uiCanvas;
+        public RectTransform cursor;
 
         public AutoLockIndicator autoLockIndicator;
         public AutoLockIndicator autoLockCandidateIndicator;
@@ -88,7 +89,10 @@ namespace StarterAssets
 
         public void UpdateLock()
         {
-            var center = new Vector2(0.5f, 0.5f);
+            var center = new Vector2(
+                (cursor.anchoredPosition.x) / uiCanvas.sizeDelta.x + 0.5f,
+                (cursor.anchoredPosition.y) / uiCanvas.sizeDelta.y + 0.5f
+            );
             var enemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
             var closestEnemyResult = enemies
                 .Select(x => new

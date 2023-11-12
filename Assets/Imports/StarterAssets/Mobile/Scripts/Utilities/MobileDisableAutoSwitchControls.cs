@@ -14,22 +14,26 @@ using UnityEngine.InputSystem;
 
 public class MobileDisableAutoSwitchControls : MonoBehaviour
 {
-    
-#if ENABLE_INPUT_SYSTEM && (UNITY_IOS || UNITY_ANDROID)
+#if ENABLE_INPUT_SYSTEM
 
+    public RectTransform keyboardMouseMessage;
     [Header("Target")]
     public PlayerInput playerInput;
 
     void Start()
     {
+#if (UNITY_IOS || UNITY_ANDROID)
         DisableAutoSwitchControls();
+        keyboardMouseMessage.gameObject.SetActive(false);
+#else
+        gameObject.SetActive(false);
+        keyboardMouseMessage.gameObject.SetActive(true);
+#endif
     }
 
     void DisableAutoSwitchControls()
     {
         playerInput.neverAutoSwitchControlSchemes = true;
     }
-
 #endif
-    
 }
