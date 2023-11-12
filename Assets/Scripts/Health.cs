@@ -15,6 +15,8 @@ public class Health : MonoBehaviour
 
     public bool canDie = true;
 
+    public Bars[] bars;
+
 
     // private Death _death; // TODO: some entities can take damage, but not die?
 
@@ -45,6 +47,11 @@ public class Health : MonoBehaviour
                 hitPoint ?? transform.position,
                 Quaternion.LookRotation(hitNormal ?? transform.forward, Vector3.up),
                 effectDisplayList);
+
+        foreach (var bar in bars)
+        {
+            bar.SetValue(hp, hpMax);
+        }
 
         if (hp <= 0 && canDie)
         {
