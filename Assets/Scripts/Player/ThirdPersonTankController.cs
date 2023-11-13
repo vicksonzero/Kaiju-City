@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -79,6 +80,10 @@ namespace StarterAssets
 
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
+
+        [FormerlySerializedAs("tankState")]
+        public TankMoveState tankMoveState = TankMoveState.Idle;
+
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -219,8 +224,17 @@ namespace StarterAssets
 
         private void Move()
         {
+            if (_input.sprint)
+            {
+                tankMoveState = TankMoveState.Dashing;
+            }
+            else if (tankMoveState == TankMoveState.Dashing && _input.move.magnitude < 0.1f)
+            {
+                tankMoveState = TankMoveState.Moving;
+            }
+
             // set target speed based on move speed, sprint speed and if sprint is pressed
-            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            var targetSpeed = tankMoveState == TankMoveState.Dashing ? SprintSpeed : MoveSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
@@ -251,6 +265,16 @@ namespace StarterAssets
                 _speed = targetSpeed;
             }
 
+
+            if (currentHorizontalSpeed < 0.5f)
+            {
+                tankMoveState = TankMoveState.Idle;
+            }
+            else if (tankMoveState == TankMoveState.Idle)
+            {
+                tankMoveState = TankMoveState.Moving;
+            }
+
             _animationBlend = Mathf.Lerp(_animationBlend, targetSpeed, Time.deltaTime * SpeedChangeRate);
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
@@ -263,16 +287,24 @@ namespace StarterAssets
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
-                float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
+                var rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                     RotationSmoothTime);
 
                 // rotate to face input direction relative to camera position
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
 
+            var desiredForward = Quaternion.AngleAxis(_mainCamera.transform.eulerAngles.y, Vector3.up)
+                                 * new Vector3(inputDirection.x, 0, inputDirection.z);
+            var currentForward = new Vector3(transform.forward.x, 0, transform.forward.z);
+            Debug.Log(Vector3.Angle(desiredForward, currentForward));
 
             // Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-            Vector3 targetDirection = transform.forward;
+            var targetDirection = tankMoveState != TankMoveState.Idle
+                ? transform.forward
+                : Vector3.Angle(desiredForward, currentForward) < 20f
+                    ? transform.forward
+                    : Vector3.zero;
 
             // move the player
             _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
@@ -374,6 +406,21 @@ namespace StarterAssets
             Gizmos.DrawSphere(
                 new Vector3(transform.position.x, transform.position.y - GroundedOffset, transform.position.z),
                 GroundedRadius);
+
+
+            if (_input)
+            {
+                var inputDirection = Vector3.ClampMagnitude(new Vector3(_input.move.x, 0.0f, _input.move.y), 1f);
+
+
+                var desiredForward = Quaternion.AngleAxis(_mainCamera.transform.eulerAngles.y, Vector3.up)
+                                     * new Vector3(inputDirection.x, 0, inputDirection.z);
+                var currentForward = new Vector3(transform.forward.x, 0, transform.forward.z);
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + desiredForward);
+                Gizmos.color = Color.green;
+                Gizmos.DrawLine(transform.position + Vector3.up, transform.position + Vector3.up + currentForward);
+            }
         }
 
         private void OnFootstep(AnimationEvent animationEvent)
@@ -396,6 +443,13 @@ namespace StarterAssets
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
                     FootstepAudioVolume);
             }
+        }
+
+        public enum TankMoveState
+        {
+            Idle,
+            Moving,
+            Dashing,
         }
     }
 }

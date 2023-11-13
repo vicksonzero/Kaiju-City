@@ -141,14 +141,14 @@ public class ArcadeObjective : MonoBehaviour
     {
         Debug.Log($"WinGame, reason = {reason}");
         _playerHealth.canDie = false;
-        gameOverScreen.Show(true);
+        if (gameOverScreen) gameOverScreen.Show(true);
         StopGame();
     }
 
     private void GameOver(string reason)
     {
         Debug.Log($"GameOver, reason = {reason}");
-        gameOverScreen.Show(false);
+        if (gameOverScreen) gameOverScreen.Show(false);
         StopGame();
     }
 

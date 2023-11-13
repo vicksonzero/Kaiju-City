@@ -35510,7 +35510,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7ec1be5df57413d4cae4c8bc166ecfcd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.046
+      value: -2.561184e-15
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7ec1be5df57413d4cae4c8bc166ecfcd,
         type: 3}
@@ -44284,6 +44284,7 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  tankMoveState: 0
 --- !u!114 &7279635376128318404
 MonoBehaviour:
   m_ObjectHideFlags: 0
