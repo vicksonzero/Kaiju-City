@@ -512,7 +512,6 @@ GameObject:
   - component: {fileID: 230510748}
   - component: {fileID: 230510752}
   - component: {fileID: 230510753}
-  - component: {fileID: 230510751}
   - component: {fileID: 230510750}
   - component: {fileID: 230510749}
   m_Layer: 5
@@ -616,19 +615,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &230510751
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 230510747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af93ad9097964f6d99f589873dfecd2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panel: {fileID: 305824631}
 --- !u!222 &230510752
 CanvasRenderer:
   m_ObjectHideFlags: 0

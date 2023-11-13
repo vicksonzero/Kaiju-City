@@ -11,7 +11,7 @@ namespace DicksonMd.Utils
 
         private void Start()
         {
-            GetComponent<Button>().onClick.AddListener(() => panel.Toggle());
+            GetComponent<Button>().onClick.AddListener(() => panel.Toggle(true));
         }
     }
 }
