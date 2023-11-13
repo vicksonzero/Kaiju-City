@@ -18,7 +18,7 @@ public class EntityCounter : MonoBehaviour
 
     private readonly Dictionary<string, OnCountChanged> _countChangedDelegates = new();
 
-    public void AddDelegate(string channel, OnCountChanged callback)
+    public void AddListener(string channel, bool triggerFirstCallback, OnCountChanged callback)
     {
         if (_countChangedDelegates.ContainsKey(channel))
             _countChangedDelegates[channel] += callback;
@@ -26,7 +26,7 @@ public class EntityCounter : MonoBehaviour
             _countChangedDelegates.Add(channel, callback);
 
         _store.TryAdd(channel, new HashSet<CountedEntity>());
-        callback(_store[channel].Count);
+        if (triggerFirstCallback) callback(_store[channel].Count);
     }
 
     public void Add(string[] channels, CountedEntity e)
@@ -51,6 +51,13 @@ public class EntityCounter : MonoBehaviour
             if (_countChangedDelegates.TryGetValue(channel, out var onCountChanged))
                 onCountChanged?.Invoke(_store[channel].Count);
         }
+    }
+
+    public int GetCount(string channel)
+    {
+        return !_store.ContainsKey(channel)
+            ? 0
+            : _store[channel].Count;
     }
 
     public void ClearCallbacks(string channel)

@@ -30,7 +30,8 @@ namespace DicksonMd.Utils
         // Update is called once per frame
         void Update()
         {
-            foreach (var keycode in keyCodes)
+            var keyCodeIterator = keyCodes;
+            foreach (var keycode in keyCodeIterator)
             {
                 if (Input.GetKeyDown(keycode))
                 {

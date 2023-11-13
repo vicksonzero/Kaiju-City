@@ -17,6 +17,10 @@ public class Health : MonoBehaviour
 
     public Bars[] bars;
 
+    public delegate void OnHealthUpdated(float hp, float hpMax);
+
+    public OnHealthUpdated HealthUpdated;
+
 
     // private Death _death; // TODO: some entities can take damage, but not die?
 
@@ -40,24 +44,28 @@ public class Health : MonoBehaviour
         hp -= amount;
         // Debug.Log($"TakeDamage {name} {amount} hp={hp}");
 
+        HealthUpdated?.Invoke(hp, hpMax);
+
         // spawn effects
         // TODO: should be personal to the enemy/tank/jet
         if (bleedPrefab)
             Instantiate(bleedPrefab,
                 hitPoint ?? transform.position,
                 Quaternion.LookRotation(hitNormal ?? transform.forward, Vector3.up),
-                transform);
+                ShouldDie() ? null : transform);
 
         foreach (var bar in bars)
         {
             bar.SetValue(hp, hpMax);
         }
 
-        if (hp <= 0 && canDie)
+        if (ShouldDie())
         {
             Die();
         }
     }
+
+    public bool ShouldDie() => (hp <= 0 && canDie);
 
     public void Heal(float amount)
     {
