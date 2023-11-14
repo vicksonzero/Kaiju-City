@@ -55228,7 +55228,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winLabel: {fileID: 386781374}
+  winOkButton: {fileID: 1617167141}
   loseLabel: {fileID: 1644834381}
+  loseOkButton: {fileID: 1876787457}
 --- !u!4 &1689895526 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7991103815658473362, guid: 8ea065c8ad799ae4b91c17f556f700e5,
