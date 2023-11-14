@@ -9,11 +9,11 @@ public class RepairPack : MonoBehaviour
 
     public void OnTriggerEnter(Collider col)
     {
-        Debug.Log("OnTriggerEnter");
+        // Debug.Log("OnTriggerEnter");
         var player = col.gameObject.GetComponent<Player>();
         if (player)
         {
-            Debug.Log("player");
+            // Debug.Log("player");
             var health = player.GetComponent<Health>();
             if (!health) return;
             health.Heal(healAmount);

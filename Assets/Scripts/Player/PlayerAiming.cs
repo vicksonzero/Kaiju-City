@@ -38,11 +38,12 @@ public class PlayerAiming : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_input.aim)
+        // if (_input.aim)
+        if (false)
         {
             aimingCamera.gameObject.SetActive(true);
             UseCrosshair(CrosshairType.CannonCrosshair);
-            
+
             var mainCamera = Camera.main;
             if (mainCamera)
             {

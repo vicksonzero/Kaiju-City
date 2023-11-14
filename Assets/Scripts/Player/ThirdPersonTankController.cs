@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using UnityEngine.Serialization;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
@@ -84,6 +86,8 @@ namespace StarterAssets
         [FormerlySerializedAs("tankState")]
         public TankMoveState tankMoveState = TankMoveState.Idle;
 
+        public ParticleSystem[] dustPsList;
+        public ParticleSystem[] sprintDustPsList;
 
         // cinemachine
         private float _cinemachineTargetYaw;
@@ -231,6 +235,11 @@ namespace StarterAssets
             else if (tankMoveState == TankMoveState.Dashing && _input.move.magnitude < 0.1f)
             {
                 tankMoveState = TankMoveState.Moving;
+
+                foreach (var dustPs in sprintDustPsList)
+                {
+                    dustPs.Stop();
+                }
             }
 
             // set target speed based on move speed, sprint speed and if sprint is pressed
@@ -301,7 +310,7 @@ namespace StarterAssets
             // Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
             var targetDirection = tankMoveState != TankMoveState.Idle
                 ? transform.forward
-                : Vector3.Angle(desiredForward, currentForward) < 20f
+                : !Grounded || Vector3.Angle(desiredForward, currentForward) < 20f
                     ? transform.forward
                     : Vector3.zero;
 
@@ -314,6 +323,26 @@ namespace StarterAssets
             {
                 _animator.SetFloat(_animIDSpeed, _animationBlend);
                 _animator.SetFloat(_animIDMotionSpeed, inputMagnitude);
+            }
+
+            if (Grounded && targetDirection != Vector3.zero && _speed > 0.1f)
+            {
+                Debug.Log($"targetDirection {targetDirection.magnitude}");
+
+                var list = tankMoveState == TankMoveState.Dashing
+                    ? sprintDustPsList
+                    : dustPsList;
+                foreach (var dustPs in list)
+                {
+                    dustPs.Play();
+                }
+            }
+            else if (dustPsList[0].isPlaying || sprintDustPsList[0].isPlaying)
+            {
+                foreach (var dustPs in new List<ParticleSystem>().Concat(sprintDustPsList).Concat(dustPsList))
+                {
+                    dustPs.Stop();
+                }
             }
         }
 
