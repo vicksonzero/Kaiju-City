@@ -18,29 +18,35 @@ public class CreditsRow : MonoBehaviour
     public TextMeshProUGUI licenseText;
     public TextMeshProUGUI notesText;
 
+    public TMP_StyleSheet stylesheet;
+
     // Start is called before the first frame update
     void OnValidate()
     {
         name = $"{title} Credits";
         // var height = 0f;
-        var className = !string.IsNullOrWhiteSpace(titleLink) ? "Link" : "Normal";
-        titleText.text = $"<style=\"{className}\">{title}</style>";
+        var isLink = !string.IsNullOrWhiteSpace(titleLink);
+        titleText.text = $"<style=\"{(isLink ? "Link" : "Normal")}\">{title}</style>";
         titleText.gameObject.SetActive(!string.IsNullOrWhiteSpace(title));
+        titleText.styleSheet = stylesheet;
         // height += titleText.preferredHeight;
 
-        className = !string.IsNullOrWhiteSpace(byLink) ? "Link" : "Normal";
-        byText.text = $"<style=\"{className}\">By: {by}</style>";
+        isLink = !string.IsNullOrWhiteSpace(byLink);
+        byText.text = $"<style=\"{(isLink ? "Link" : "Normal")}\">By: {by}</style>";
         byText.gameObject.SetActive(!string.IsNullOrWhiteSpace(by));
+        byText.styleSheet = stylesheet;
         // height += byText.preferredHeight;
 
 
-        className = !string.IsNullOrWhiteSpace(licenseLink) ? "Link" : "Normal";
-        licenseText.text = $"<style=\"{className}\">License: {license}</style>";
+        isLink = !string.IsNullOrWhiteSpace(licenseLink);
+        licenseText.text = $"<style=\"{(isLink ? "Link" : "Normal")}\">License: {license}</style>";
         licenseText.gameObject.SetActive(!string.IsNullOrWhiteSpace(license));
+        licenseText.styleSheet = stylesheet;
         // height += licenseText.preferredHeight;
 
         notesText.text = notes;
         notesText.gameObject.SetActive(!string.IsNullOrWhiteSpace(notes));
+        notesText.styleSheet = stylesheet;
         // height += notesText.preferredHeight;
 
         // var rt = GetComponent<RectTransform>();

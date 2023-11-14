@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     public Transform bleedPrefab; // TODO: change to a bleed behaviour, and make it instantiate the bleed stuff
 
     public Transform deathAnimationPrefab;
+    public Transform healEffectPrefab;
     public Transform effectDisplayList;
 
     public bool canDie = true;
@@ -70,6 +71,18 @@ public class Health : MonoBehaviour
     public void Heal(float amount)
     {
         hp = Mathf.Min(hp + amount, hpMax);
+
+        HealthUpdated?.Invoke(hp, hpMax);
+        if (healEffectPrefab)
+            Instantiate(healEffectPrefab,
+                transform.position,
+                Quaternion.identity,
+                transform);
+
+        foreach (var bar in bars)
+        {
+            bar.SetValue(hp, hpMax);
+        }
     }
 
     private void Die()

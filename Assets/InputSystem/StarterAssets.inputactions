@@ -316,6 +316,17 @@
                 },
                 {
                     "name": "",
+                    "id": "232eda04-b4f7-46bd-9424-ceb64b89ac3d",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d82134fe-df2d-47ca-9fd5-2d4af3e23143",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",

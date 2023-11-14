@@ -297,7 +297,6 @@ namespace StarterAssets
             var desiredForward = Quaternion.AngleAxis(_mainCamera.transform.eulerAngles.y, Vector3.up)
                                  * new Vector3(inputDirection.x, 0, inputDirection.z);
             var currentForward = new Vector3(transform.forward.x, 0, transform.forward.z);
-            Debug.Log(Vector3.Angle(desiredForward, currentForward));
 
             // Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
             var targetDirection = tankMoveState != TankMoveState.Idle

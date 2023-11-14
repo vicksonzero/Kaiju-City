@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -30,7 +31,12 @@ namespace DicksonMd.Utils
         // Update is called once per frame
         void Update()
         {
-            var keyCodeIterator = keyCodes;
+            var keyCodeIterator = keyCodes.AsEnumerable();
+
+#if (UNITY_IOS || UNITY_ANDROID)
+            keyCodeIterator = keyCodeIterator.Concat(new[] { KeyCode.Escape });
+#endif
+
             foreach (var keycode in keyCodeIterator)
             {
                 if (Input.GetKeyDown(keycode))
