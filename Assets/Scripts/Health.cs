@@ -70,10 +70,11 @@ public class Health : MonoBehaviour
 
     public void Heal(float amount)
     {
+        var neededHealing = hp < hpMax;
         hp = Mathf.Min(hp + amount, hpMax);
 
         HealthUpdated?.Invoke(hp, hpMax);
-        if (healEffectPrefab)
+        if (neededHealing && healEffectPrefab)
             Instantiate(healEffectPrefab,
                 transform.position,
                 Quaternion.identity,

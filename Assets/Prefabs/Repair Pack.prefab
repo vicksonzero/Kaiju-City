@@ -179,6 +179,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healAmount: 30
+  pickedUpEffect: {fileID: 8059632920273756854, guid: 14f94892057265742966685ac3669af9,
+    type: 3}
 --- !u!136 &2407897716090606849
 CapsuleCollider:
   m_ObjectHideFlags: 0
