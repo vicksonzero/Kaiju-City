@@ -26,7 +26,7 @@ public class PlayerAiming : MonoBehaviour
 
     private void Awake()
     {
-        _input = GetComponent<StarterAssetsInputs>();
+        _input = FindObjectOfType<StarterAssetsInputs>();
     }
 
     private void Start()

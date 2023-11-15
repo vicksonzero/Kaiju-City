@@ -32,6 +32,11 @@ namespace StarterAssets
             starterAssetsInputs.ShootInput(virtualShootState);
         }
 
+        public void VirtualHenshinInput(bool virtualHenshinState)
+        {
+            starterAssetsInputs.HenshinInput(virtualHenshinState);
+        }
+
         public void VirtualAimInput(bool virtualAimState)
         {
             Debug.Log($"VirtualAimInput {virtualAimState}");

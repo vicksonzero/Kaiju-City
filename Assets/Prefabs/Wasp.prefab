@@ -132,6 +132,7 @@ GameObject:
   - component: {fileID: 1083472721446423335}
   - component: {fileID: 9073231562685117886}
   - component: {fileID: 2555390903790146772}
+  - component: {fileID: 848563733551446363}
   m_Layer: 7
   m_Name: Wasp
   m_TagString: Untagged
@@ -274,8 +275,10 @@ MonoBehaviour:
     type: 3}
   deathAnimationPrefab: {fileID: 9071840739670536519, guid: a5c20f67ff426584e8b24e5a598ca84a,
     type: 3}
+  healEffectPrefab: {fileID: 0}
   effectDisplayList: {fileID: 0}
   canDie: 1
+  bars: []
 --- !u!114 &2555390903790146772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +304,18 @@ MonoBehaviour:
     type: 3}
   bulletDisplayList: {fileID: 0}
   turretMuzzle: {fileID: 5517833356042259947}
+--- !u!114 &848563733551446363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4958797245426489770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1c27b2a1c2d44c44be2a8eb2b4a914e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5222055981077935677
 GameObject:
   m_ObjectHideFlags: 0

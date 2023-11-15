@@ -27,7 +27,7 @@ namespace StarterAssets
 
         private void Awake()
         {
-            _input = GetComponent<StarterAssetsInputs>();
+            _input = FindObjectOfType<StarterAssetsInputs>();
             _aiming = GetComponent<PlayerAiming>();
             _player = GetComponent<Player>();
         }

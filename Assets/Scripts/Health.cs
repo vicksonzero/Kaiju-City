@@ -30,17 +30,17 @@ public class Health : MonoBehaviour
         effectDisplayList = DisplayListRepository.Inst.effectDisplayList;
     }
 
-    public void TakeDamage(float amount) => TakeDamage(amount, null, null);
+    public void TakeDamage(float amount) => TakeDamage(amount, null, null, null);
 
     public void TakeDamage(float amount, Transform other)
     {
         var p = other.position;
         var n = -other.forward;
-        TakeDamage(amount, p, n);
+        TakeDamage(amount, p, n, transform.position - other.position);
     }
 
     // TODO: change amount into a data object with different damage attributes
-    public void TakeDamage(float amount, Vector3? hitPoint, Vector3? hitNormal)
+    public void TakeDamage(float amount, Vector3? hitPoint, Vector3? hitNormal, Vector3? hitImpulse)
     {
         hp -= amount;
         // Debug.Log($"TakeDamage {name} {amount} hp={hp}");
@@ -62,7 +62,7 @@ public class Health : MonoBehaviour
 
         if (ShouldDie())
         {
-            Die();
+            Die(hitPoint, hitNormal, hitImpulse);
         }
     }
 
@@ -86,9 +86,14 @@ public class Health : MonoBehaviour
         }
     }
 
-    private void Die()
+    private void Die(Vector3? hitPoint, Vector3? hitNormal, Vector3? hitImpulse)
     {
-        Instantiate(deathAnimationPrefab, transform.position, transform.rotation, effectDisplayList);
+        var anim = Instantiate(deathAnimationPrefab, transform.position, transform.rotation, effectDisplayList);
+        if (hitImpulse.HasValue && hitPoint.HasValue && anim.TryGetComponent(out Rigidbody rb))
+        {
+            rb.AddForceAtPosition(hitImpulse.Value * 0.2f, hitPoint.Value, ForceMode.Impulse);
+        }
+
         canDie = false;
         Destroy(gameObject);
     }
