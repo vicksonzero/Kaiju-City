@@ -210,6 +210,7 @@ MonoBehaviour:
   successCollider: {fileID: 297398333807080666}
   failCollider: {fileID: 6440305894593523972}
   kineticDamage: 0
+  kickImpulse: 50
 --- !u!114 &2887683362024885741
 MonoBehaviour:
   m_ObjectHideFlags: 0

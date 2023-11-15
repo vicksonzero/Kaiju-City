@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
     public BulletFailTrigger failCollider;
 
     public float kineticDamage;
+    public float kickImpulse = 0.3f;
 
     private Rigidbody _rb;
     private Vector3? hitPointCandidate;
@@ -70,10 +71,12 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnHitSuccess(Health health)
+    private void OnHitSuccess(Health health, Collider other)
     {
         // Debug.Log($"OnHitSuccess {health.name}");
-        health.TakeDamage(kineticDamage, transform);
+        var hitPoint = other.ClosestPoint(transform.position);
+        var p = transform.forward;
+        health.TakeDamage(kineticDamage, hitPoint, -p, p * kickImpulse);
 
         // if (pierce) { ... }
 

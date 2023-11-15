@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using StarterAssets;
 using UnityEngine;
 
 public class KickLightWeightEnemies : MonoBehaviour
@@ -9,9 +10,19 @@ public class KickLightWeightEnemies : MonoBehaviour
     public float kickImpulse = 0.5f;
     public Transform hitEffectPrefab; // TODO: change to a bleed behaviour, and make it instantiate the bleed stuff
 
+    private CharacterController _controller;
+
+    private void Start()
+    {
+        _controller = GetComponentInParent<CharacterController>();
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
+        var velocity = _controller.velocity;
+        var canKick = new Vector2(velocity.x, velocity.z).magnitude > 21f;
+        if (!canKick) return;
         var lightWeightEnemy = other.GetComponentInParent<LightWeightEnemy>();
         if (!lightWeightEnemy) return;
 

@@ -5,7 +5,7 @@ public class BulletSuccessTrigger : MonoBehaviour
 {
     [Header("Auto reference")]
     public LayerMask damageTheseLayers;
-    public Action<Health> ParentHitSuccess;
+    public Action<Health, Collider> ParentHitSuccess;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -13,7 +13,7 @@ public class BulletSuccessTrigger : MonoBehaviour
         if (health && damageTheseLayers.Contains(health.gameObject.layer))
         {
             // Debug.Log($"BulletSuccessTrigger");
-            ParentHitSuccess(health);
+            ParentHitSuccess(health, other);
         }
     }
 

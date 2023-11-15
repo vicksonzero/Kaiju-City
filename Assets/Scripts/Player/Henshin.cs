@@ -81,7 +81,7 @@ public class Henshin : MonoBehaviour
             tankTransform.rotation = giantTransform.rotation;
             tankCamera.transform.position = giantCamera.transform.position;
         }
-        else
+        else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
         {
             giantInput.enabled = false;
             giantTransform.position = tankTransform.position;
