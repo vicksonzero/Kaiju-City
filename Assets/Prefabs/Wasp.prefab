@@ -204,8 +204,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7
-  m_Height: 2
+  m_Radius: 0.43
+  m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1725875608958487159
@@ -276,10 +276,7 @@ MonoBehaviour:
   hpMax: 100
   bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
     type: 3}
-  deathAnimationPrefab: {fileID: 9071840739670536519, guid: a5c20f67ff426584e8b24e5a598ca84a,
-    type: 3}
   healEffectPrefab: {fileID: 0}
-  effectDisplayList: {fileID: 0}
   canDie: 1
   bars: []
 --- !u!114 &2555390903790146772
@@ -333,7 +330,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deathAnimationPrefab: {fileID: 9071840739670536519, guid: a5c20f67ff426584e8b24e5a598ca84a,
     type: 3}
-  effectDisplayList: {fileID: 0}
 --- !u!1 &5222055981077935677
 GameObject:
   m_ObjectHideFlags: 0
@@ -458,17 +454,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 17
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 17
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 17
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}

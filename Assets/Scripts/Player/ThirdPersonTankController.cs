@@ -41,7 +41,12 @@ namespace StarterAssets
         [Tooltip("The character uses its own gravity value. The engine default is -9.81f")]
         public float Gravity = -15.0f;
 
+
         [Space(10)]
+        public float coyoteTime = 0.3f;
+
+        public float jumpBuffer = 0.3f;
+
         [Tooltip("Time required to pass before being able to jump again. Set to 0f to instantly jump again")]
         public float JumpTimeout = 0.50f;
 
@@ -99,6 +104,8 @@ namespace StarterAssets
         private float _terminalVelocity = 53.0f;
 
         // timeout deltatime
+        private float _coyoteTimer = 0;
+        private float _jumpBufferTimer = 0;
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
@@ -343,6 +350,18 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
+            _coyoteTimer = _coyoteTimer > 0
+                ? _coyoteTimer - Time.deltaTime
+                : 0;
+            _jumpBufferTimer = _jumpBufferTimer > 0
+                ? _jumpBufferTimer - Time.deltaTime
+                : 0;
+
+            if (Grounded)
+            {
+                _coyoteTimer = coyoteTime;
+            }
+
             if (Grounded)
             {
                 // reset the fall timeout timer
@@ -360,10 +379,18 @@ namespace StarterAssets
                 {
                     _verticalVelocity = -2f;
                 }
+            }
 
+            if (Grounded || _coyoteTimer > 0)
+            {
                 // Jump
-                if (_input.jump && _jumpTimeoutDelta <= 0.0f)
+                if ((_input.jump || _jumpBufferTimer > 0) && _jumpTimeoutDelta <= 0.0f)
                 {
+                    if (!Grounded)
+                    {
+                        Debug.Log($"Coyote time! {_coyoteTimer.ToString("0.00")}");
+                    }
+
                     // the square root of H * -2 * G = how much velocity needed to reach desired height
                     _verticalVelocity = Mathf.Sqrt(JumpHeight * -2f * Gravity);
 
@@ -372,6 +399,8 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDJump, true);
                     }
+
+                    _coyoteTimer = 0;
                 }
 
                 // jump timeout
@@ -380,7 +409,8 @@ namespace StarterAssets
                     _jumpTimeoutDelta -= Time.deltaTime;
                 }
             }
-            else
+
+            if (!Grounded)
             {
                 // reset the jump timeout timer
                 _jumpTimeoutDelta = JumpTimeout;
@@ -397,6 +427,11 @@ namespace StarterAssets
                     {
                         _animator.SetBool(_animIDFreeFall, true);
                     }
+                }
+
+                if (_input.jump)
+                {
+                    _jumpBufferTimer = jumpBuffer;
                 }
 
                 // // if we are not grounded, do not jump

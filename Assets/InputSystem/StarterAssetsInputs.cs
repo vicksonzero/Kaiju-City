@@ -76,6 +76,8 @@ namespace StarterAssets
             }
 
             lastHenshin = henshin;
+
+            if (jump) jump = false;
         }
 
 
