@@ -9,8 +9,10 @@ using Random = UnityEngine.Random;
 public class Building : MonoBehaviour
 {
     public Transform cube;
+    public Transform footprint;
     public Vector3 minDimension;
     public Vector3 maxDimension;
+    public float footprintHeight = 0.1f;
     public float precision = 0.5f;
 
     [Button("Randomize Building")]
@@ -25,6 +27,14 @@ public class Building : MonoBehaviour
         print($"RandomizeBuilding: {scale}");
         cube.localScale = scale;
         cube.localPosition = new Vector3(0, scale.y / 2, 0);
+        footprint.localScale = new Vector3(scale.x, footprintHeight, scale.z);
+        footprint.localPosition = Vector3.zero;
+    }
+
+    private void OnValidate()
+    {
+        footprint.localScale = new Vector3(cube.localScale.x*0.95f, footprintHeight, cube.localScale.z*0.95f);
+        footprint.localPosition = Vector3.zero;
     }
 
     // Start is called before the first frame update

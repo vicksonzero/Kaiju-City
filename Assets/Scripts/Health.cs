@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using EditorCools;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,9 +11,7 @@ public class Health : MonoBehaviour
     public float hpMax = 100;
     public Transform bleedPrefab; // TODO: change to a bleed behaviour, and make it instantiate the bleed stuff
 
-    public Transform deathAnimationPrefab;
     public Transform healEffectPrefab;
-    public Transform effectDisplayList;
 
     public bool canDie = true;
 
@@ -22,13 +21,6 @@ public class Health : MonoBehaviour
 
     public OnHealthUpdated HealthUpdated;
 
-
-    // private Death _death; // TODO: some entities can take damage, but not die?
-
-    private void Start()
-    {
-        effectDisplayList = DisplayListRepository.Inst.effectDisplayList;
-    }
 
     public void TakeDamage(float amount) => TakeDamage(amount, null, null, null);
 
@@ -86,12 +78,26 @@ public class Health : MonoBehaviour
         }
     }
 
+    [Button("Die (Play Mode)")]
+    public void DieInPlayMode()
+    {
+        if (Application.isPlaying)
+        {
+            Debug.Log($"Health.DieInPlayMode('{name}')");
+            Die(null, null, null);
+        }
+        else
+        {
+            Debug.Log("Health.DieInPlayMode() can only be used in play mode, duh.");
+        }
+    }
+
     private void Die(Vector3? hitPoint, Vector3? hitNormal, Vector3? hitImpulse)
     {
-        var anim = Instantiate(deathAnimationPrefab, transform.position, transform.rotation, effectDisplayList);
-        if (hitImpulse.HasValue && hitPoint.HasValue && anim.TryGetComponent(out Rigidbody rb))
+        var deathHandlers = GetComponents<ADeathHandler>();
+        foreach (var deathHandler in deathHandlers)
         {
-            rb.AddForceAtPosition(hitImpulse.Value * 0.2f, hitPoint.Value, ForceMode.Impulse);
+            deathHandler.Die(hitPoint, hitNormal, hitImpulse);
         }
 
         canDie = false;

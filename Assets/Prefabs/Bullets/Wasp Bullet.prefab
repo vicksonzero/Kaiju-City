@@ -274,13 +274,14 @@ MonoBehaviour:
     m_Bits: 1536
   damageTheseLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   explosionPrefab: {fileID: 8745587513438753329, guid: a93cc3daebbef8b438bbf70bcfc9d90a,
     type: 3}
   effectDisplayList: {fileID: 0}
   successCollider: {fileID: 5977885660437349614}
   failCollider: {fileID: 9181155904174207242}
   kineticDamage: 0
+  kickImpulse: 0.3
 --- !u!114 &2887683362024885741
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -80,6 +80,7 @@ public class Henshin : MonoBehaviour
             tankTransform.position = giantCameraFollowRoot.position;
             tankTransform.rotation = giantTransform.rotation;
             tankCamera.transform.position = giantCamera.transform.position;
+            tankCamera.transform.rotation = giantCamera.transform.rotation;
         }
         else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
         {
@@ -87,6 +88,7 @@ public class Henshin : MonoBehaviour
             giantTransform.position = tankTransform.position;
             giantTransform.rotation = tankTransform.rotation;
             giantCamera.transform.position = tankCamera.transform.position;
+            giantCamera.transform.rotation = tankCamera.transform.rotation;
             giantTransform.DOScale(Vector3.one, 3f)
                 .From(Vector3.one * 0.1f)
                 .SetEase(Ease.InCubic)
