@@ -27,12 +27,19 @@ public class Bullet : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         if (!failCollider) failCollider = GetComponentInChildren<BulletFailTrigger>();
-        failCollider.ParentHitFail = OnHitFail;
-        failCollider.failAtLayers = failAtLayers;
+        if (failCollider)
+        {
+            failCollider.ParentHitFail = OnHitFail;
+            failCollider.failAtLayers = failAtLayers;
+        }
 
         if (!successCollider) successCollider = GetComponentInChildren<BulletSuccessTrigger>();
-        successCollider.ParentHitSuccess = OnHitSuccess;
-        successCollider.damageTheseLayers = damageTheseLayers;
+        if (successCollider)
+        {
+            successCollider.ParentHitSuccess = OnHitSuccess;
+            successCollider.damageTheseLayers = damageTheseLayers;
+        }
+
         effectDisplayList = DisplayListRepository.Inst.effectDisplayList;
     }
 
