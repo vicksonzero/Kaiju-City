@@ -10022,7 +10022,7 @@ MonoBehaviour:
   bulletDuration: 3
   damageTheseLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 576
   explosionPrefab: {fileID: 8745587513438753329, guid: 50ce7a6002e972a4a88686fd0c487bc5,
     type: 3}
   effectDisplayList: {fileID: 0}

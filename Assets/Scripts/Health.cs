@@ -17,6 +17,8 @@ public class Health : MonoBehaviour
 
     public Bars[] bars;
 
+    public float Percentage => hp / hpMax;
+
     public delegate void OnHealthUpdated(float hp, float hpMax);
 
     public OnHealthUpdated HealthUpdated;

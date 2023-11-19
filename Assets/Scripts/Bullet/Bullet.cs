@@ -19,6 +19,10 @@ public class Bullet : MonoBehaviour
     public float kineticDamage;
     public float kickImpulse = 0.3f;
 
+    public bool isAoe = false;
+    public int aoeVictimCap = 500;
+
+    private Dictionary<Health, int> _aoeDamagedCount = new Dictionary<Health, int>();
     private Rigidbody _rb;
     private Vector3? hitPointCandidate;
     private Vector3? hitNormalCandidate;
@@ -81,6 +85,19 @@ public class Bullet : MonoBehaviour
     private void OnHitSuccess(Health health, Collider other)
     {
         // Debug.Log($"OnHitSuccess {health.name}");
+
+        if (isAoe && _aoeDamagedCount.ContainsKey(health))
+        {
+            Debug.Log($"OnHitSuccess already damaged this victim {health.name}");
+            return;
+        }
+
+        if (isAoe)
+        {
+            _aoeDamagedCount.Add(health, 1);
+            Debug.Log($"AOE Bullet {name} OnHitSuccess damaging victims: {_aoeDamagedCount.Count}");
+        }
+
         var hitPoint = other.ClosestPoint(transform.position);
         var p = transform.forward;
         health.TakeDamage(kineticDamage, hitPoint, -p, p * kickImpulse);
@@ -101,6 +118,9 @@ public class Bullet : MonoBehaviour
         //         effectDisplayList);
         // }
 
-        Destroy(gameObject);
+        if (!isAoe)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -23,13 +23,16 @@ public class BuildingRuin : MonoBehaviour
     public void Play()
     {
         effectPS.Play();
-        sinkingRoot.DORotate(new Vector3(
+        var seq = DOTween.Sequence();
+        seq.AppendInterval(1f);
+        seq.Append(sinkingRoot.DORotate(new Vector3(
             Random.Range(-maxRotate.x, maxRotate.x),
             Random.Range(-maxRotate.y, maxRotate.y),
             Random.Range(-maxRotate.z, maxRotate.z)
-        ), sinkTime).SetEase(Ease.InOutQuint);
-        sinkingRoot.DOMoveY(sinkHeight, sinkTime)
+        ), sinkTime).SetEase(Ease.InOutQuint));
+        seq.Join(sinkingRoot.DOMoveY(sinkHeight, sinkTime)
             .SetEase(Ease.InOutQuint)
-            .OnComplete(() => { effectPS.Stop(); });
+            .OnComplete(() => { effectPS.Stop(); }));
+        seq.Play();
     }
 }

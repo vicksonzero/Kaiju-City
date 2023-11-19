@@ -15,6 +15,16 @@ public class Building : MonoBehaviour
     public float footprintHeight = 0.1f;
     public float precision = 0.5f;
 
+    public ParticleSystem damageTransitionPs;
+    public bool damagedEffectDone;
+    public Material damagedMaterial;
+    public ParticleSystem damagedPs;
+
+    public bool veryDamagedEffectDone;
+    public Material veryDamagedMaterial;
+    public ParticleSystem veryDamagedPs;
+    private Health _health;
+
     [Button("Randomize Building")]
     // ReSharper disable once UnusedMember.Local
     void RandomizeBuilding()
@@ -33,7 +43,7 @@ public class Building : MonoBehaviour
 
     private void OnValidate()
     {
-        footprint.localScale = new Vector3(cube.localScale.x*0.95f, footprintHeight, cube.localScale.z*0.95f);
+        footprint.localScale = new Vector3(cube.localScale.x * 0.95f, footprintHeight, cube.localScale.z * 0.95f);
         footprint.localPosition = Vector3.zero;
     }
 
@@ -41,10 +51,36 @@ public class Building : MonoBehaviour
     void Start()
     {
         cube.name = $"{name} Cube";
+
+        _health = GetComponent<Health>();
+        if (_health)
+        {
+            _health.HealthUpdated += OnHealthUpdated;
+        }
+
+        damageTransitionPs.Stop();
+        damagedPs.Stop();
+        veryDamagedPs.Stop();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnHealthUpdated(float hp, float hpMax)
     {
+        if (!damagedEffectDone && _health.Percentage <= 0.5f)
+        {
+            damageTransitionPs.Play();
+            damagedPs.Play();
+            var cubeRenderer = cube.GetComponent<MeshRenderer>();
+            cubeRenderer.material = damagedMaterial;
+            damagedEffectDone = true;
+        }
+
+        if (!veryDamagedEffectDone && _health.Percentage <= 0.2f)
+        {
+            damageTransitionPs.Play();
+            veryDamagedPs.Play();
+            var cubeRenderer = cube.GetComponent<MeshRenderer>();
+            cubeRenderer.material = damagedMaterial;
+            veryDamagedEffectDone = true;
+        }
     }
 }
