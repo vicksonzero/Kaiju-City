@@ -16,8 +16,9 @@ namespace StarterAssets
         public AutoLockIndicator autoLockIndicator;
         public AutoLockIndicator autoLockCandidateIndicator;
 
-        public Transform targetCandidate;
-        public Transform target;
+        public Health targetCandidate;
+        public Health target;
+        public Transform turretBase;
 
         private PlayerAiming _aiming;
 
@@ -41,7 +42,7 @@ namespace StarterAssets
         {
             if (target)
             {
-                var screenPoint = autoLockCamera.WorldToViewportPoint(target.position);
+                var screenPoint = autoLockCamera.WorldToViewportPoint(target.autoAimRoot.position);
                 if (screenPoint.x is < 0 or > 1 || screenPoint.y is < 0 or > 1)
                 {
                     target = null;
@@ -51,7 +52,7 @@ namespace StarterAssets
 
             if (targetCandidate)
             {
-                var screenPoint = autoLockCamera.WorldToViewportPoint(targetCandidate.position);
+                var screenPoint = autoLockCamera.WorldToViewportPoint(targetCandidate.autoAimRoot.position);
                 if (screenPoint.x is < 0 or > 1 || screenPoint.y is < 0 or > 1)
                 {
                     targetCandidate = null;
@@ -62,11 +63,11 @@ namespace StarterAssets
 
             var ray = target
                 ? new Ray(autoLockCamera.transform.position,
-                    target.position - autoLockCamera.transform.position)
+                    target.autoAimRoot.position - autoLockCamera.transform.position)
                 : targetCandidate
                     ? new Ray(autoLockCamera.transform.position,
-                        targetCandidate.position - autoLockCamera.transform.position)
-                    : new Ray(_player.centerRoot.position,
+                        targetCandidate.autoAimRoot.position - autoLockCamera.transform.position)
+                    : new Ray(turretBase.position,
                         _player.transform.forward);
             _aiming.AimAtRay(ray);
 
@@ -116,8 +117,9 @@ namespace StarterAssets
 
             if (autoLockCandidateIndicator != null)
             {
-                var closestEnemy = closestEnemyResult?.enemy ? closestEnemyResult.enemy : null;
-                targetCandidate = closestEnemy?.transform;
+                targetCandidate = closestEnemyResult?.enemy
+                    ? closestEnemyResult.enemy.GetComponent<Health>()
+                    : null;
                 autoLockCandidateIndicator.SetTarget(targetCandidate, false);
             }
         }

@@ -14,10 +14,12 @@ public class Health : MonoBehaviour
     public Transform healEffectPrefab;
 
     public bool canDie = true;
+    public Transform autoAimRoot;
 
     public Bars[] bars;
 
     public float Percentage => hp / hpMax;
+
 
     public delegate void OnHealthUpdated(float hp, float hpMax);
 

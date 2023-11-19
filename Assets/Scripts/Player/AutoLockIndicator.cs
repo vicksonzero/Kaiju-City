@@ -7,11 +7,12 @@ namespace StarterAssets
     public class AutoLockIndicator : MonoBehaviour
     {
         public RectTransform sprite;
-        public Transform target;
+        public Health target;
         public Camera autoLockCamera;
         public RectTransform canvas;
-
-        public void SetTarget(Transform value, bool allowEffect)
+        
+        
+        public void SetTarget(Health value, bool allowEffect)
         {
             if (target != value)
                 Play(allowEffect);
@@ -27,7 +28,7 @@ namespace StarterAssets
                 return;
             }
 
-            var screenPoint = autoLockCamera.WorldToViewportPoint(target.position);
+            var screenPoint = autoLockCamera.WorldToViewportPoint(target.autoAimRoot.position);
 
             sprite.anchoredPosition = new Vector2(
                 (screenPoint.x - 0.5f) * canvas.sizeDelta.x,

@@ -88,14 +88,14 @@ public class Bullet : MonoBehaviour
 
         if (isAoe && _aoeDamagedCount.ContainsKey(health))
         {
-            Debug.Log($"OnHitSuccess already damaged this victim {health.name}");
+            // Debug.Log($"OnHitSuccess already damaged this victim {health.name}");
             return;
         }
 
         if (isAoe)
         {
             _aoeDamagedCount.Add(health, 1);
-            Debug.Log($"AOE Bullet '{name}' OnHitSuccess damaging victims: {_aoeDamagedCount.Count}");
+            // Debug.Log($"AOE Bullet '{name}' OnHitSuccess damaging victims: {_aoeDamagedCount.Count}");
         }
 
         var hitPoint = other.ClosestPoint(transform.position);

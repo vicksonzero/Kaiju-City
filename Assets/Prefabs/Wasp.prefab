@@ -279,6 +279,7 @@ MonoBehaviour:
   healEffectPrefab: {fileID: 0}
   canDie: 1
   bars: []
+  autoAimRoot: {fileID: 5767939866713634746}
 --- !u!114 &2555390903790146772
 MonoBehaviour:
   m_ObjectHideFlags: 0

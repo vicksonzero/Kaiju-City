@@ -1875,11 +1875,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 94245619}
-  - component: {fileID: 94245621}
+  - component: {fileID: 94245626}
   - component: {fileID: 94245620}
   - component: {fileID: 94245622}
   - component: {fileID: 94245623}
-  m_Layer: 0
+  - component: {fileID: 94245625}
+  - component: {fileID: 94245624}
+  m_Layer: 7
   m_Name: Boss Spider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1904,6 +1906,8 @@ Transform:
   - {fileID: 1387290862}
   - {fileID: 1835075908}
   - {fileID: 1163307674}
+  - {fileID: 488990440}
+  - {fileID: 1174914642}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &94245620
@@ -1933,29 +1937,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &94245621
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94245618}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 4, z: 0}
 --- !u!114 &94245622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2018,6 +1999,61 @@ MonoBehaviour:
     type: 3}
   bulletDisplayList: {fileID: 478953453}
   effectDisplayList: {fileID: 1162084214}
+--- !u!114 &94245624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94245618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0fd27708759344585171c7b0ae7737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 1000
+  hpMax: 1000
+  bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
+    type: 3}
+  healEffectPrefab: {fileID: 0}
+  canDie: 1
+  autoAimRoot: {fileID: 488990440}
+  bars: []
+--- !u!114 &94245625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94245618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5ff50827d4463a468c88f302b6e767b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!136 &94245626
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 94245618}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: 0, y: 3.2, z: 0.99}
 --- !u!1001 &94856374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9637,6 +9673,37 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 487264697}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &488990439
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 488990440}
+  m_Layer: 13
+  m_Name: Auto Aim Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &488990440
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488990439}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.63, z: 4.61}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 94245619}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &492664037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23635,6 +23702,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: episode_71
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: be29a4a228ec56f489521e6fb65139fe,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 1353259035120717145, guid: be29a4a228ec56f489521e6fb65139fe,
         type: 3}
@@ -41937,6 +42009,61 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1174914641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1174914642}
+  - component: {fileID: 1174914643}
+  m_Layer: 13
+  m_Name: Movement Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1174914642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174914641}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 94245619}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1174914643
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1174914641}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 4, z: 0}
 --- !u!1001 &1175522300
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -83874,6 +84001,7 @@ GameObject:
   - component: {fileID: 4416926081521197154}
   - component: {fileID: 4416926081521197155}
   - component: {fileID: 5885216827604290200}
+  - component: {fileID: 5885216827604290203}
   m_Layer: 8
   m_Name: Player Giant
   m_TagString: Player
@@ -88869,7 +88997,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4377587dc672bf24dae268d96f73bf7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerRoot: {fileID: 1395149407}
+--- !u!114 &5885216827604290203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081521197160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa0fd27708759344585171c7b0ae7737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 1000
+  hpMax: 1000
+  bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
+    type: 3}
+  healEffectPrefab: {fileID: 8059632920273756854, guid: 642892763191fbb498f879e6a582b119,
+    type: 3}
+  canDie: 1
+  autoAimRoot: {fileID: 1395149407}
+  bars: []
 --- !u!4 &6247922361390760864
 Transform:
   m_ObjectHideFlags: 0
@@ -88974,7 +89122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4377587dc672bf24dae268d96f73bf7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  centerRoot: {fileID: 2046567657}
 --- !u!114 &7279635376128318403
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -89084,6 +89231,7 @@ MonoBehaviour:
   healEffectPrefab: {fileID: 8059632920273756854, guid: 642892763191fbb498f879e6a582b119,
     type: 3}
   canDie: 1
+  autoAimRoot: {fileID: 2046567657}
   bars:
   - {fileID: 1813675695938847493}
 --- !u!114 &7279635376128318407
@@ -89106,6 +89254,7 @@ MonoBehaviour:
   autoLockCandidateIndicator: {fileID: 1406965970}
   targetCandidate: {fileID: 0}
   target: {fileID: 0}
+  turretBase: {fileID: 290350035}
 --- !u!4 &7425664165918793298
 Transform:
   m_ObjectHideFlags: 0
