@@ -42,30 +42,47 @@ public class BombardBullet : MonoBehaviour
         var midPoint = (targetPosition + startingPosition) / 2;
         midPoint.y = startingPosition.y + height;
 
+        var lastPosition = startingPosition;
+
         var seq = DOTween.Sequence();
         seq.AppendCallback(() => bulletModel.LookAt(midPoint, Vector3.up));
         seq.Append(bulletModel.DOMoveX(midPoint.x, bulletDuration / 2f)
             .SetOptions(AxisConstraint.X)
             .SetEase(Ease.Linear));
-        seq.Join(bulletModel.DOMoveY(midPoint.y, bulletDuration / 2f)
-            .SetOptions(AxisConstraint.Y)
-            .SetEase(Ease.OutQuad));
         seq.Join(bulletModel.DOMoveZ(midPoint.z, bulletDuration / 2f)
             .SetOptions(AxisConstraint.Z)
             .SetEase(Ease.Linear));
+        seq.Join(bulletModel.DOMoveY(midPoint.y, bulletDuration / 2f)
+            .SetOptions(AxisConstraint.Y)
+            .SetEase(Ease.OutQuad)
+            .OnUpdate(() =>
+            {
+                bulletModel.rotation = Quaternion.LookRotation(
+                    bulletModel.position - lastPosition,
+                    Vector3.up);
+                lastPosition = bulletModel.position;
+            }));
         seq.AppendCallback(() => bulletModel.LookAt(targetPosition, Vector3.up));
         seq.Append(bulletModel.DOMoveX(targetPosition.x, bulletDuration / 2f)
             .SetOptions(AxisConstraint.X)
             .SetEase(Ease.Linear));
-        seq.Join(bulletModel.DOMoveY(targetPosition.y, bulletDuration / 2f)
-            .SetOptions(AxisConstraint.Y)
-            .SetEase(Ease.InQuad));
         seq.Join(bulletModel.DOMoveZ(targetPosition.z, bulletDuration / 2f)
             .SetOptions(AxisConstraint.Z)
             .SetEase(Ease.Linear));
-        seq.AppendCallback(SpawnBullet);
+        seq.Join(bulletModel.DOMoveY(targetPosition.y, bulletDuration / 2f)
+            .SetOptions(AxisConstraint.Y)
+            .SetEase(Ease.InQuad)
+            .OnUpdate(() =>
+            {
+                bulletModel.rotation = Quaternion.LookRotation(
+                    bulletModel.position - lastPosition,
+                    Vector3.up);
+                lastPosition = bulletModel.position;
+            }));
         seq.AppendCallback(() => ps.Stop());
         seq.AppendCallback(() => ps.transform.SetParent(transform));
+        seq.AppendInterval(0.4f);
+        seq.AppendCallback(SpawnBullet);
         seq.AppendCallback(() => Destroy(targetMarker.gameObject));
         seq.AppendCallback(() => Destroy(bulletModel.gameObject));
 
