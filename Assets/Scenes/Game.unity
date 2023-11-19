@@ -89130,6 +89130,7 @@ MonoBehaviour:
   kineticDamage: 100
   bulletPrefab: {fileID: 4362131990631787944, guid: 4b622366e7d021d428fba91e379d9a05,
     type: 3}
+  kickImpulse: 1
   hitEffectPrefab: {fileID: 1482034056526210804, guid: 89a76938f8b09d8499ade71935ae9152,
     type: 3}
   bulletDisplayList: {fileID: 478953453}
