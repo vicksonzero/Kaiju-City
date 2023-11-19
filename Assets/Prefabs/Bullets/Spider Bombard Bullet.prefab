@@ -10031,9 +10031,13 @@ MonoBehaviour:
   bulletDisplayList: {fileID: 0}
   bulletModel: {fileID: 8658817262946126181}
   ps: {fileID: 1059630307636474835}
-  targetMarker: {fileID: 5841863432994163102}
   kineticDamage: 0
   kickImpulse: 0.3
+  targetMarker: {fileID: 5841863432994163102}
+  targetMarkerProjector: {fileID: 4899842350122274571}
+  startingRadius: 10
+  endingRadius: 6
+  targetAnimationLength: 0.3
 --- !u!114 &4052320676687168785
 MonoBehaviour:
   m_ObjectHideFlags: 0

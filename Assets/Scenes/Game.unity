@@ -1965,7 +1965,7 @@ MonoBehaviour:
   cooldown: 10
   burstCount: 8
   burstInterval: 0.2
-  landingRadius: 6
+  landingRadius: 3
   kineticDamage: 10
   target: {fileID: 6247922361390760864}
   bulletPrefab: {fileID: 4485934101569186470, guid: d41f0f0d85a033541a6ba8f7e4791bd8,

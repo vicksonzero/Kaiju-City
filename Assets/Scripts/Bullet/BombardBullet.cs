@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class BombardBullet : MonoBehaviour
 {
@@ -19,10 +20,18 @@ public class BombardBullet : MonoBehaviour
     public Transform bulletModel;
     public ParticleSystem ps;
 
-    public Transform targetMarker;
-
     public float kineticDamage;
     public float kickImpulse = 0.3f;
+
+
+    [Header("Targeting Indicator")]
+    public Transform targetMarker;
+
+    public DecalProjector targetMarkerProjector;
+    public float startingRadius;
+    public float endingRadius;
+    public float targetAnimationLength = 0.3f;
+
 
     private Vector3 startingPosition;
 
@@ -38,6 +47,9 @@ public class BombardBullet : MonoBehaviour
         targetPosition = pos;
         targetMarker.position = targetPosition;
         targetMarker.rotation = Quaternion.identity;
+        DOVirtual.Float(startingRadius, endingRadius, targetAnimationLength,
+            value => targetMarkerProjector.size = new Vector3(value, value, targetMarkerProjector.size.z))
+            .SetEase(Ease.InQuint);
 
         var midPoint = (targetPosition + startingPosition) / 2;
         midPoint.y = startingPosition.y + height;
