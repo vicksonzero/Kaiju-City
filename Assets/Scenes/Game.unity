@@ -2011,8 +2011,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0fd27708759344585171c7b0ae7737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1000
-  hpMax: 1000
+  hp: 5000
+  hpMax: 5000
   bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
     type: 3}
   healEffectPrefab: {fileID: 0}
