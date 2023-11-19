@@ -3318,7 +3318,7 @@ MonoBehaviour:
   playerHealth: 0
   objectiveLabel: {fileID: 640687670}
   template: 'Time left: %timeLeft%\nEliminate enemies: %killedEnemies% / %killEnemies%\nDon''t
-    lose %protectBuildings% buildings (%leftBuildings% left)'
+    lose %protectBuildings% buildings (%lostBuildings% lost)'
   gameOverScreen: {fileID: 1689701671}
 --- !u!1001 &178404724
 PrefabInstance:
@@ -52393,7 +52393,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1596767552}
-  - component: {fileID: 1596767553}
   m_Layer: 5
   m_Name: Objective Panel
   m_TagString: Untagged
@@ -52422,21 +52421,6 @@ RectTransform:
   m_AnchoredPosition: {x: -960, y: -156.36}
   m_SizeDelta: {x: 475.8475, y: 205.1591}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &1596767553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1596767551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da3c3a3740655c2479db19c0551418c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  label: {fileID: 0}
-  labelMesh: {fileID: 640687670}
-  template: 
 --- !u!1001 &1598070239
 PrefabInstance:
   m_ObjectHideFlags: 0

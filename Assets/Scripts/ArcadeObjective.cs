@@ -73,23 +73,6 @@ public class ArcadeObjective : MonoBehaviour
             playerHealth = hp;
             CheckLoseConditions();
         };
-        totalBuildings = EntityCounter.Inst.GetCount(buildingCountChannel);
-        EntityCounter.Inst.AddListener(buildingCountChannel,
-            true,
-            (count) =>
-            {
-                lostBuildings = totalBuildings - count;
-                leftBuildings = count - (totalBuildings - protectBuildings);
-                CheckLoseConditions();
-            });
-
-        EntityCounter.Inst.AddListener(enemyCountChannel,
-            true,
-            (count) =>
-            {
-                killedEnemies = totalEnemies - count;
-                CheckWinConditions();
-            });
 
         if (startGameOnCreate)
         {
@@ -123,6 +106,25 @@ public class ArcadeObjective : MonoBehaviour
     [Button()]
     public void StartGame()
     {
+        totalBuildings = EntityCounter.Inst.GetCount(buildingCountChannel);
+        EntityCounter.Inst.AddListener(buildingCountChannel,
+            true,
+            (count) =>
+            {
+                lostBuildings = totalBuildings - count;
+                leftBuildings = count - (totalBuildings - protectBuildings);
+                CheckLoseConditions();
+            });
+
+        EntityCounter.Inst.AddListener(enemyCountChannel,
+            true,
+            (count) =>
+            {
+                killedEnemies = totalEnemies - count;
+                CheckWinConditions();
+            });
+
+
         _objectiveLabelTimer = DOVirtual.DelayedCall(0.02f, UpdateObjectiveLabel).SetLoops(-1);
         gameStartTime = Time.time;
         gameOverTime = gameStartTime + timeLimitInMinutes * 60f;
