@@ -104,19 +104,17 @@ public class Bullet : MonoBehaviour
 
         // if (pierce) { ... }
 
-        // if (explosionPrefab)
-        // {
-        //     var p = hitPointCandidate ?? transform.position;
-        //     var n = hitNormalCandidate ?? -transform.forward;
-        //     // var closestPoint = other.ClosestPointOnBounds(transform.position);
-        //     // var collisionNormal = transform.position - closestPoint;
-        //     Instantiate(
-        //         explosionPrefab,
-        //         p,
-        //         // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
-        //         Quaternion.LookRotation(n, Vector3.up),
-        //         effectDisplayList);
-        // }
+        if (explosionPrefab)
+        {
+            // var closestPoint = other.ClosestPointOnBounds(transform.position);
+            // var collisionNormal = transform.position - closestPoint;
+            Instantiate(
+                explosionPrefab,
+                hitPoint,
+                // Quaternion.FromToRotation(Vector3.forward, Vector3.up) *
+                Quaternion.LookRotation(-p, Vector3.up),
+                effectDisplayList);
+        }
 
         if (!isAoe)
         {
