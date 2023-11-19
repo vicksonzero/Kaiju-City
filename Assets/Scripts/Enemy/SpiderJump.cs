@@ -26,6 +26,18 @@ public class SpiderJump : MonoBehaviour
     // public DecalProjector jumpMarkerDecal;
     public ParticleSystem jumpPs;
 
+    [Header("Shockwave")]
+    public ParticleSystem shockwavePs;
+    
+    public float kineticDamage = 10;
+    public LayerMask damageTheseLayers;
+
+    public Bullet bulletPrefab;
+    public Bullet buildingBulletPrefab;
+
+    public Transform bulletDisplayList;
+    public Transform effectDisplayList;
+
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
@@ -72,9 +84,11 @@ public class SpiderJump : MonoBehaviour
         midPoint.y = startingPosition.y + height;
 
         var seq = DOTween.Sequence();
+
         seq.Append(transform.DOLookAt(targetPosition, lookAtTargetPositionTime,
             AxisConstraint.Y));
-        seq.Append(transform.DOMoveX(midPoint.x, airTime / 2f)
+        seq.AppendCallback(() => jumpPs.Play());
+        seq.Join(transform.DOMoveX(midPoint.x, airTime / 2f)
             .SetOptions(AxisConstraint.X)
             .SetEase(Ease.Linear));
         seq.Join(transform.DOMoveZ(midPoint.z, airTime / 2f)
@@ -83,7 +97,11 @@ public class SpiderJump : MonoBehaviour
         seq.Join(transform.DOMoveY(midPoint.y, airTime / 2f)
             .SetOptions(AxisConstraint.Y)
             .SetEase(Ease.OutCubic));
-        seq.Append(transform.DOMoveX(targetPosition.x, airTime / 2f)
+        
+        seq.AppendCallback(() => jumpPs.Stop());
+        seq.Join(DOVirtual.DelayedCall(airTime * 0.5f * 2f / 3f,
+            () => jumpMarker.gameObject.SetActive(false)));
+        seq.Join(transform.DOMoveX(targetPosition.x, airTime / 2f)
             .SetOptions(AxisConstraint.X)
             .SetEase(Ease.Linear));
         seq.Join(transform.DOMoveZ(targetPosition.z, airTime / 2f)
@@ -110,17 +128,31 @@ public class SpiderJump : MonoBehaviour
                     value
                 );
             }));
-        seq.AppendCallback(() => jumpPs.Stop());
         seq.AppendInterval(0.4f);
         seq.AppendCallback(SpawnShockwave);
-        seq.AppendCallback(() => jumpMarker.gameObject.SetActive(false));
 
         seq.Play();
-        jumpPs.Play();
     }
 
     public void SpawnShockwave()
     {
-        Debug.Log($"{nameof(SpiderJump)}.{nameof(SpawnShockwave)}");
+        // Debug.Log($"{nameof(SpiderJump)}.{nameof(SpawnShockwave)}");
+
+        ShootBullet();
+        ShootBuildingBullet();
+        shockwavePs.Play();
+    }
+    
+    void ShootBullet()
+    {
+        var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, bulletDisplayList);
+        bullet.kineticDamage = kineticDamage;
+        bullet.damageTheseLayers = damageTheseLayers;
+        bullet.effectDisplayList = effectDisplayList;
+    }
+    
+    void ShootBuildingBullet()
+    {
+        var bullet = Instantiate(buildingBulletPrefab, transform.position, Quaternion.identity, bulletDisplayList);
     }
 }

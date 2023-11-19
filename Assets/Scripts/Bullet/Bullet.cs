@@ -95,7 +95,7 @@ public class Bullet : MonoBehaviour
         if (isAoe)
         {
             _aoeDamagedCount.Add(health, 1);
-            Debug.Log($"AOE Bullet {name} OnHitSuccess damaging victims: {_aoeDamagedCount.Count}");
+            Debug.Log($"AOE Bullet '{name}' OnHitSuccess damaging victims: {_aoeDamagedCount.Count}");
         }
 
         var hitPoint = other.ClosestPoint(transform.position);
