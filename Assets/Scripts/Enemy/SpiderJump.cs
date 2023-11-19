@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using EditorCools;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -12,6 +13,7 @@ public class SpiderJump : MonoBehaviour
 {
     public float cooldown = 20;
     public float height = 40;
+    public float lookAtTargetPositionTime = 1;
     public float airTime = 5;
     public SphereCollider jumpRange;
     public LayerMask groundLayers;
@@ -32,7 +34,7 @@ public class SpiderJump : MonoBehaviour
         jumpMarker.SetParent(jumpMarkerNewParent);
         jumpMarker.gameObject.SetActive(false);
         DOVirtual.DelayedCall(cooldown, Jump).SetLoops(-1);
-        
+
         jumpPs.Stop();
     }
 
@@ -54,11 +56,12 @@ public class SpiderJump : MonoBehaviour
             return;
         }
 
-        JumpTo(hitInfo.point);
+        JumpTo(hitInfo.point, FindObjectOfType<Player>(false).transform);
     }
 
-    public void JumpTo(Vector3 pos)
+    public void JumpTo(Vector3 pos, Transform target)
     {
+        lookAtTransform = target;
         startingPosition = transform.position;
         targetPosition = pos;
         jumpMarker.gameObject.SetActive(true);
@@ -68,8 +71,9 @@ public class SpiderJump : MonoBehaviour
         var midPoint = (targetPosition + startingPosition) / 2;
         midPoint.y = startingPosition.y + height;
 
-
         var seq = DOTween.Sequence();
+        seq.Append(transform.DOLookAt(targetPosition, lookAtTargetPositionTime,
+            AxisConstraint.Y));
         seq.Append(transform.DOMoveX(midPoint.x, airTime / 2f)
             .SetOptions(AxisConstraint.X)
             .SetEase(Ease.Linear));
@@ -88,7 +92,24 @@ public class SpiderJump : MonoBehaviour
         seq.Join(transform.DOMoveY(targetPosition.y, airTime / 2f)
             .SetOptions(AxisConstraint.Y)
             .SetEase(Ease.InCubic));
-        // seq.Join();
+        seq.Join(DOVirtual.Float(0f, 1f, airTime * 0.5f * 2f / 3f,
+            value =>
+            {
+                if (!lookAtTransform.gameObject.activeInHierarchy)
+                {
+                    lookAtTransform = FindObjectOfType<Player>(false).transform;
+                }
+
+                if (!lookAtTransform) return;
+
+                var dirVector = lookAtTransform.position - transform.position;
+                dirVector.y = 0;
+                transform.rotation = Quaternion.Slerp(transform.rotation,
+                    Quaternion.LookRotation(
+                        dirVector, Vector3.up),
+                    value
+                );
+            }));
         seq.AppendCallback(() => jumpPs.Stop());
         seq.AppendInterval(0.4f);
         seq.AppendCallback(SpawnShockwave);

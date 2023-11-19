@@ -47,8 +47,11 @@ public class BombardBullet : MonoBehaviour
         targetPosition = pos;
         targetMarker.position = targetPosition;
         targetMarker.rotation = Quaternion.identity;
+
+        targetMarkerProjector.transform.localPosition = new Vector3(0, height - 1f, 0);
+        targetMarkerProjector.pivot = new Vector3(0, 0, height / 2);
         DOVirtual.Float(startingRadius, endingRadius, targetAnimationLength,
-            value => targetMarkerProjector.size = new Vector3(value, value, targetMarkerProjector.size.z))
+                value => targetMarkerProjector.size = new Vector3(value, value, height))
             .SetEase(Ease.InQuint);
 
         var midPoint = (targetPosition + startingPosition) / 2;

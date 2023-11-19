@@ -11,8 +11,10 @@ public class SpiderBombardGun : MonoBehaviour
     public float cooldown = 10f;
     public int burstCount = 8;
     public float burstInterval = 0.6f;
+    public float height = 40;
     public float landingRadius = 2f;
     public float kineticDamage = 10;
+    public LayerMask groundLayers;
 
     public Transform target;
 
@@ -33,17 +35,30 @@ public class SpiderBombardGun : MonoBehaviour
     [Button()]
     public void Shoot()
     {
+        target = FindObjectOfType<Player>(false).transform;
         ShootBullet();
         DOVirtual.DelayedCall(burstInterval, ShootBullet).SetLoops(burstCount - 1);
     }
 
     void ShootBullet()
     {
+        if (!target.gameObject.activeInHierarchy)
+        {
+            target = FindObjectOfType<Player>(false).transform;
+        }
+        
         var bullet = Instantiate(bulletPrefab, turretMuzzle.position, turretMuzzle.rotation, bulletDisplayList);
         var rb = bullet.GetComponent<Rigidbody>();
         bullet.kineticDamage = kineticDamage;
-        var random = Random.insideUnitCircle * landingRadius;
-        bullet.Play(target.position + new Vector3(random.x, 0, random.y));
+        
+        var offset = Random.insideUnitCircle * landingRadius;
+        var airPosition = target.position + new Vector3(offset.x, 0, offset.y);
+        airPosition.y += height;
+
+        var hasHit = Physics.Raycast(airPosition, Vector3.down,
+            out var hitInfo,
+            height * 2, groundLayers);
+        bullet.Play(hitInfo.point);
         bullet.bulletDisplayList = bulletDisplayList;
         bullet.effectDisplayList = effectDisplayList;
     }
