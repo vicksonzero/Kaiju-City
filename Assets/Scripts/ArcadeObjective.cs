@@ -21,9 +21,6 @@ public class ArcadeObjective : MonoBehaviour
     public int killEnemies = 3;
     public int killedEnemies = 0;
 
-    [Header("Time limit")]
-    public float timeLimitInMinutes = 5f;
-
     public float gameStartTime = -1;
     public float gameOverTime = -1;
     public float gameTime = -1;
@@ -43,13 +40,30 @@ public class ArcadeObjective : MonoBehaviour
     public float playerHealth;
     private Health _playerHealth;
 
-
     public TextMeshProUGUI objectiveLabel;
 
+    [Header("Evacuation")]
+    public float evacuationTimeInMinutes = 3f;
+
+    public float evacuationTimer = -1;
+    public int evacuationProtectBuildings = 20;
     [Tooltip(
         "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%")]
-    public string template =
-        "Time left: %timeLeft%\\nEliminate enemies: %killedEnemies% / %totalEnemies%\\nDon't lose %protectBuildings% buildings (%lostBuildings% lost)";
+    public string evacuationTemplate =
+        "Evacuation complete in: %timeLeft%\\nDon't lose %protectBuildings% buildings (%lostBuildings% lost)";
+
+    [Header("Boss Spawning")]
+    [Tooltip("In seconds")]
+    public float bossSpawnAfter = 60;
+
+    [Tooltip("To save time linking up stuff, let's just keep the boss spawned but deactivated")]
+    public Transform bossObject;
+    public Transform bossSpawnPoint;
+    
+    [Header("Fight Boss")]
+    [Tooltip(
+        "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%")]
+    public string fightBossTemplate = "Fight the spider alien";
 
 
     public GameOverScreen gameOverScreen;
@@ -57,11 +71,18 @@ public class ArcadeObjective : MonoBehaviour
     [CanBeNull]
     private Tween _objectiveLabelTimer;
 
+    private Tween _spawnBossTimer;
+
 
     [Button()]
     public void CalculateRequiredKillCount()
     {
         totalEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
+    }
+
+    private void Awake()
+    {
+        bossObject.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -73,6 +94,7 @@ public class ArcadeObjective : MonoBehaviour
             playerHealth = hp;
             CheckLoseConditions();
         };
+
 
         if (startGameOnCreate)
         {
@@ -126,8 +148,10 @@ public class ArcadeObjective : MonoBehaviour
 
 
         _objectiveLabelTimer = DOVirtual.DelayedCall(0.02f, UpdateObjectiveLabel).SetLoops(-1);
+        _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter, ActivateBoss);
         gameStartTime = Time.time;
-        gameOverTime = gameStartTime + timeLimitInMinutes * 60f;
+        // gameOverTime = gameStartTime + timeLimitInMinutes * 60f;
+        evacuationTimer = gameStartTime + evacuationTimeInMinutes * 60f;
         gameStarted = true;
     }
 
@@ -157,10 +181,10 @@ public class ArcadeObjective : MonoBehaviour
     // Update is called once per frame
     void UpdateObjectiveLabel()
     {
-        var timeLeft = gameOverTime - Time.time;
+        var timeLeft = evacuationTimer - Time.time;
         var timeLeftString =
             $"{Mathf.Floor(timeLeft / 60):00}:{Mathf.Floor(timeLeft % 60):00}.{(timeLeft - Math.Truncate(timeLeft)) * 1000:000}";
-        objectiveLabel.text = template
+        objectiveLabel.text = evacuationTemplate
                 .Replace("%killedEnemies%", $"{killedEnemies}")
                 .Replace("%killEnemies%", $"{killEnemies}")
                 .Replace("%totalEnemies%", $"{totalEnemies}")
@@ -170,5 +194,15 @@ public class ArcadeObjective : MonoBehaviour
                 .Replace("%protectBuildings%", $"{protectBuildings}")
                 .Replace("\\n", "\n")
             ;
+    }
+
+    [Button()]
+    void ActivateBoss()
+    {
+        if (bossObject.gameObject.activeSelf) return;
+        bossObject.gameObject.SetActive(true);
+
+        var jump = bossObject.GetComponent<SpiderJump>();
+        jump.JumpTo(bossSpawnPoint.position, FindObjectOfType<Player>(false).transform);
     }
 }

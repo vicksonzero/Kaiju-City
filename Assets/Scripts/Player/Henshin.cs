@@ -13,6 +13,7 @@ public class Henshin : MonoBehaviour
     public HenshinState henshinState;
     public Transform cameraFollowRoot;
     public RectTransform henshinButton;
+    public RectTransform henshinPcLabel;
 
     [Header("Tank")]
     public Transform tankTransform;
@@ -44,7 +45,15 @@ public class Henshin : MonoBehaviour
         _input = FindObjectOfType<StarterAssetsInputs>();
         ToggleHenshin(HenshinState.Tank);
         henshinButton.gameObject.SetActive(false);
-        DOVirtual.DelayedCall(60, () => henshinButton.gameObject.SetActive(true));
+        henshinPcLabel.gameObject.SetActive(false);
+        DOVirtual.DelayedCall(90, () =>
+        {
+#if (UNITY_IOS || UNITY_ANDROID)
+            henshinButton.gameObject.SetActive(true);
+#else
+            henshinPcLabel.gameObject.SetActive(true);
+#endif
+        });
     }
 
     private void Update()
