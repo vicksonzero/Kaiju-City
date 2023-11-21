@@ -36,7 +36,7 @@ public class EnemyAi : MonoBehaviour
     [Button()]
     void FindTargetAndShoot()
     {
-        if (!_target)
+        if (!_target || !_target.gameObject.activeInHierarchy)
         {
             var player = FindObjectOfType<Player>();
             if (!player)

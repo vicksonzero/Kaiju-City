@@ -104,7 +104,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 5
+  m_Radius: 6
   m_Height: 30
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -203,13 +203,13 @@ MonoBehaviour:
   damageTheseLayers:
     serializedVersion: 2
     m_Bits: 640
-  explosionPrefab: {fileID: 2374281753245450110, guid: 9c93f2e015881a9499ccef733091ecae,
+  explosionPrefab: {fileID: 1482034056526210804, guid: 89a76938f8b09d8499ade71935ae9152,
     type: 3}
   effectDisplayList: {fileID: 0}
   successCollider: {fileID: 6675987301516424991}
   failCollider: {fileID: 0}
   kineticDamage: 0
-  kickImpulse: 0.3
+  kickImpulse: 90
   isAoe: 1
   aoeVictimCap: 500
 --- !u!114 &1556461118314643254

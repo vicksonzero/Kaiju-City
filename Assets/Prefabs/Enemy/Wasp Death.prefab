@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9071840739670536519}
   - component: {fileID: 4419256806904200298}
   - component: {fileID: 202006894919964068}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wasp Death
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,22 +164,22 @@ PrefabInstance:
     - target: {fileID: -4420571272623430774, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -4258218985672506776, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -1143861423402206452, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: -1124250518054832352, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
@@ -189,27 +189,27 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 1899485111236425563, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 3900753113287031849, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 6053347171400641393, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 7425969130171478775, guid: c81a77e679882e745a4587ac9d3d670d,
         type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -266,6 +266,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Explosion 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1578260178288940666, guid: 9698eb98a03989e46bc4ad9858712ac9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 2578156030529694606, guid: 9698eb98a03989e46bc4ad9858712ac9,
         type: 3}
@@ -331,6 +336,11 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialModule.startSpeed.minMaxState
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7912911202252546775, guid: 9698eb98a03989e46bc4ad9858712ac9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 8745587513438753329, guid: 9698eb98a03989e46bc4ad9858712ac9,
         type: 3}
