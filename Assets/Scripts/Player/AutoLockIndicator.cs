@@ -10,12 +10,16 @@ namespace StarterAssets
         public Health target;
         public Camera autoLockCamera;
         public RectTransform canvas;
+        public AudioSource sfx;
         
         
         public void SetTarget(Health value, bool allowEffect)
         {
             if (target != value)
+            {
                 Play(allowEffect);
+                sfx.Play();
+            }
 
             target = value;
         }

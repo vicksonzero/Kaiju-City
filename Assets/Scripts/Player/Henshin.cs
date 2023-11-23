@@ -10,6 +10,10 @@ using UnityEngine.InputSystem;
 
 public class Henshin : MonoBehaviour
 {
+    public delegate void OnHenshinChanged(bool isGiant);
+
+    public OnHenshinChanged HenshinChanged;
+
     public HenshinState henshinState;
     public Transform cameraFollowRoot;
     public RectTransform henshinButton;
@@ -105,5 +109,7 @@ public class Henshin : MonoBehaviour
         }
 
         henshinState = newState;
+
+        HenshinChanged?.Invoke(henshinState == HenshinState.Giant);
     }
 }

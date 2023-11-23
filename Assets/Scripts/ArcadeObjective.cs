@@ -47,6 +47,7 @@ public class ArcadeObjective : MonoBehaviour
 
     public float evacuationTimer = -1;
     public int evacuationProtectBuildings = 20;
+
     [Tooltip(
         "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%")]
     public string evacuationTemplate =
@@ -56,17 +57,29 @@ public class ArcadeObjective : MonoBehaviour
     [Tooltip("In seconds")]
     public float bossSpawnAfter = 60;
 
+    public float bossTvDuration = 10;
+
     [Tooltip("To save time linking up stuff, let's just keep the boss spawned but deactivated")]
     public Transform bossObject;
+
     public Transform bossSpawnPoint;
-    
+    public RectTransform bossHpBar;
+
     [Header("Fight Boss")]
     [Tooltip(
         "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%")]
     public string fightBossTemplate = "Fight the spider alien";
 
-
     public GameOverScreen gameOverScreen;
+    public KaijuTv tv;
+
+    [Header("BGM")]
+    public AudioSource introBgm;
+
+    public AudioSource bossBgm;
+    public float bossBgmIntroLength = 16f;
+    public AudioSource giantBgm;
+
 
     [CanBeNull]
     private Tween _objectiveLabelTimer;
@@ -83,6 +96,7 @@ public class ArcadeObjective : MonoBehaviour
     private void Awake()
     {
         bossObject.gameObject.SetActive(false);
+        bossHpBar.gameObject.SetActive(false);
     }
 
     // Start is called before the first frame update
@@ -95,6 +109,21 @@ public class ArcadeObjective : MonoBehaviour
             CheckLoseConditions();
         };
 
+        FindObjectOfType<Henshin>().HenshinChanged += isGiant =>
+        {
+            if (isGiant)
+            {
+                bossBgm.DOFade(0, 1);
+                if (giantBgm.isPlaying) giantBgm.Stop();
+                giantBgm.Play();
+                giantBgm.DOFade(1, 1);
+            }
+            else
+            {
+                bossBgm.DOFade(1, 1);
+                giantBgm.DOFade(0, 1);
+            }
+        };
 
         if (startGameOnCreate)
         {
@@ -152,6 +181,19 @@ public class ArcadeObjective : MonoBehaviour
         gameStartTime = Time.time;
         // gameOverTime = gameStartTime + timeLimitInMinutes * 60f;
         evacuationTimer = gameStartTime + evacuationTimeInMinutes * 60f;
+
+        _spawnBossTimer = DOVirtual.DelayedCall(
+            bossSpawnAfter - bossBgmIntroLength,
+            () =>
+            {
+                introBgm.DOFade(0, 3);
+                bossBgm.Play();
+                bossBgm.DOFade(1, 3).From(0);
+                // bossBgm.transform.SetParent(bossObject, true);
+                // bossBgm.transform.DOLocalMove(Vector3.zero, 5);
+            });
+
+
         gameStarted = true;
     }
 
@@ -200,9 +242,17 @@ public class ArcadeObjective : MonoBehaviour
     void ActivateBoss()
     {
         if (bossObject.gameObject.activeSelf) return;
+
+
         bossObject.gameObject.SetActive(true);
+        bossHpBar.gameObject.SetActive(true);
+        tv.ShowBoss(bossTvDuration);
 
         var jump = bossObject.GetComponent<SpiderJump>();
         jump.JumpTo(bossSpawnPoint.position, FindObjectOfType<Player>(false).transform);
+    }
+
+    void OnBossDeath()
+    {
     }
 }
