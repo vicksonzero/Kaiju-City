@@ -13,6 +13,8 @@ public class Health : MonoBehaviour
 
     public Transform healEffectPrefab;
 
+    public bool canCollideBullets = true;
+    public bool canTakeDamage = true;
     public bool canDie = true;
     public Transform autoAimRoot;
 
@@ -24,6 +26,12 @@ public class Health : MonoBehaviour
     public delegate void OnHealthUpdated(float hp, float hpMax);
 
     public OnHealthUpdated HealthUpdated;
+
+
+    public delegate void OnDamageTaken(float hp, float hpMax, Vector3? hitPoint, Vector3? hitNormal,
+        Vector3? hitImpulse);
+
+    public OnDamageTaken DamageTaken;
 
 
     public void TakeDamage(float amount) => TakeDamage(amount, null, null, null);
@@ -38,6 +46,7 @@ public class Health : MonoBehaviour
     // TODO: change amount into a data object with different damage attributes
     public void TakeDamage(float amount, Vector3? hitPoint, Vector3? hitNormal, Vector3? hitImpulse)
     {
+        if (!canTakeDamage) return;
         hp -= amount;
         // Debug.Log($"TakeDamage {name} {amount} hp={hp}");
 
@@ -55,6 +64,8 @@ public class Health : MonoBehaviour
         {
             bar.SetValue(hp, hpMax);
         }
+
+        DamageTaken?.Invoke(hp, hpMax, hitPoint, hitNormal, hitImpulse);
 
         if (ShouldDie())
         {

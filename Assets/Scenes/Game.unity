@@ -2051,6 +2051,8 @@ MonoBehaviour:
   bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
     type: 3}
   healEffectPrefab: {fileID: 0}
+  canCollideBullets: 1
+  canTakeDamage: 1
   canDie: 1
   autoAimRoot: {fileID: 488990440}
   bars:
@@ -3091,6 +3093,8 @@ MonoBehaviour:
   bossCamera: {fileID: 450494696}
   bossFramingCamera: {fileID: 238914350}
   giantCamera: {fileID: 1577316666}
+  playerIsGiant: 0
+  bossIsDying: 0
 --- !u!4 &153094961 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -6464263360283541514, guid: 1f83f42c2677823479c2bd654f181834,
@@ -5137,7 +5141,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238914348}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00091175723, y: 0.96631616, z: 0.12608182, w: -0.22435597}
+  m_LocalRotation: {x: -0.0009117563, y: 0.96631616, z: 0.12608182, w: -0.22435595}
   m_LocalPosition: {x: -0.000011434228, y: 0.00000006337456, z: -0.00000047079396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -97058,6 +97062,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canControlMovement: 1
   MoveSpeed: 12
   SprintSpeed: 24
   RotationSmoothTime: 0.12
@@ -97106,8 +97111,10 @@ GameObject:
   - component: {fileID: 4416926081521197155}
   - component: {fileID: 5885216827604290200}
   - component: {fileID: 5885216827604290203}
+  - component: {fileID: 5885216827604290206}
   - component: {fileID: 5885216827604290204}
-  m_Layer: 8
+  - component: {fileID: 5885216827604290205}
+  m_Layer: 6
   m_Name: Player Giant
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -102132,7 +102139,9 @@ MonoBehaviour:
     type: 3}
   healEffectPrefab: {fileID: 8059632920273756854, guid: 642892763191fbb498f879e6a582b119,
     type: 3}
-  canDie: 1
+  canCollideBullets: 1
+  canTakeDamage: 1
+  canDie: 0
   autoAimRoot: {fileID: 1395149407}
   bars: []
 --- !u!114 &5885216827604290204
@@ -102157,6 +102166,33 @@ MonoBehaviour:
   effectDisplayList: {fileID: 1162084214}
   leftPunchRoot: {fileID: 1218543575}
   rightPunchRoot: {fileID: 1369620902}
+--- !u!114 &5885216827604290205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081521197160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4dcbbd408d44650a4b886a73bf0f82b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunTime: 3
+--- !u!114 &5885216827604290206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4416926081521197160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a3fb2c7777a4cf092950aa3455839e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  applyInvincibilityOnDamageTaken: 0
+  invincibilityTime: 5
 --- !u!4 &6247922361390760864
 Transform:
   m_ObjectHideFlags: 0
@@ -102369,6 +102405,8 @@ MonoBehaviour:
     type: 3}
   healEffectPrefab: {fileID: 8059632920273756854, guid: 642892763191fbb498f879e6a582b119,
     type: 3}
+  canCollideBullets: 1
+  canTakeDamage: 1
   canDie: 1
   autoAimRoot: {fileID: 2046567657}
   bars:
@@ -107201,7 +107239,7 @@ PrefabInstance:
     - target: {fileID: 3691559546503540821, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: field of view
-      value: 53.673332
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
@@ -107221,22 +107259,22 @@ PrefabInstance:
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.2440569
+      value: -0.37980404
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.015356752
+      value: -0.020866405
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.9677255
+      value: 0.923439
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.060892027
+      value: -0.050733667
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}

@@ -209,7 +209,7 @@ MonoBehaviour:
   successCollider: {fileID: 6675987301516424991}
   failCollider: {fileID: 0}
   kineticDamage: 0
-  kickImpulse: 0.3
+  kickImpulse: 3
   isAoe: 1
   aoeVictimCap: 500
 --- !u!114 &1556461118314643254

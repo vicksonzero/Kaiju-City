@@ -10032,7 +10032,7 @@ MonoBehaviour:
   bulletModel: {fileID: 8658817262946126181}
   ps: {fileID: 1059630307636474835}
   kineticDamage: 0
-  kickImpulse: 0.3
+  kickImpulse: 2
   targetMarker: {fileID: 5841863432994163102}
   targetMarkerProjector: {fileID: 4899842350122274571}
   startingRadius: 10

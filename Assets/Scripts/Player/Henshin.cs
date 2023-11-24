@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
+using EditorCools;
 using StarterAssets;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -85,6 +86,14 @@ public class Henshin : MonoBehaviour
         {
             AddEnergy(-Time.deltaTime);
         }
+    }
+
+    [Button()]
+    public void ForceShowHenshin()
+    {
+        AddEnergy(60);
+        henshinTimerDone = true;
+        TryShowHenshin();
     }
 
     public void AddEnergy(float amount)
