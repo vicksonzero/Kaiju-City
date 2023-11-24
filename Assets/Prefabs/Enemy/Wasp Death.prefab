@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9071840739670536519}
   - component: {fileID: 4419256806904200298}
   - component: {fileID: 202006894919964068}
+  - component: {fileID: 6543497291759154965}
   m_Layer: 13
   m_Name: Wasp Death
   m_TagString: Untagged
@@ -78,6 +79,20 @@ MonoBehaviour:
   explosionPrefab: {fileID: 8745587513438753329, guid: 9698eb98a03989e46bc4ad9858712ac9,
     type: 3}
   effectDisplayList: {fileID: 0}
+--- !u!114 &6543497291759154965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848800836534315692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bfb79ee8a6f02d4e9ebb98152952951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8871305887064896442, guid: 17ec1c46064058f408b8bf3576f8f8c3, type: 3}
+  offset: {x: 0, y: 0, z: 0}
 --- !u!1001 &1445223120341665722
 PrefabInstance:
   m_ObjectHideFlags: 0

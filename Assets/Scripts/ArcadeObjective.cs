@@ -134,9 +134,13 @@ public class ArcadeObjective : MonoBehaviour
     public void CheckWinConditions()
     {
         if (!gameStarted) return;
-        if (killedEnemies >= killEnemies)
+        // if (killedEnemies >= killEnemies)
+        // {
+        //     WinGame($"killedEnemies '{killedEnemies}' >= killEnemies '{killEnemies}'");
+        // }
+        if (!bossObject)
         {
-            WinGame($"killedEnemies '{killedEnemies}' >= killEnemies '{killEnemies}'");
+            WinGame($"Boss killed");
         }
     }
 
@@ -172,7 +176,7 @@ public class ArcadeObjective : MonoBehaviour
             (count) =>
             {
                 killedEnemies = totalEnemies - count;
-                CheckWinConditions();
+                //
             });
 
 
@@ -252,7 +256,8 @@ public class ArcadeObjective : MonoBehaviour
         jump.JumpTo(bossSpawnPoint.position, FindObjectOfType<Player>(false).transform);
     }
 
-    void OnBossDeath()
+    public void OnBossDeathAnimationFinished()
     {
+        CheckWinConditions();
     }
 }

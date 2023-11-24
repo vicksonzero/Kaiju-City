@@ -10,6 +10,14 @@ using UnityEngine.InputSystem;
 
 public class Henshin : MonoBehaviour
 {
+    public float energy = 0;
+    public float energyMax = 60;
+    public bool henshinTimerDone = false;
+
+    public Bars enBar;
+    public Bars enTimerBar;
+    public Bars[] bars;
+
     public delegate void OnHenshinChanged(bool isGiant);
 
     public OnHenshinChanged HenshinChanged;
@@ -50,22 +58,79 @@ public class Henshin : MonoBehaviour
         ToggleHenshin(HenshinState.Tank);
         henshinButton.gameObject.SetActive(false);
         henshinPcLabel.gameObject.SetActive(false);
+
+        enBar.gameObject.SetActive(true);
+        enTimerBar.gameObject.SetActive(false);
         DOVirtual.DelayedCall(90, () =>
         {
-#if (UNITY_IOS || UNITY_ANDROID)
-            henshinButton.gameObject.SetActive(true);
-#else
-            henshinPcLabel.gameObject.SetActive(true);
-#endif
+            henshinTimerDone = true;
+            TryShowHenshin();
         });
+
+
+        foreach (var bar in bars)
+        {
+            bar.Init(energy, energyMax);
+        }
     }
 
     private void Update()
     {
-        if (_input.henshinDown)
+        if (_input.henshinDown && CanHenshin())
         {
             ToggleHenshin();
         }
+
+        if (henshinState == HenshinState.Giant)
+        {
+            AddEnergy(-Time.deltaTime);
+        }
+    }
+
+    public void AddEnergy(float amount)
+    {
+        energy = Mathf.Clamp(energy + amount, 0, energyMax);
+
+        foreach (var bar in bars)
+        {
+            bar.SetValue(energy, energyMax);
+        }
+
+
+        if (energy <= 0)
+        {
+            TryDeactivateHenshin();
+        }
+        else
+        {
+            TryShowHenshin();
+        }
+    }
+
+    bool CanHenshin()
+    {
+        if (!henshinTimerDone) return false;
+        if (henshinState == HenshinState.Giant) return false;
+        return true;
+    }
+
+    public bool TryShowHenshin()
+    {
+        if (!henshinTimerDone) return false;
+        if (henshinState == HenshinState.Giant) return false;
+
+#if (UNITY_IOS || UNITY_ANDROID)
+            henshinButton.gameObject.SetActive(true);
+#else
+        henshinPcLabel.gameObject.SetActive(true);
+#endif
+        return true;
+    }
+
+    public void TryDeactivateHenshin()
+    {
+        if (henshinState != HenshinState.Giant) return;
+        ToggleHenshin(HenshinState.Tank);
     }
 
     public void ToggleHenshin() => ToggleHenshin(henshinState == HenshinState.Tank
@@ -94,6 +159,9 @@ public class Henshin : MonoBehaviour
             tankTransform.rotation = giantTransform.rotation;
             tankCamera.transform.position = giantCamera.transform.position;
             tankCamera.transform.rotation = giantCamera.transform.rotation;
+            enBar.gameObject.SetActive(true);
+            enTimerBar.gameObject.SetActive(false);
+            FindObjectOfType<KaijuTv>().StopGiant();
         }
         else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
         {
@@ -102,10 +170,14 @@ public class Henshin : MonoBehaviour
             giantTransform.rotation = tankTransform.rotation;
             giantCamera.transform.position = tankCamera.transform.position;
             giantCamera.transform.rotation = tankCamera.transform.rotation;
+            enBar.gameObject.SetActive(false);
+            enTimerBar.gameObject.SetActive(true);
             giantTransform.DOScale(Vector3.one, 3f)
                 .From(Vector3.one * 0.1f)
                 .SetEase(Ease.InCubic)
                 .OnComplete(() => { giantInput.enabled = true; });
+
+            FindObjectOfType<KaijuTv>().StartGiant();
         }
 
         henshinState = newState;

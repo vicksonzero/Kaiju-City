@@ -54,7 +54,7 @@ public class Bars : MonoBehaviour
 
     public void SetValue(float val) => SetValue(val, null);
 
-    public void SetValue(float val, float? valMax)
+    public void SetValue(float val, float? valMax, bool skipTransition = false)
     {
         if (valMax.HasValue)
         {
@@ -66,12 +66,24 @@ public class Bars : MonoBehaviour
         bar.sizeDelta = new Vector2(width * Percentage, bar.sizeDelta.y);
 
         if (_transitionTween != null) _transitionTween.Kill();
-        _transitionTween = DOVirtual.Float(
-                barTransition.sizeDelta.x,
-                width * Percentage,
-                transitionDuration,
-                x => barTransition.sizeDelta = new Vector2(x, bar.sizeDelta.y)
-            )
-            .SetDelay(transitionDelay);
+        if (skipTransition)
+        {
+            barTransition.sizeDelta = new Vector2(width * Percentage, bar.sizeDelta.y);
+        }
+        else
+        {
+            _transitionTween = DOVirtual.Float(
+                    barTransition.sizeDelta.x,
+                    width * Percentage,
+                    transitionDuration,
+                    x => barTransition.sizeDelta = new Vector2(x, bar.sizeDelta.y)
+                )
+                .SetDelay(transitionDelay);
+        }
+    }
+
+    public void Init(float val, float? valMax)
+    {
+        SetValue(val, valMax, true);
     }
 }

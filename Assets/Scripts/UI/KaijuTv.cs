@@ -14,6 +14,9 @@ public class KaijuTv : MonoBehaviour
     public CinemachineVirtualCamera bossFramingCamera;
     public CinemachineVirtualCamera giantCamera;
 
+    public bool playerIsGiant;
+    public bool bossIsDying;
+
     [CanBeNull]
     private Tween _disableTimer;
 
@@ -40,6 +43,11 @@ public class KaijuTv : MonoBehaviour
         _disableTimer = DOVirtual.DelayedCall(duration, ResetTv);
     }
 
+    public void OnBossDie()
+    {
+        bossIsDying = true;
+    }
+
     public void ShowFramedBoss(float duration)
     {
         SlideTv(true);
@@ -50,6 +58,8 @@ public class KaijuTv : MonoBehaviour
 
     public void ShowGiant(float duration)
     {
+        if (bossIsDying) return;
+
         SlideTv(true);
         giantCamera.gameObject.SetActive(true);
         _disableTimer?.Kill();
@@ -69,5 +79,21 @@ public class KaijuTv : MonoBehaviour
         _tvSlideTimer?.Kill();
         DOVirtual.Float(tv.anchorMin.y, isShow ? 0 : 1, 1, value =>
             tv.anchorMin = new Vector2(tv.anchorMin.x, value));
+    }
+
+    public void StartGiant()
+    {
+        playerIsGiant = true;
+        ShowGiant(10);
+        DOVirtual.DelayedCall(4, () => ShowFramedBoss(100000));
+    }
+
+    public void StopGiant()
+    {
+        playerIsGiant = false;
+
+        if (bossIsDying) return;
+
+        ResetTv();
     }
 }
