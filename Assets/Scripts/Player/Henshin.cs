@@ -170,7 +170,7 @@ public class Henshin : MonoBehaviour
             tankCamera.transform.rotation = giantCamera.transform.rotation;
             enBar.gameObject.SetActive(true);
             enTimerBar.gameObject.SetActive(false);
-            FindObjectOfType<KaijuTv>().StopGiant();
+            FindObjectOfType<KaijuTv>().OnGiantLeave();
         }
         else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
         {
@@ -186,7 +186,7 @@ public class Henshin : MonoBehaviour
                 .SetEase(Ease.InCubic)
                 .OnComplete(() => { giantInput.enabled = true; });
 
-            FindObjectOfType<KaijuTv>().StartGiant();
+            FindObjectOfType<KaijuTv>().OnGiantEnter();
         }
 
         henshinState = newState;

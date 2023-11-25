@@ -60,10 +60,7 @@ public class Health : MonoBehaviour
                 Quaternion.LookRotation(hitNormal ?? transform.forward, Vector3.up),
                 ShouldDie() ? null : transform);
 
-        foreach (var bar in bars)
-        {
-            bar.SetValue(hp, hpMax);
-        }
+        UpdateBars();
 
         DamageTaken?.Invoke(hp, hpMax, hitPoint, hitNormal, hitImpulse);
 
@@ -87,10 +84,7 @@ public class Health : MonoBehaviour
                 Quaternion.identity,
                 transform);
 
-        foreach (var bar in bars)
-        {
-            bar.SetValue(hp, hpMax);
-        }
+        UpdateBars();
     }
 
     [Button("Die (Play Mode)")]
@@ -117,5 +111,13 @@ public class Health : MonoBehaviour
 
         canDie = false;
         Destroy(gameObject);
+    }
+
+    public void UpdateBars()
+    {
+        foreach (var bar in bars)
+        {
+            bar.SetValue(hp, hpMax);
+        }
     }
 }
