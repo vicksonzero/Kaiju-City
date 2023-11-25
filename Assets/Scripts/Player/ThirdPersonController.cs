@@ -27,6 +27,7 @@ namespace StarterAssets
         [Tooltip("Acceleration and deceleration")]
         public float SpeedChangeRate = 10.0f;
 
+        public AudioSource audioSource;
         public AudioClip LandingAudioClip;
         public AudioClip[] FootstepAudioClips;
 
@@ -378,6 +379,8 @@ namespace StarterAssets
                 GroundedRadius);
         }
 
+
+        // ReSharper disable once UnusedMember.Local
         private void OnFootstep(AnimationEvent animationEvent)
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
@@ -385,19 +388,14 @@ namespace StarterAssets
                 if (FootstepAudioClips.Length > 0)
                 {
                     var index = Random.Range(0, FootstepAudioClips.Length);
-                    AudioSource.PlayClipAtPoint(FootstepAudioClips[index], transform.TransformPoint(_controller.center),
-                        FootstepAudioVolume);
+                    audioSource.PlayOneShot(FootstepAudioClips[index], FootstepAudioVolume);
                 }
             }
         }
 
         private void OnLand(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-            {
-                AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
-                    FootstepAudioVolume);
-            }
+            audioSource.PlayOneShot(LandingAudioClip, FootstepAudioVolume);
         }
     }
 }

@@ -36,7 +36,7 @@ ModelImporter:
       name: Stumble Backwards
       takeName: mixamo.com
       internalID: -203655887218126122
-      firstFrame: 0
+      firstFrame: 20
       lastFrame: 100
       wrapMode: 0
       orientationOffsetY: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using EditorCools;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -19,10 +20,12 @@ public class Building : MonoBehaviour
     public bool damagedEffectDone;
     public Material damagedMaterial;
     public ParticleSystem damagedPs;
+    public AudioSource damagedSfx;
 
     public bool veryDamagedEffectDone;
     public Material veryDamagedMaterial;
     public ParticleSystem veryDamagedPs;
+    public AudioSource veryDamagedSfx;
     private Health _health;
 
     [Button("Randomize Building")]
@@ -67,7 +70,11 @@ public class Building : MonoBehaviour
     {
         if (!damagedEffectDone && _health.Percentage <= 0.5f)
         {
-            damageTransitionPs.Play();
+            DOVirtual.DelayedCall(Random.Range(0, 0.5f), () =>
+            {
+                damageTransitionPs.Play();
+                damagedSfx.Play();
+            });
             damagedPs.Play();
             var cubeRenderer = cube.GetComponent<MeshRenderer>();
             cubeRenderer.material = damagedMaterial;
@@ -76,7 +83,11 @@ public class Building : MonoBehaviour
 
         if (!veryDamagedEffectDone && _health.Percentage <= 0.2f)
         {
-            damageTransitionPs.Play();
+            DOVirtual.DelayedCall(Random.Range(0, 0.5f), () =>
+            {
+                damageTransitionPs.Play();
+                veryDamagedSfx.Play();
+            });
             veryDamagedPs.Play();
             var cubeRenderer = cube.GetComponent<MeshRenderer>();
             cubeRenderer.material = damagedMaterial;
