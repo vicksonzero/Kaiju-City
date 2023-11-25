@@ -7,7 +7,6 @@ namespace StarterAssets
 {
     public class AutoLockIndicator : MonoBehaviour
     {
-        public RectTransform _rt;
         public RectTransform sprite;
         public Health target;
         public Camera autoLockCamera;
@@ -17,6 +16,8 @@ namespace StarterAssets
         public RectTransform summaryRoot;
         public Bars bar;
 
+        private RectTransform _rt;
+        
         private void Awake()
         {
             _rt = GetComponent<RectTransform>();
