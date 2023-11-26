@@ -2196,8 +2196,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa0fd27708759344585171c7b0ae7737, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 5000
-  hpMax: 5000
+  hp: 10000
+  hpMax: 10000
   bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
     type: 3}
   healEffectPrefab: {fileID: 0}
@@ -27920,7 +27920,7 @@ PrefabInstance:
     - target: {fileID: 8644056369658863457, guid: 0ebdb545b206b3948bd4d5c3ce661513,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -21.99945
+      value: -21.999512
       objectReference: {fileID: 0}
     - target: {fileID: 8644056369658863457, guid: 0ebdb545b206b3948bd4d5c3ce661513,
         type: 3}
@@ -45566,7 +45566,7 @@ PrefabInstance:
     - target: {fileID: 8644056369658863457, guid: 0ebdb545b206b3948bd4d5c3ce661513,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -21.99945
+      value: -21.999512
       objectReference: {fileID: 0}
     - target: {fileID: 8644056369658863457, guid: 0ebdb545b206b3948bd4d5c3ce661513,
         type: 3}
@@ -56273,6 +56273,7 @@ MonoBehaviour:
   energy: 0
   energyMax: 60
   henshinTimerDone: 0
+  henshinInvincibility: 7
   enBar: {fileID: 1061157160}
   enTimerBar: {fileID: 781825822}
   bars:
@@ -62503,10 +62504,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Height: 6
+  m_Radius: 2.5
+  m_Height: 7
   m_Direction: 1
-  m_Center: {x: 0, y: 3, z: 0}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!114 &1256012519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104205,7 +104206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32572f8dc9f88c14fbf6b503721f0477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kineticDamage: 100
+  kineticDamage: 400
   bulletPrefab: {fileID: 4362131990631787944, guid: 4b622366e7d021d428fba91e379d9a05,
     type: 3}
   kickImpulse: 90
@@ -104227,7 +104228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4dcbbd408d44650a4b886a73bf0f82b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stunTime: 2.7
+  stunTime: 1.5
 --- !u!114 &5885216827604290206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109311,7 +109312,7 @@ PrefabInstance:
     - target: {fileID: 3691559546503540821, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: field of view
-      value: 40
+      value: 53.673332
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
@@ -109331,22 +109332,22 @@ PrefabInstance:
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.37980404
+      value: -0.2440569
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.020866405
+      value: 0.015356752
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.923439
+      value: 0.9677255
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.050733667
+      value: 0.060892027
       objectReference: {fileID: 0}
     - target: {fileID: 3982845047503016580, guid: d2a17f80b9c28be4589e82cda314256f,
         type: 3}

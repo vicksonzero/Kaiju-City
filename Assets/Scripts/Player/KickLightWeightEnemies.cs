@@ -20,9 +20,9 @@ public class KickLightWeightEnemies : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var velocity = _controller.velocity;
-        var canKick = new Vector2(velocity.x, velocity.z).magnitude > 21f;
-        if (!canKick) return;
+        // var velocity = _controller.velocity;
+        // var canKick = new Vector2(velocity.x, velocity.z).magnitude > 21f;
+        // if (!canKick) return;
         var lightWeightEnemy = other.GetComponentInParent<LightWeightEnemy>();
         if (!lightWeightEnemy) return;
 

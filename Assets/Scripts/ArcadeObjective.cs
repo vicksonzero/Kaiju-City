@@ -186,19 +186,21 @@ public class ArcadeObjective : MonoBehaviour
         // gameOverTime = gameStartTime + timeLimitInMinutes * 60f;
         evacuationTimer = gameStartTime + evacuationTimeInMinutes * 60f;
 
-        _spawnBossTimer = DOVirtual.DelayedCall(
-            bossSpawnAfter - bossBgmIntroLength,
-            () =>
-            {
-                introBgm.DOFade(0, 3);
-                bossBgm.Play();
-                bossBgm.DOFade(1, 3).From(0);
-                // bossBgm.transform.SetParent(bossObject, true);
-                // bossBgm.transform.DOLocalMove(Vector3.zero, 5);
-            });
-
+        _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter - bossBgmIntroLength, StartBossBgm);
 
         gameStarted = true;
+    }
+
+    private void StartBossBgm()
+    {
+        introBgm.DOFade(0, 3);
+        if (!bossBgm.isPlaying)
+        {
+            bossBgm.Play();
+            bossBgm.DOFade(1, 3).From(0);
+            // bossBgm.transform.SetParent(bossObject, true);
+            // bossBgm.transform.DOLocalMove(Vector3.zero, 5);
+        }
     }
 
     public void StopGame()
@@ -243,6 +245,12 @@ public class ArcadeObjective : MonoBehaviour
     }
 
     [Button()]
+    void CheatStartBoss()
+    {
+        StartBossBgm();
+        ActivateBoss();
+    }
+
     void ActivateBoss()
     {
         if (bossObject.gameObject.activeSelf) return;

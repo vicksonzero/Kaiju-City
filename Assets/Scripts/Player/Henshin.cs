@@ -14,6 +14,7 @@ public class Henshin : MonoBehaviour
     public float energy = 0;
     public float energyMax = 60;
     public bool henshinTimerDone = false;
+    public float henshinInvincibility = 7;
 
     public Bars enBar;
     public Bars enTimerBar;
@@ -185,6 +186,8 @@ public class Henshin : MonoBehaviour
                 .From(Vector3.one * 0.1f)
                 .SetEase(Ease.InCubic)
                 .OnComplete(() => { giantInput.enabled = true; });
+
+            giantTransform.GetComponent<HealthInvincibility>().ApplyTimedInvincibility(henshinInvincibility);
 
             FindObjectOfType<KaijuTv>().OnGiantEnter();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using DG.Tweening;
 using EditorCools;
+using JetBrains.Annotations;
 using StarterAssets;
 using UnityEngine;
 
@@ -11,13 +12,23 @@ public class HealthInvincibility : MonoBehaviour
     private Health _health;
 
     private int _animIdIsHurt;
+    private float _invincibleUntil = -1;
 
-    private void Start()
+    private void Awake()
     {
         _health = GetComponent<Health>();
         if (_health)
         {
             _health.DamageTaken += OnDamageTaken;
+        }
+    }
+
+    private void Update()
+    {
+        if (_invincibleUntil > 0 && Time.time > _invincibleUntil)
+        {
+            _health.canTakeDamage = true;
+            _invincibleUntil = -1;
         }
     }
 
@@ -32,7 +43,8 @@ public class HealthInvincibility : MonoBehaviour
 
     public void ApplyTimedInvincibility(float duration)
     {
+        Debug.Log($"ApplyTimedInvincibility {duration}");
         _health.canTakeDamage = false;
-        DOVirtual.DelayedCall(duration, () => _health.canTakeDamage = true);
+        _invincibleUntil = Math.Max(_invincibleUntil, Time.time + duration);
     }
 }

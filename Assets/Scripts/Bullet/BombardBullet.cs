@@ -19,6 +19,9 @@ public class BombardBullet : MonoBehaviour
     public Transform bulletDisplayList;
     public Transform bulletModel;
     public ParticleSystem ps;
+    public AudioSource audioSource;
+    public AudioClip[] sfxList;
+    public float sfxVolume = 1;
 
     public float kineticDamage;
     public float kickImpulse = 0.3f;
@@ -109,6 +112,9 @@ public class BombardBullet : MonoBehaviour
     {
         var explosion = Instantiate(explosionPrefab,
             targetPosition, Quaternion.identity, effectDisplayList);
+        audioSource.transform.SetParent(explosion);
+        audioSource.transform.localPosition = Vector3.zero;
+        audioSource.PlayOneShot(sfxList[Random.Range(0, sfxList.Length)], sfxVolume);
 
         var aoeBullet = Instantiate(bulletPrefab,
             targetPosition, Quaternion.identity, bulletDisplayList);
