@@ -285,6 +285,7 @@ MonoBehaviour:
   sphere: {fileID: 7675348830089096976}
   sphereShell: {fileID: 500338600108136681}
   spiderHealth: {fileID: 0}
+  col: {fileID: 3476277171108882989}
   damageToHost: 1500
   openInterval: {x: 3, y: 5}
   openDuration: {x: 5, y: 8}
@@ -307,5 +308,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.25
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0}

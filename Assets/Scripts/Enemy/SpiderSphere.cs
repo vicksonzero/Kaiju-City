@@ -9,6 +9,7 @@ public class SpiderSphere : ADeathHandler
     public Transform sphere;
     public Transform sphereShell;
     public Health spiderHealth;
+    public Collider col;
 
     public float damageToHost = 700;
 
@@ -39,6 +40,7 @@ public class SpiderSphere : ADeathHandler
     {
         sphere.DOScale(Vector3.one, 0.5f);
         _health.canTakeDamage = true;
+        col.enabled = true;
         DOVirtual.DelayedCall(Random.Range(openDuration.x, openDuration.y), Close);
     }
 
@@ -46,6 +48,7 @@ public class SpiderSphere : ADeathHandler
     {
         sphere.DOScale(Vector3.zero, 0.5f);
         _health.canTakeDamage = false;
+        col.enabled = false;
         DOVirtual.DelayedCall(Random.Range(openInterval.x, openInterval.y), TryOpen);
     }
 

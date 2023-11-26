@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CannonWeapon : MonoBehaviour
 {
@@ -38,6 +39,10 @@ public class CannonWeapon : MonoBehaviour
     public float nextBulletReady = 0;
     public float ammo = 100;
     public float ammoMax = 100;
+
+    public AudioSource audioSource;
+    public AudioClip[] sfxList;
+    public float sfxVolume;
 
     private PlayerAiming _playerAiming;
 
@@ -83,7 +88,8 @@ public class CannonWeapon : MonoBehaviour
             Vector3.ProjectOnPlane(turretDisplacement, Vector3.up),
             Vector3.up);
         turretBase.localRotation =
-            Quaternion.RotateTowards(turretBase.localRotation, horizontalLocalRotation, turretRotationSpeed * Time.deltaTime);
+            Quaternion.RotateTowards(turretBase.localRotation, horizontalLocalRotation,
+                turretRotationSpeed * Time.deltaTime);
 
         var barrelDisplacement = targetPoint.position - turretBarrel.position;
         var verticalAngle = Vector3.SignedAngle(turretBase.forward, barrelDisplacement, turretBase.right);
@@ -99,7 +105,8 @@ public class CannonWeapon : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawLine(turretBase.position, turretBase.position + turretBase.forward * 100f);
         var turretDisplacement = turretBase.InverseTransformPoint(targetPoint.position);
-        Gizmos.DrawLine(turretBase.position, turretBase.position + Vector3.ProjectOnPlane(turretDisplacement, Vector3.up) * 100f);
+        Gizmos.DrawLine(turretBase.position,
+            turretBase.position + Vector3.ProjectOnPlane(turretDisplacement, Vector3.up) * 100f);
         Gizmos.color = Color.green;
         Gizmos.DrawLine(turretBarrel.position, turretBarrel.position + turretBarrel.forward * 100f);
     }
@@ -111,7 +118,6 @@ public class CannonWeapon : MonoBehaviour
         var rb = bullet.GetComponent<Rigidbody>();
         rb.velocity = bullet.transform.forward * bulletSpeed;
         bullet.kineticDamage = kineticDamage;
-
+        audioSource.PlayOneShot(sfxList[Random.Range(0, sfxList.Length)], sfxVolume);
     }
-
 }

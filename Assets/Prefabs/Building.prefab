@@ -10034,7 +10034,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 1000
   hpMax: 1000
-  bleedPrefab: {fileID: 8745587513438753329, guid: 4664cee65823b954b97e14a3e48b1c6a,
+  bleedPrefab: {fileID: 8745587513438753329, guid: f6eff84b5abf8ed4f83239997ae66216,
     type: 3}
   healEffectPrefab: {fileID: 0}
   canCollideBullets: 1

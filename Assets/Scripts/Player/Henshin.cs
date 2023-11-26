@@ -19,6 +19,7 @@ public class Henshin : MonoBehaviour
     public Bars enBar;
     public Bars enTimerBar;
     public Bars[] bars;
+    public AudioSource timeUpChime;
 
     public delegate void OnHenshinChanged(bool isGiant);
 
@@ -86,6 +87,16 @@ public class Henshin : MonoBehaviour
         if (henshinState == HenshinState.Giant)
         {
             AddEnergy(-Time.deltaTime);
+
+            if (energy <= 3 && !timeUpChime.isPlaying)
+            {
+                timeUpChime.Play();
+            }
+        }
+
+        if (henshinState != HenshinState.Giant || energy > 3)
+        {
+            timeUpChime.Stop();
         }
     }
 

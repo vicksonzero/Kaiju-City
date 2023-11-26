@@ -277,9 +277,11 @@ MonoBehaviour:
   bleedPrefab: {fileID: 8745587513438753329, guid: 458efaa96c3789c4790ab4309d33b98c,
     type: 3}
   healEffectPrefab: {fileID: 0}
+  canCollideBullets: 1
+  canTakeDamage: 1
   canDie: 1
-  bars: []
   autoAimRoot: {fileID: 5767939866713634746}
+  bars: []
 --- !u!114 &2555390903790146772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +299,7 @@ MonoBehaviour:
   burstCount: 3
   burstInterval: 0.16
   bulletSpeed: 4
-  kineticDamage: 10
+  kineticDamage: 6
   target: {fileID: 0}
   chargeBall: {fileID: 451517515494305718}
   chargePs: {fileID: 6467501677785937346}
