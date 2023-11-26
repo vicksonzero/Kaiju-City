@@ -88,13 +88,13 @@ public class Henshin : MonoBehaviour
         {
             AddEnergy(-Time.deltaTime);
 
-            if (energy <= 3 && !timeUpChime.isPlaying)
+            if (energy <= 10 && !timeUpChime.isPlaying)
             {
                 timeUpChime.Play();
             }
         }
 
-        if (henshinState != HenshinState.Giant || energy > 3)
+        if (henshinState != HenshinState.Giant || energy > 10)
         {
             timeUpChime.Stop();
         }
