@@ -5740,7 +5740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238914348}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00091175723, y: 0.96631616, z: 0.12608182, w: -0.22435597}
+  m_LocalRotation: {x: -0.0009117563, y: 0.96631616, z: 0.12608182, w: -0.22435595}
   m_LocalPosition: {x: -0.000011434228, y: 0.00000006337456, z: -0.00000047079396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -56826,7 +56826,7 @@ MonoBehaviour:
   - {fileID: 781825822}
   audioSource: {fileID: 785193996}
   timeUpChime: {fileID: 1352944509}
-  henshinSfx: {fileID: 8300000, guid: c7e449e6497dc0e45a754ac82312525b, type: 3}
+  henshinSfx: {fileID: 8300000, guid: 52bf898bf21d8634398ee5198b84291f, type: 3}
   henshinCancelSfx: {fileID: 8300000, guid: b313872d26c835f4488245d3bf1ea047, type: 3}
   henshinReadySfx: {fileID: 8300000, guid: afa00c6f0aa70e14d86aaf1dcac5d32e, type: 3}
   sfxVolume: 1
