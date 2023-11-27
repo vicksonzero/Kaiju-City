@@ -19,7 +19,12 @@ public class Henshin : MonoBehaviour
     public Bars enBar;
     public Bars enTimerBar;
     public Bars[] bars;
+    public AudioSource audioSource;
     public AudioSource timeUpChime;
+    public AudioClip henshinSfx;
+    public AudioClip henshinCancelSfx;
+    public AudioClip henshinReadySfx;
+    public float sfxVolume = 1;
 
     public delegate void OnHenshinChanged(bool isGiant);
 
@@ -140,6 +145,7 @@ public class Henshin : MonoBehaviour
         if (!henshinTimerDone) return false;
         if (henshinState == HenshinState.Giant) return false;
 
+        audioSource.PlayOneShot(henshinReadySfx, sfxVolume);
 #if (UNITY_IOS || UNITY_ANDROID)
             henshinButton.gameObject.SetActive(true);
 #else
@@ -182,6 +188,7 @@ public class Henshin : MonoBehaviour
             tankCamera.transform.rotation = giantCamera.transform.rotation;
             enBar.gameObject.SetActive(true);
             enTimerBar.gameObject.SetActive(false);
+            audioSource.PlayOneShot(henshinCancelSfx, sfxVolume);
             FindObjectOfType<KaijuTv>().OnGiantLeave();
         }
         else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
@@ -200,6 +207,7 @@ public class Henshin : MonoBehaviour
 
             giantTransform.GetComponent<HealthInvincibility>().ApplyTimedInvincibility(henshinInvincibility);
 
+            audioSource.PlayOneShot(henshinSfx, sfxVolume);
             FindObjectOfType<KaijuTv>().OnGiantEnter();
         }
 

@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
 #endif
@@ -91,6 +93,14 @@ namespace StarterAssets
         public ParticleSystem[] dustPsList;
         public ParticleSystem[] sprintDustPsList;
 
+        public AudioSource tankTrackAudio;
+        public float idleTrackVolume = 0.4f;
+        public float idleTrackPitch = 0.5f;
+        public float walkTrackVolume = 0.7f;
+        public float walkTrackPitch = 1;
+        public float sprintTrackVolume = 1;
+        public float sprintTrackPitch = 3;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
@@ -178,6 +188,7 @@ namespace StarterAssets
             JumpAndGravity();
             GroundedCheck();
             Move();
+            SetTrackAudio(tankMoveState);
         }
 
         private void LateUpdate()
@@ -500,6 +511,25 @@ namespace StarterAssets
             {
                 AudioSource.PlayClipAtPoint(LandingAudioClip, transform.TransformPoint(_controller.center),
                     FootstepAudioVolume);
+            }
+        }
+
+        void SetTrackAudio(TankMoveState state)
+        {
+            switch (state)
+            {
+                case TankMoveState.Idle:
+                    tankTrackAudio.volume = idleTrackVolume;
+                    tankTrackAudio.pitch = idleTrackPitch;
+                    break;
+                case TankMoveState.Moving:
+                    tankTrackAudio.volume = walkTrackVolume;
+                    tankTrackAudio.pitch = walkTrackPitch;
+                    break;
+                case TankMoveState.Dashing:
+                    tankTrackAudio.volume = sprintTrackVolume;
+                    tankTrackAudio.pitch = sprintTrackPitch;
+                    break;
             }
         }
 
