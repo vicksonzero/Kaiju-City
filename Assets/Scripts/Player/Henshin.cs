@@ -8,12 +8,17 @@ using StarterAssets;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 public class Henshin : MonoBehaviour
 {
     public float energy = 0;
     public float energyMax = 60;
-    public bool henshinTimerDone = false;
+    public float targetEnergy = 1f;
+
+    [FormerlySerializedAs("henshinTimerDone")]
+    public bool henshinRequirementsDone = false;
+
     public float henshinInvincibility = 7;
 
     public Bars enBar;
@@ -69,11 +74,11 @@ public class Henshin : MonoBehaviour
 
         enBar.gameObject.SetActive(true);
         enTimerBar.gameObject.SetActive(false);
-        DOVirtual.DelayedCall(90, () =>
-        {
-            henshinTimerDone = true;
-            TryShowHenshin();
-        });
+        // DOVirtual.DelayedCall(90, () =>
+        // {
+        //     henshinRequirementsDone = true;
+        //     TryShowHenshin();
+        // });
 
 
         foreach (var bar in bars)
@@ -109,7 +114,7 @@ public class Henshin : MonoBehaviour
     public void ForceShowHenshin()
     {
         AddEnergy(60);
-        henshinTimerDone = true;
+        henshinRequirementsDone = true;
         TryShowHenshin();
     }
 
@@ -135,17 +140,21 @@ public class Henshin : MonoBehaviour
 
     bool CanHenshin()
     {
-        if (!henshinTimerDone) return false;
+        if (!henshinRequirementsDone) return false;
         if (henshinState == HenshinState.Giant) return false;
+        if (energy / energyMax < targetEnergy) return false;
         return true;
     }
 
     public bool TryShowHenshin()
     {
-        if (!henshinTimerDone) return false;
+        if (henshinRequirementsDone) return false;
         if (henshinState == HenshinState.Giant) return false;
+        if (energy / energyMax < targetEnergy) return false;
 
         audioSource.PlayOneShot(henshinReadySfx, sfxVolume);
+        henshinRequirementsDone = true;
+        targetEnergy = 0.5f;
 #if (UNITY_IOS || UNITY_ANDROID)
             henshinButton.gameObject.SetActive(true);
 #else
@@ -189,6 +198,8 @@ public class Henshin : MonoBehaviour
             enBar.gameObject.SetActive(true);
             enTimerBar.gameObject.SetActive(false);
             audioSource.PlayOneShot(henshinCancelSfx, sfxVolume);
+
+            henshinRequirementsDone = false;
             FindObjectOfType<KaijuTv>().OnGiantLeave();
         }
         else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
@@ -208,6 +219,7 @@ public class Henshin : MonoBehaviour
             giantTransform.GetComponent<HealthInvincibility>().ApplyTimedInvincibility(henshinInvincibility);
 
             audioSource.PlayOneShot(henshinSfx, sfxVolume);
+
             FindObjectOfType<KaijuTv>().OnGiantEnter();
         }
 
