@@ -195,6 +195,8 @@ public class ArcadeObjective : MonoBehaviour
     private void StartBossBgm()
     {
         introBgm.DOFade(0, 3);
+        if (giantBgm.isPlaying) 
+            giantBgm.DOFade(0, 3);
         if (!bossBgm.isPlaying)
         {
             bossBgm.Play();

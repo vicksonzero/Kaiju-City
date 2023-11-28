@@ -18,7 +18,6 @@ public class SpiderDeath : MonoBehaviour
 
     public void DestroySelf()
     {
-        FindObjectOfType<KaijuTv>().OnBossDie();
         FindObjectOfType<ArcadeObjective>().OnBossDeathAnimationFinished();
         Destroy(gameObject);
     }

@@ -46,6 +46,7 @@ public class KaijuTv : MonoBehaviour
     public void OnBossDie()
     {
         bossIsDying = true;
+        ShowFramedBoss(100000);
     }
 
     public void OnGiantEnter()

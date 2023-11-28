@@ -46,7 +46,7 @@ public class GiantMelee : MonoBehaviour
         Debug.Log($"{nameof(DoBullet)} {isLeft}");
 
         var root = isLeft == 1 ? leftPunchRoot : rightPunchRoot;
-        Instantiate(hitEffectPrefab, root.position, root.rotation, effectDisplayList);
+        Instantiate(hitEffectPrefab, root.position, root.rotation, root);
         var bullet = Instantiate(bulletPrefab, root.position, root.rotation, bulletDisplayList);
 
         bullet.kineticDamage = kineticDamage;

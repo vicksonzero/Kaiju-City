@@ -33,5 +33,7 @@ public class SpiderDeathHandler : ADeathHandler
                     radius = 8f,
                 }
             }).ToArray();
+        
+        FindObjectOfType<KaijuTv>().OnBossDie();
     }
 }
