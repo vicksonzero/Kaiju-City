@@ -29,7 +29,7 @@ public class SpiderBombardGun : MonoBehaviour
 
     private void Start()
     {
-        DOVirtual.DelayedCall(cooldown, Shoot).SetLoops(-1);
+        DOVirtual.DelayedCall(cooldown, Shoot, false).SetLoops(-1);
     }
 
     [Button()]
@@ -37,7 +37,7 @@ public class SpiderBombardGun : MonoBehaviour
     {
         target = FindObjectOfType<Player>(false).transform;
         ShootBullet();
-        DOVirtual.DelayedCall(burstInterval, ShootBullet).SetLoops(burstCount - 1);
+        DOVirtual.DelayedCall(burstInterval, ShootBullet, false).SetLoops(burstCount - 1);
     }
 
     void ShootBullet()

@@ -10024,7 +10024,7 @@ MonoBehaviour:
   damageTheseLayers:
     serializedVersion: 2
     m_Bits: 576
-  explosionPrefab: {fileID: 8745587513438753329, guid: 50ce7a6002e972a4a88686fd0c487bc5,
+  explosionPrefab: {fileID: 5912023970599653984, guid: 72758f93276245a4e876cf1ae71747df,
     type: 3}
   effectDisplayList: {fileID: 0}
   bulletPrefab: {fileID: 4362131990631787944, guid: ed5cb8edd66fee24c971e28ee0d9e1d2,

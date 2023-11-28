@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class EnemyAi : MonoBehaviour
 {
-    public float attackInterval = 3;
+    public Vector2 attackInterval = new Vector2(3, 5);
+    private float _attackInterval = 3;
     public float attackTimer = 0;
 
     [CanBeNull]
@@ -18,16 +19,18 @@ public class EnemyAi : MonoBehaviour
     void Start()
     {
         _weapon = GetComponent<WaspEnemyGun>();
+        _attackInterval = Random.Range(attackInterval.x, attackInterval.y);
     }
 
     // Update is called once per frame
     void Update()
     {
         attackTimer += Time.deltaTime;
-        if (attackTimer >= attackInterval)
+        if (attackTimer >= _attackInterval)
         {
             FindTargetAndShoot();
-            attackTimer = attackTimer % attackInterval;
+            attackTimer = 0;
+            _attackInterval = Random.Range(attackInterval.x, attackInterval.y);
         }
 
         transform.LookAt(_target);
