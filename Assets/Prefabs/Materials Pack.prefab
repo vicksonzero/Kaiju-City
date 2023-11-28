@@ -603,7 +603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5491b791a484be43a8dd73b62da850a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyAmount: 4
+  energyAmount: 6
   pickedUpEffect: {fileID: 8059632920273756854, guid: 164a9b410e11866438ab53ca0a32df7c,
     type: 3}
 --- !u!135 &3987591880399817629

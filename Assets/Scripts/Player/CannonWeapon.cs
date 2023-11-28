@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using DG.Tweening;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -43,6 +44,9 @@ public class CannonWeapon : MonoBehaviour
 
     public float turretReactionDistance = 0.2f;
     public ParticleSystem muzzlePs;
+
+    public float cameraShakeForce = 0.2f;
+    public CinemachineImpulseSource cinemachineImpulseSource;
     public AudioSource audioSource;
     public AudioClip[] sfxList;
     public float sfxVolume;
@@ -123,7 +127,8 @@ public class CannonWeapon : MonoBehaviour
         bullet.kineticDamage = kineticDamage;
         audioSource.PlayOneShot(sfxList[Random.Range(0, sfxList.Length)], sfxVolume);
         muzzlePs.Play();
-
+        
+        cinemachineImpulseSource.GenerateImpulse(cameraShakeForce);
         var turretBaseLocalForward = turretBase.parent.InverseTransformDirection(turretBase.forward);
         turretBase.DOPunchPosition(turretBaseLocalForward * -turretReactionDistance, 0.2f);
     }

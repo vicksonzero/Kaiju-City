@@ -5740,7 +5740,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 238914348}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00091175723, y: 0.96631616, z: 0.12608182, w: -0.22435597}
+  m_LocalRotation: {x: -0.0009117563, y: 0.96631616, z: 0.12608182, w: -0.22435595}
   m_LocalPosition: {x: -0.000011434228, y: 0.00000006337456, z: -0.00000047079396}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -120308,6 +120308,7 @@ GameObject:
   - component: {fileID: 7279635376128318405}
   - component: {fileID: 7279635376128318407}
   - component: {fileID: 7279635376128318408}
+  - component: {fileID: 7279635376128318409}
   m_Layer: 6
   m_Name: Player Tank
   m_TagString: Player
@@ -120446,6 +120447,8 @@ MonoBehaviour:
   ammoMax: 100
   turretReactionDistance: 0.15
   muzzlePs: {fileID: 1246733335}
+  cameraShakeForce: 0.09
+  cinemachineImpulseSource: {fileID: 7279635376128318409}
   audioSource: {fileID: 1473876087}
   sfxList:
   - {fileID: 8300000, guid: dcf5198190bbf5e4caeb0720b7dbeeca, type: 3}
@@ -120519,6 +120522,86 @@ MonoBehaviour:
   buildingLayer:
     serializedVersion: 2
     m_Bits: 512
+--- !u!114 &7279635376128318409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6773067375229720858}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_ImpulseShape: 3
+    m_CustomImpulseShape:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.5039653
+        inSlope: 0.17475389
+        outSlope: 0.17475389
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0
+        outWeight: 0.18615343
+      - serializedVersion: 3
+        time: 0.32393074
+        value: 0.96948516
+        inSlope: 0.60445464
+        outSlope: 0.60445464
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0.7436225
+        outWeight: 0.25966564
+      - serializedVersion: 3
+        time: 1
+        value: -0.011112213
+        inSlope: -0.17483741
+        outSlope: -0.17483741
+        tangentMode: 0
+        weightedMode: 3
+        inWeight: 0.7242176
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_ImpulseDuration: 0.3
+    m_ImpulseType: 0
+    m_DissipationRate: 0.25
+    m_RawSignal: {fileID: 0}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0.2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 100
+    m_PropagationSpeed: 343
+  m_DefaultVelocity: {x: 0, y: 0, z: -1}
 --- !u!4 &7425664165918793298
 Transform:
   m_ObjectHideFlags: 0
