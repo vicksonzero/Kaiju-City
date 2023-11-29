@@ -26,6 +26,8 @@ public class RepairPack : MonoBehaviour
                 Instantiate(pickedUpEffect, player.transform);
             }
 
+            FindObjectOfType<ArcadeObjective>().OnRepairPackCollected();
+
             Destroy(gameObject);
         }
     }

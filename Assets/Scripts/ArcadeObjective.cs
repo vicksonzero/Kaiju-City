@@ -15,17 +15,35 @@ public class ArcadeObjective : MonoBehaviour
     public bool gameStarted = false;
 
     [Header("Kill enemies")]
+    public bool finishedKillEnemies = false;
+
     public string enemyCountChannel = "Enemy";
 
     public int totalEnemies = 30;
     public int killEnemies = 3;
     public int killedEnemies = 0;
 
+    public float killEnemiesTime;
+
+    [Tooltip(PlaceHolderTooltip)]
+    public string killedEnemiesTemplate =
+        "You have defeated %killedEnemies% / %totalEnemies% Wasps in %killEnemiesTime%.";
+
+    [Button()]
+    public void CalculateRequiredKillCount()
+    {
+        totalEnemies = FindObjectsByType<WaspEnemy>(FindObjectsSortMode.None).Length;
+    }
+
+    [Header("Game Time")]
     public float gameStartTime = -1;
+
     public float gameOverTime = -1;
     public float gameTime = -1;
 
     [Header("Protect buildings")]
+    public bool finishedProtectBuildings = false;
+
     public string buildingCountChannel = "Building";
 
     public int protectBuildings = 20;
@@ -33,6 +51,13 @@ public class ArcadeObjective : MonoBehaviour
 
     public int leftBuildings;
     public int lostBuildings;
+
+
+    [Button()]
+    public void CalculateTotalBuildings()
+    {
+        totalBuildings = FindObjectsByType<Building>(FindObjectsSortMode.None).Length;
+    }
 
     [Header("Player")]
     public Player player;
@@ -43,15 +68,35 @@ public class ArcadeObjective : MonoBehaviour
     public TextMeshProUGUI objectiveLabel;
 
     [Header("Evacuation")]
+    public bool finishedEvacuation = false;
+
     public float evacuationTimeInMinutes = 3f;
 
     public float evacuationTimer = -1;
     public int evacuationProtectBuildings = 20;
 
-    [Tooltip(
-        "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%")]
+    [Tooltip(PlaceHolderTooltip)]
     public string evacuationTemplate =
         "Evacuation complete in: %timeLeft%\\nDon't lose %protectBuildings% buildings (%lostBuildings% lost)";
+
+
+    [Header("Collect Repair Packs")]
+    [Tooltip(PlaceHolderTooltip)]
+    public int collectRepairPacks;
+
+    public int collectedRepairPacks;
+    public float collectRepairPacksTime;
+
+    public bool finishedCollectRepairPacks;
+
+    public string collectRepairPacksTemplate =
+        "You have collected %collectedRepairPacks% repair packs in %collectRepairPacksTime%";
+
+    [Button()]
+    public void CalculateRequiredRepairPacks()
+    {
+        collectRepairPacks = FindObjectsByType<RepairPack>(FindObjectsSortMode.None).Length;
+    }
 
     [Header("Boss Spawning")]
     [Tooltip("In seconds")]
@@ -66,8 +111,7 @@ public class ArcadeObjective : MonoBehaviour
     public RectTransform bossHpBar;
 
     [Header("Fight Boss")]
-    [Tooltip(
-        "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%")]
+    [Tooltip(PlaceHolderTooltip)]
     public string fightBossTemplate = "Fight the spider alien";
 
     public GameOverScreen gameOverScreen;
@@ -85,13 +129,8 @@ public class ArcadeObjective : MonoBehaviour
     private Tween _objectiveLabelTimer;
 
     private Tween _spawnBossTimer;
+    private NoticePanel _noticePanel;
 
-
-    [Button()]
-    public void CalculateRequiredKillCount()
-    {
-        totalEnemies = FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
-    }
 
     private void Awake()
     {
@@ -129,6 +168,21 @@ public class ArcadeObjective : MonoBehaviour
         if (startGameOnCreate)
         {
             DOVirtual.DelayedCall(1, StartGame);
+        }
+
+
+        _noticePanel = FindObjectOfType<NoticePanel>();
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.Ready);
+    }
+
+    private void Update()
+    {
+        if (gameStarted && !finishedEvacuation && Time.time >= evacuationTimer)
+        {
+            finishedProtectBuildings = true;
+            finishedEvacuation = true;
+            _noticePanel.ShowMessage(NoticePanel.NoticeType.EvacComplete);
+            DOVirtual.DelayedCall(3, () => _noticePanel.ShowMessage(NoticePanel.NoticeType.NewObjective));
         }
     }
 
@@ -177,7 +231,13 @@ public class ArcadeObjective : MonoBehaviour
             (count) =>
             {
                 killedEnemies = totalEnemies - count;
-                //
+                if (count <= 0)
+                {
+                    finishedKillEnemies = true;
+                    killEnemiesTime = Time.time - gameStartTime;
+                    _noticePanel.ShowMessage(NoticePanel.NoticeType.EnemyKilled, 3f,
+                        ApplyTemplate(killedEnemiesTemplate));
+                }
             });
 
 
@@ -195,7 +255,7 @@ public class ArcadeObjective : MonoBehaviour
     private void StartBossBgm()
     {
         introBgm.DOFade(0, 3);
-        if (giantBgm.isPlaying) 
+        if (giantBgm.isPlaying)
             giantBgm.DOFade(0, 3);
         if (!bossBgm.isPlaying)
         {
@@ -204,6 +264,9 @@ public class ArcadeObjective : MonoBehaviour
             // bossBgm.transform.SetParent(bossObject, true);
             // bossBgm.transform.DOLocalMove(Vector3.zero, 5);
         }
+
+
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.Warning, bossBgmIntroLength);
     }
 
     public void StopGame()
@@ -218,33 +281,60 @@ public class ArcadeObjective : MonoBehaviour
     {
         Debug.Log($"WinGame, reason = {reason}");
         _playerHealth.canDie = false;
-        if (gameOverScreen) gameOverScreen.Show(true);
+        // if (gameOverScreen) gameOverScreen.Show(true);
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.MissionAccomplished);
         StopGame();
     }
 
     private void GameOver(string reason)
     {
         Debug.Log($"GameOver, reason = {reason}");
-        if (gameOverScreen) gameOverScreen.Show(false);
+        // if (gameOverScreen) gameOverScreen.Show(false);
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.MissionFailed);
         StopGame();
     }
 
     // Update is called once per frame
     void UpdateObjectiveLabel()
     {
+        if (!finishedEvacuation)
+        {
+            objectiveLabel.text = ApplyTemplate(evacuationTemplate);
+        }
+        else
+        {
+            objectiveLabel.text = fightBossTemplate;
+        }
+    }
+
+
+    private const string PlaceHolderTooltip =
+        "Placeholders: \\n %killedEnemies% %killEnemies% %totalEnemies% %killEnemiesTime% %timeLeft% %leftBuildings% %lostBuildings% %protectBuildings%";
+
+    private string ApplyTemplate(string str)
+    {
         var timeLeft = evacuationTimer - Time.time;
-        var timeLeftString =
-            $"{Mathf.Floor(timeLeft / 60):00}:{Mathf.Floor(timeLeft % 60):00}.{(timeLeft - Math.Truncate(timeLeft)) * 1000:000}";
-        objectiveLabel.text = evacuationTemplate
+        Debug.Log($"ApplyTemplate {timeLeft}");
+        return str
                 .Replace("%killedEnemies%", $"{killedEnemies}")
                 .Replace("%killEnemies%", $"{killEnemies}")
+                .Replace("%killEnemiesTime%", $"{FormatTime(killEnemiesTime)}")
                 .Replace("%totalEnemies%", $"{totalEnemies}")
-                .Replace("%timeLeft%", $"{timeLeftString}")
+                .Replace("%timeLeft%", $"{FormatTime(timeLeft)}")
                 .Replace("%leftBuildings%", $"{leftBuildings}")
                 .Replace("%lostBuildings%", $"{lostBuildings}")
                 .Replace("%protectBuildings%", $"{protectBuildings}")
+                .Replace("%collectRepairPacks%", $"{collectRepairPacks}")
+                .Replace("%collectedRepairPacks%", $"{collectedRepairPacks}")
+                .Replace("%collectRepairPacksTime%", $"{FormatTime(collectRepairPacksTime)}")
                 .Replace("\\n", "\n")
             ;
+    }
+
+    private static string FormatTime(float timeLeft)
+    {
+        return
+            $"{Mathf.Floor(timeLeft / 60):00}:{Mathf.Floor(timeLeft % 60):00}.{(timeLeft - Math.Truncate(timeLeft)) * 1000:000}";
     }
 
     [Button()]
@@ -270,5 +360,20 @@ public class ArcadeObjective : MonoBehaviour
     public void OnBossDeathAnimationFinished()
     {
         CheckWinConditions();
+    }
+
+    public void OnRepairPackCollected()
+    {
+        if (finishedCollectRepairPacks) return;
+        collectedRepairPacks += 1;
+        Debug.Log($"collectedRepairPacks: {collectedRepairPacks}");
+        if (collectedRepairPacks == collectRepairPacks)
+        {
+            finishedCollectRepairPacks = true;
+            collectRepairPacksTime = Time.time - gameStartTime;
+
+            _noticePanel.ShowMessage(NoticePanel.NoticeType.RepairPacksCollected, 3f,
+                ApplyTemplate(collectRepairPacksTemplate));
+        }
     }
 }
