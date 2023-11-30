@@ -41,10 +41,14 @@ public class SpiderJump : MonoBehaviour
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
+    private void Awake()
+    {
+        jumpMarker.gameObject.SetActive(false);
+    }
+
     private void Start()
     {
         jumpMarker.SetParent(jumpMarkerNewParent);
-        jumpMarker.gameObject.SetActive(false);
         DOVirtual.DelayedCall(cooldown, Jump).SetLoops(-1);
 
         jumpPs.Stop();
