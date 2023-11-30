@@ -16,6 +16,7 @@ namespace StarterAssets
     [RequireComponent(typeof(CharacterController))]
     public class ThirdPersonTankController : MonoBehaviour
     {
+        public bool canControlMovement = true;
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
         public float MoveSpeed = 2.0f;
@@ -243,11 +244,12 @@ namespace StarterAssets
 
         private void Move()
         {
+            var inputMove = canControlMovement ? _input.move : Vector2.zero;
             if (_input.sprint)
             {
                 tankMoveState = TankMoveState.Dashing;
             }
-            else if (tankMoveState == TankMoveState.Dashing && _input.move.magnitude < 0.1f)
+            else if (tankMoveState == TankMoveState.Dashing && inputMove.magnitude < 0.1f)
             {
                 tankMoveState = TankMoveState.Moving;
 
@@ -264,13 +266,13 @@ namespace StarterAssets
 
             // note: Vector2's == operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is no input, set the target speed to 0
-            if (_input.move == Vector2.zero) targetSpeed = 0.0f;
+            if (inputMove == Vector2.zero) targetSpeed = 0.0f;
 
             // a reference to the players current horizontal velocity
             float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
             float speedOffset = 0.1f;
-            float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
+            float inputMagnitude = _input.analogMovement ? inputMove.magnitude : 1f;
 
             // accelerate or decelerate to target speed
             if (currentHorizontalSpeed < targetSpeed - speedOffset ||
@@ -303,11 +305,11 @@ namespace StarterAssets
             if (_animationBlend < 0.01f) _animationBlend = 0f;
 
             // normalise input direction
-            Vector3 inputDirection = Vector3.ClampMagnitude(new Vector3(_input.move.x, 0.0f, _input.move.y), 1f);
+            Vector3 inputDirection = Vector3.ClampMagnitude(new Vector3(inputMove.x, 0.0f, inputMove.y), 1f);
 
             // note: Vector2's != operator uses approximation so is not floating point error prone, and is cheaper than magnitude
             // if there is a move input rotate player when the player is moving
-            if (_input.move != Vector2.zero)
+            if (inputMove != Vector2.zero)
             {
                 _targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg +
                                   _mainCamera.transform.eulerAngles.y;
@@ -361,6 +363,7 @@ namespace StarterAssets
 
         private void JumpAndGravity()
         {
+            var inputJump = canControlMovement && _input.jump;
             _coyoteTimer = _coyoteTimer > 0
                 ? _coyoteTimer - Time.deltaTime
                 : 0;
@@ -395,7 +398,7 @@ namespace StarterAssets
             if (Grounded || _coyoteTimer > 0)
             {
                 // Jump
-                if ((_input.jump || _jumpBufferTimer > 0) && _jumpTimeoutDelta <= 0.0f)
+                if ((inputJump || _jumpBufferTimer > 0) && _jumpTimeoutDelta <= 0.0f)
                 {
                     if (!Grounded)
                     {
@@ -440,7 +443,7 @@ namespace StarterAssets
                     }
                 }
 
-                if (_input.jump)
+                if (inputJump)
                 {
                     _jumpBufferTimer = jumpBuffer;
                 }

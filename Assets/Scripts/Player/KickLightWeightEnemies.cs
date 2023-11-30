@@ -34,7 +34,6 @@ public class KickLightWeightEnemies : MonoBehaviour
         if (hitEffectPrefab)
             Instantiate(hitEffectPrefab,
                 hitPoint,
-                Quaternion.LookRotation(p, Vector3.up),
-                transform);
+                Quaternion.LookRotation(-p, Vector3.up));
     }
 }

@@ -185,7 +185,7 @@
                     "id": "68bcdbb1-c315-4430-9fe7-0afbcfd190f0",
                     "path": "2DVector(mode=1)",
                     "interactions": "",
-                    "processors": "ScaleVector2(y=-0.4)",
+                    "processors": "ScaleVector2(x=1.5,y=-0.6)",
                     "groups": "",
                     "action": "Look",
                     "isComposite": true,

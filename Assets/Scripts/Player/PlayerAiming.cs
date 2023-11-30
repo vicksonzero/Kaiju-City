@@ -20,6 +20,7 @@ public class PlayerAiming : MonoBehaviour
     // public RectTransform selectCrosshair;
 
     private StarterAssetsInputs _input;
+    private ThirdPersonTankController _controller;
 
     private CannonWeapon[] _weapons;
 
@@ -27,6 +28,7 @@ public class PlayerAiming : MonoBehaviour
     private void Awake()
     {
         _input = FindObjectOfType<StarterAssetsInputs>();
+        _controller = GetComponent<ThirdPersonTankController>();
     }
 
     private void Start()
@@ -63,7 +65,7 @@ public class PlayerAiming : MonoBehaviour
             UseCrosshair(CrosshairType.BasicCrosshair);
         }
 
-        if (_input.shoot)
+        if (_controller.canControlMovement && _input.shoot)
         {
             foreach (var weapon in _weapons)
             {

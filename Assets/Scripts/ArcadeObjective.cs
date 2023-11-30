@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using EditorCools;
 using JetBrains.Annotations;
+using StarterAssets;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -165,14 +166,16 @@ public class ArcadeObjective : MonoBehaviour
             }
         };
 
+        player.GetComponent<ThirdPersonTankController>().canControlMovement = false;
+
         if (startGameOnCreate)
         {
-            DOVirtual.DelayedCall(1, StartGame);
+            DOVirtual.DelayedCall(3f, StartGame);
         }
 
 
         _noticePanel = FindObjectOfType<NoticePanel>();
-        _noticePanel.ShowMessage(NoticePanel.NoticeType.Ready);
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.Ready, 2f);
     }
 
     private void Update()
@@ -216,6 +219,7 @@ public class ArcadeObjective : MonoBehaviour
     [Button()]
     public void StartGame()
     {
+        player.GetComponent<ThirdPersonTankController>().canControlMovement = true;
         totalBuildings = EntityCounter.Inst.GetCount(buildingCountChannel);
         EntityCounter.Inst.AddListener(buildingCountChannel,
             true,
@@ -223,7 +227,8 @@ public class ArcadeObjective : MonoBehaviour
             {
                 lostBuildings = totalBuildings - count;
                 leftBuildings = count - (totalBuildings - protectBuildings);
-                CheckLoseConditions();
+
+                if (!finishedEvacuation) CheckLoseConditions();
             });
 
         EntityCounter.Inst.AddListener(enemyCountChannel,
@@ -282,7 +287,7 @@ public class ArcadeObjective : MonoBehaviour
         Debug.Log($"WinGame, reason = {reason}");
         _playerHealth.canDie = false;
         // if (gameOverScreen) gameOverScreen.Show(true);
-        _noticePanel.ShowMessage(NoticePanel.NoticeType.MissionAccomplished);
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.MissionAccomplished, 1000000);
         StopGame();
     }
 
@@ -314,7 +319,7 @@ public class ArcadeObjective : MonoBehaviour
     private string ApplyTemplate(string str)
     {
         var timeLeft = evacuationTimer - Time.time;
-        Debug.Log($"ApplyTemplate {timeLeft}");
+        // Debug.Log($"ApplyTemplate {timeLeft}");
         return str
                 .Replace("%killedEnemies%", $"{killedEnemies}")
                 .Replace("%killEnemies%", $"{killEnemies}")

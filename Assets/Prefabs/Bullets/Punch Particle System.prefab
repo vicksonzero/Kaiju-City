@@ -4900,6 +4900,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6965714972372078524}
+  - component: {fileID: 4055713563328182041}
   - component: {fileID: 6180277140655569643}
   m_Layer: 8
   m_Name: Audio Source
@@ -4923,6 +4924,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1482034056526210804}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4055713563328182041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4223595957124469648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33ee457839168b341b5b4770d71d0d0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: 05aad392cc2781a4d932f0e1a0449ee9, type: 3}
+  - {fileID: 8300000, guid: 51d939982f387dd44aee08409b261829, type: 3}
+  - {fileID: 8300000, guid: 0757d53d89da41448974dcf69dfc181a, type: 3}
+  - {fileID: 8300000, guid: 7e609edadce147d478a8b4588eaf6610, type: 3}
+  - {fileID: 8300000, guid: 05abe02bcd778aa4f9e1caaa85ca478b, type: 3}
+  - {fileID: 8300000, guid: 849f97fbcb3359944a333155a65ae4cd, type: 3}
 --- !u!82 &6180277140655569643
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4942,7 +4962,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 75
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

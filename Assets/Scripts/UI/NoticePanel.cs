@@ -43,7 +43,8 @@ public class NoticePanel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        HideAllMessages(true);
+        if (_seq == null) bg.gameObject.SetActive(false);
+        HideAllMessages(false);
     }
 
 
