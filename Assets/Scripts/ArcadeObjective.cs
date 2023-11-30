@@ -13,7 +13,8 @@ using UnityEngine.Serialization;
 public class ArcadeObjective : MonoBehaviour
 {
     public bool startGameOnCreate = false;
-    public bool gameStarted = false;
+    [FormerlySerializedAs("gameStarted")]
+    public bool gameIsRunning = false;
 
     [Header("Kill enemies")]
     public bool finishedKillEnemies = false;
@@ -143,11 +144,7 @@ public class ArcadeObjective : MonoBehaviour
     void Start()
     {
         _playerHealth = player.GetComponent<Health>();
-        _playerHealth.HealthUpdated += (hp, hpMax) =>
-        {
-            playerHealth = hp;
-            CheckLoseConditions();
-        };
+        _playerHealth.HealthUpdated += (hp, hpMax) => { playerHealth = hp; };
 
         FindObjectOfType<Henshin>().HenshinChanged += isGiant =>
         {
@@ -180,18 +177,22 @@ public class ArcadeObjective : MonoBehaviour
 
     private void Update()
     {
-        if (gameStarted && !finishedEvacuation && Time.time >= evacuationTimer)
+        if (gameIsRunning && !finishedEvacuation && Time.time >= evacuationTimer)
         {
             finishedProtectBuildings = true;
             finishedEvacuation = true;
             _noticePanel.ShowMessage(NoticePanel.NoticeType.EvacComplete);
-            DOVirtual.DelayedCall(3, () => _noticePanel.ShowMessage(NoticePanel.NoticeType.NewObjective));
+            DOVirtual.DelayedCall(3, () =>
+            {
+                if (!gameIsRunning) return;
+                _noticePanel.ShowMessage(NoticePanel.NoticeType.NewObjective);
+            });
         }
     }
 
     public void CheckWinConditions()
     {
-        if (!gameStarted) return;
+        if (!gameIsRunning) return;
         // if (killedEnemies >= killEnemies)
         // {
         //     WinGame($"killedEnemies '{killedEnemies}' >= killEnemies '{killEnemies}'");
@@ -204,16 +205,6 @@ public class ArcadeObjective : MonoBehaviour
 
     public void CheckLoseConditions()
     {
-        if (!gameStarted) return;
-        if (_playerHealth.ShouldDie())
-        {
-            GameOver("_playerHealth.ShouldDie");
-        }
-
-        if (lostBuildings >= protectBuildings)
-        {
-            GameOver("lostBuildings >= protectBuildings");
-        }
     }
 
     [Button()]
@@ -228,7 +219,12 @@ public class ArcadeObjective : MonoBehaviour
                 lostBuildings = totalBuildings - count;
                 leftBuildings = count - (totalBuildings - protectBuildings);
 
-                if (!finishedEvacuation) CheckLoseConditions();
+                if (!gameIsRunning) return;
+                if (finishedEvacuation) return;
+                if (lostBuildings >= protectBuildings)
+                {
+                    GameOver("We have lost too many buildings.");
+                }
             });
 
         EntityCounter.Inst.AddListener(enemyCountChannel,
@@ -236,6 +232,8 @@ public class ArcadeObjective : MonoBehaviour
             (count) =>
             {
                 killedEnemies = totalEnemies - count;
+                
+                if (!gameIsRunning) return;
                 if (count <= 0)
                 {
                     finishedKillEnemies = true;
@@ -254,11 +252,12 @@ public class ArcadeObjective : MonoBehaviour
 
         _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter - bossBgmIntroLength, StartBossBgm);
 
-        gameStarted = true;
+        gameIsRunning = true;
     }
 
     private void StartBossBgm()
     {
+        if (!gameIsRunning) return;
         introBgm.DOFade(0, 3);
         if (giantBgm.isPlaying)
             giantBgm.DOFade(0, 3);
@@ -276,14 +275,16 @@ public class ArcadeObjective : MonoBehaviour
 
     public void StopGame()
     {
+        if (!gameIsRunning) return;
         _objectiveLabelTimer?.Kill();
         gameTime = Time.time - gameStartTime;
-        gameStarted = false;
+        gameIsRunning = false;
     }
 
 
     private void WinGame(string reason)
     {
+        if (!gameIsRunning) return;
         Debug.Log($"WinGame, reason = {reason}");
         _playerHealth.canDie = false;
         // if (gameOverScreen) gameOverScreen.Show(true);
@@ -293,9 +294,10 @@ public class ArcadeObjective : MonoBehaviour
 
     private void GameOver(string reason)
     {
+        if (!gameIsRunning) return;
         Debug.Log($"GameOver, reason = {reason}");
         // if (gameOverScreen) gameOverScreen.Show(false);
-        _noticePanel.ShowMessage(NoticePanel.NoticeType.MissionFailed);
+        _noticePanel.ShowMessage(NoticePanel.NoticeType.MissionFailed, 1000000, reason);
         StopGame();
     }
 
@@ -351,6 +353,7 @@ public class ArcadeObjective : MonoBehaviour
 
     void ActivateBoss()
     {
+        if (!gameIsRunning) return;
         if (bossObject.gameObject.activeSelf) return;
 
 
@@ -364,11 +367,19 @@ public class ArcadeObjective : MonoBehaviour
 
     public void OnBossDeathAnimationFinished()
     {
+        if (!gameIsRunning) return;
         CheckWinConditions();
+    }
+
+    public void OnPlayerDeathAnimationFinished()
+    {
+        if (!gameIsRunning) return;
+        GameOver("You have exploded.");
     }
 
     public void OnRepairPackCollected()
     {
+        if (!gameIsRunning) return;
         if (finishedCollectRepairPacks) return;
         collectedRepairPacks += 1;
         Debug.Log($"collectedRepairPacks: {collectedRepairPacks}");

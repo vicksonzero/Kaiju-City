@@ -9,6 +9,7 @@ public class Cheat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+#if UNITY_EDITOR
         if (playerIsInvincible)
             foreach (var player in FindObjectsOfType<Player>())
             {
@@ -17,6 +18,7 @@ public class Cheat : MonoBehaviour
                     health.canDie = false;
                 }
             }
+#endif
     }
 
     // Update is called once per frame

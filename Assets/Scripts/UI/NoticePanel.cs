@@ -33,7 +33,10 @@ public class NoticePanel : MonoBehaviour
     public TextMeshProUGUI repairPacksCollectedSubtitle;
     public RectTransform warningMessage;
     public RectTransform missionAccomplishedMessage;
+    public RectTransform missionAccomplishedButton;
     public RectTransform missionFailedMessage;
+    public TextMeshProUGUI missionFailedSubtitle;
+    public RectTransform missionFailedButton;
     public RectTransform newObjectiveMessage;
 
     [CanBeNull]
@@ -54,8 +57,13 @@ public class NoticePanel : MonoBehaviour
         readyMessage.gameObject.SetActive(false);
         evacCompleteMessage.gameObject.SetActive(false);
         warningMessage.gameObject.SetActive(false);
+
         missionAccomplishedMessage.gameObject.SetActive(false);
+        missionAccomplishedButton.gameObject.SetActive(false);
+
         missionFailedMessage.gameObject.SetActive(false);
+        missionFailedButton.gameObject.SetActive(false);
+
         newObjectiveMessage.gameObject.SetActive(false);
 
         enemyKilledMessage.gameObject.SetActive(false);
@@ -85,6 +93,24 @@ public class NoticePanel : MonoBehaviour
                 break;
             case NoticeType.RepairPacksCollected:
                 repairPacksCollectedSubtitle.text = subtitle;
+                break;
+
+            case NoticeType.MissionAccomplished:
+                DOVirtual.DelayedCall(3f,
+                    () =>
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                        missionAccomplishedButton.gameObject.SetActive(true);
+                    });
+                break;
+            case NoticeType.MissionFailed:
+                missionFailedSubtitle.text = subtitle;
+                DOVirtual.DelayedCall(3f,
+                    () =>
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                        missionFailedButton.gameObject.SetActive(true);
+                    });
                 break;
         }
 
