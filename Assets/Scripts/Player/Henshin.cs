@@ -37,7 +37,9 @@ public class Henshin : MonoBehaviour
 
     public HenshinState henshinState;
     public Transform cameraFollowRoot;
+    public float henshinButtonBigScale = 5;
     public RectTransform henshinButton;
+    public float henshinPcLabelBigScale = 20;
     public RectTransform henshinPcLabel;
 
     [Header("Tank")]
@@ -71,6 +73,12 @@ public class Henshin : MonoBehaviour
         ToggleHenshin(HenshinState.Tank);
         henshinButton.gameObject.SetActive(false);
         henshinPcLabel.gameObject.SetActive(false);
+        henshinButton.DOLocalRotate(Vector3.forward * 1, 0.1f)
+            .From(Vector3.forward * -1)
+            .SetLoops(-1);
+        henshinPcLabel.DOLocalRotate(Vector3.forward * 1, 0.1f)
+            .From(Vector3.forward * -1)
+            .SetLoops(-1);
 
         enBar.gameObject.SetActive(true);
         enTimerBar.gameObject.SetActive(false);
@@ -156,9 +164,15 @@ public class Henshin : MonoBehaviour
         henshinRequirementsDone = true;
         targetEnergy = 0.5f;
 #if (UNITY_IOS || UNITY_ANDROID)
-            henshinButton.gameObject.SetActive(true);
+        henshinButton.gameObject.SetActive(true);
+        henshinButton.DOScale(Vector3.one, 0.3f)
+            .From(Vector3.one * henshinButtonBigScale)
+            .SetEase(Ease.InCubic);
 #else
         henshinPcLabel.gameObject.SetActive(true);
+        henshinPcLabel.DOScale(Vector3.one, 0.3f)
+            .From(Vector3.one * henshinPcLabelBigScale)
+            .SetEase(Ease.InCubic);
 #endif
         return true;
     }
@@ -200,6 +214,9 @@ public class Henshin : MonoBehaviour
             audioSource.PlayOneShot(henshinCancelSfx, sfxVolume);
 
             henshinRequirementsDone = false;
+            henshinButton.gameObject.SetActive(false);
+            henshinPcLabel.gameObject.SetActive(false);
+
             FindObjectOfType<KaijuTv>().OnGiantLeave();
         }
         else if (newState == HenshinState.Giant && henshinState != HenshinState.Giant)
@@ -218,6 +235,9 @@ public class Henshin : MonoBehaviour
 
             giantTransform.GetComponent<HealthInvincibility>().ApplyTimedInvincibility(henshinInvincibility);
 
+            henshinButton.gameObject.SetActive(false);
+            henshinPcLabel.gameObject.SetActive(false);
+            
             audioSource.PlayOneShot(henshinSfx, sfxVolume);
 
             FindObjectOfType<KaijuTv>().OnGiantEnter();
