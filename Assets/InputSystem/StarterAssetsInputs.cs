@@ -19,6 +19,7 @@ namespace StarterAssets
         public bool henshin;
         public bool lastHenshin;
         public bool henshinDown;
+        public bool settings;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -65,6 +66,11 @@ namespace StarterAssets
         public void OnHenshin(InputValue value)
         {
             HenshinInput(value.isPressed);
+        }
+
+        public void OnSettings(InputValue value)
+        {
+            SettingsInput(value.isPressed);
         }
 #endif
 
@@ -115,6 +121,11 @@ namespace StarterAssets
         {
             henshin = newHenshinState;
             henshinDown = newHenshinState;
+        }
+
+        public void SettingsInput(bool newState)
+        {
+            settings = newState;
         }
     }
 }

@@ -9,6 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 public class Henshin : MonoBehaviour
 {
@@ -164,10 +165,13 @@ public class Henshin : MonoBehaviour
         henshinRequirementsDone = true;
         targetEnergy = 0.5f;
 #if (UNITY_IOS || UNITY_ANDROID)
+        henshinButton.GetComponent<Button>().enabled = false;
         henshinButton.gameObject.SetActive(true);
         henshinButton.DOScale(Vector3.one, 0.3f)
             .From(Vector3.one * henshinButtonBigScale)
-            .SetEase(Ease.InCubic);
+            .SetEase(Ease.InCubic)
+            .OnComplete(() =>
+                henshinButton.GetComponent<Button>().enabled = true);
 #else
         henshinPcLabel.gameObject.SetActive(true);
         henshinPcLabel.DOScale(Vector3.one, 0.3f)
@@ -237,7 +241,7 @@ public class Henshin : MonoBehaviour
 
             henshinButton.gameObject.SetActive(false);
             henshinPcLabel.gameObject.SetActive(false);
-            
+
             audioSource.PlayOneShot(henshinSfx, sfxVolume);
 
             FindObjectOfType<KaijuTv>().OnGiantEnter();

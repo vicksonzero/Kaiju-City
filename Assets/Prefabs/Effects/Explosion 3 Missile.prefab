@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion 3 Missile
       objectReference: {fileID: 0}
+    - target: {fileID: 7841316650747598781, guid: 50ce7a6002e972a4a88686fd0c487bc5,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -5163142776125411632, guid: a03323a7c0c03ab4d9c042bd97f3740d,
+        type: 2}
     - target: {fileID: 8745587513438753329, guid: 50ce7a6002e972a4a88686fd0c487bc5,
         type: 3}
       propertyPath: m_LocalPosition.x

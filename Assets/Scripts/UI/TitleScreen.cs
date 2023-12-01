@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class TitleScreen : MonoBehaviour
 {
+    public Settings settingsScreen;
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Hi");
-        // BuildNumberSO.GetAsset(so => Debug.Log($"build number: {(so ? so.buildNumber : "")}"));
+        settingsScreen.MoveMasterVolumeToTitle();
+        settingsScreen.LoadVolume();
     }
 
     public void StartGame()
