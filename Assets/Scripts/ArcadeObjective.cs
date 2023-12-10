@@ -13,6 +13,7 @@ using UnityEngine.Serialization;
 public class ArcadeObjective : MonoBehaviour
 {
     public bool startGameOnCreate = false;
+
     [FormerlySerializedAs("gameStarted")]
     public bool gameIsRunning = false;
 
@@ -53,6 +54,7 @@ public class ArcadeObjective : MonoBehaviour
 
     public int leftBuildings;
     public int lostBuildings;
+    public int lostBuildingsEvac;
 
 
     [Button()]
@@ -64,7 +66,11 @@ public class ArcadeObjective : MonoBehaviour
     [Header("Player")]
     public Player player;
 
-    public float playerHealth;
+    [FormerlySerializedAs("playerHealth")]
+    public float lastPlayerHealth;
+
+    public float damageTaken;
+    public float damageHealed;
     private Health _playerHealth;
 
     public TextMeshProUGUI objectiveLabel;
@@ -116,6 +122,9 @@ public class ArcadeObjective : MonoBehaviour
     [Tooltip(PlaceHolderTooltip)]
     public string fightBossTemplate = "Fight the spider alien";
 
+    public int bossKilled = 0;
+    public float bossKillTime;
+
     public GameOverScreen gameOverScreen;
     public KaijuTv tv;
 
@@ -125,6 +134,13 @@ public class ArcadeObjective : MonoBehaviour
     public AudioSource bossBgm;
     public float bossBgmIntroLength = 16f;
     public AudioSource giantBgm;
+
+    [Header("Random Stat")]
+    public float energyCollected;
+
+    public int henshinCount;
+    public float henshinTimeTotal;
+    private float _henshinStartTime = -1;
 
 
     [CanBeNull]
@@ -144,7 +160,18 @@ public class ArcadeObjective : MonoBehaviour
     void Start()
     {
         _playerHealth = player.GetComponent<Health>();
-        _playerHealth.HealthUpdated += (hp, hpMax) => { playerHealth = hp; };
+        _playerHealth.HealthUpdated += (hp, hpMax) =>
+        {
+            {
+                var isFirstTime = lastPlayerHealth == 0;
+                var diff = hp - lastPlayerHealth;
+                lastPlayerHealth = hp;
+
+                if(isFirstTime) return;
+                if (diff < 0) damageTaken += -diff;
+                if (diff > 0) damageHealed += diff;
+            }
+        };
 
         FindObjectOfType<Henshin>().HenshinChanged += isGiant =>
         {
@@ -210,12 +237,14 @@ public class ArcadeObjective : MonoBehaviour
     [Button()]
     public void StartGame()
     {
+        FindObjectOfType<PersistStats>().ResetStats();
         player.GetComponent<ThirdPersonTankController>().canControlMovement = true;
         totalBuildings = EntityCounter.Inst.GetCount(buildingCountChannel);
         EntityCounter.Inst.AddListener(buildingCountChannel,
             true,
             (count) =>
             {
+                if (!finishedEvacuation) lostBuildingsEvac = totalBuildings - count;
                 lostBuildings = totalBuildings - count;
                 leftBuildings = count - (totalBuildings - protectBuildings);
 
@@ -232,7 +261,7 @@ public class ArcadeObjective : MonoBehaviour
             (count) =>
             {
                 killedEnemies = totalEnemies - count;
-                
+
                 if (!gameIsRunning) return;
                 if (count <= 0)
                 {
@@ -278,6 +307,8 @@ public class ArcadeObjective : MonoBehaviour
         if (!gameIsRunning) return;
         _objectiveLabelTimer?.Kill();
         gameTime = Time.time - gameStartTime;
+        OnHenshinEnd();
+        FindObjectOfType<PersistStats>().SaveStats(this);
         gameIsRunning = false;
     }
 
@@ -368,6 +399,8 @@ public class ArcadeObjective : MonoBehaviour
     public void OnBossDeathAnimationFinished()
     {
         if (!gameIsRunning) return;
+        bossKilled++;
+        bossKillTime = (Time.time - gameStartTime) - bossSpawnAfter;
         CheckWinConditions();
     }
 
@@ -391,5 +424,26 @@ public class ArcadeObjective : MonoBehaviour
             _noticePanel.ShowMessage(NoticePanel.NoticeType.RepairPacksCollected, 3f,
                 ApplyTemplate(collectRepairPacksTemplate));
         }
+    }
+
+    public void OnEnergyCollected(float amount)
+    {
+        if (!gameIsRunning) return;
+        energyCollected += amount;
+    }
+
+    public void OnHenshinStart()
+    {
+        if (!gameIsRunning) return;
+        _henshinStartTime = Time.time;
+        henshinCount++;
+    }
+
+    public void OnHenshinEnd()
+    {
+        if (_henshinStartTime < 0) return;
+        henshinTimeTotal += Time.time - _henshinStartTime;
+
+        _henshinStartTime = -1;
     }
 }

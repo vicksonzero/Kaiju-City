@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 901182334643ba1438a25accc6bd0c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  keyboardMouseMessage: {fileID: 0}
   playerInput: {fileID: 0}
 --- !u!1001 &2846493628060374845
 PrefabInstance:
@@ -594,6 +595,11 @@ PrefabInstance:
       propertyPath: bgRect
       value: 
       objectReference: {fileID: 8922245008520268989}
+    - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
+        type: 3}
+      propertyPath: absoluteAiming
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4767772227563435448, guid: c82978c3789dad44da354dc354c782b2,
         type: 3}
       propertyPath: invertYOutputValue

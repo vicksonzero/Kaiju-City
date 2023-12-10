@@ -21,6 +21,7 @@ public class MaterialsPack : MonoBehaviour
             if (!henshin) return;
             henshin.AddEnergy(energyAmount);
 
+            FindObjectOfType<ArcadeObjective>().OnEnergyCollected(energyAmount);
             if (pickedUpEffect)
             {
                 Instantiate(pickedUpEffect, player.transform);

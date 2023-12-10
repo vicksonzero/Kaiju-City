@@ -13,7 +13,7 @@ public class OpenSettingsWithButton : MonoBehaviour
     void Start()
     {
         _inputs = FindObjectOfType<StarterAssetsInputs>();
-        settingsPanel.LoadVolume();
+        settingsPanel.LoadSettings();
     }
 
     // Update is called once per frame

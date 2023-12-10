@@ -10,7 +10,7 @@ public class TitleScreen : MonoBehaviour
     void Start()
     {
         settingsScreen.MoveMasterVolumeToTitle();
-        settingsScreen.LoadVolume();
+        settingsScreen.LoadSettings();
     }
 
     public void StartGame()

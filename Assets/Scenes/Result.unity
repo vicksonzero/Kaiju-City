@@ -131,6 +131,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.WaspsKillTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -260,6 +270,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.HenshinTimeTotal
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -562,7 +582,6 @@ RectTransform:
   - {fileID: 791074615}
   - {fileID: 1873094809}
   - {fileID: 80104621}
-  - {fileID: 524449915}
   m_Father: {fileID: 1665066097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -672,6 +691,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.BuildingsLostEvac
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -780,7 +809,7 @@ PrefabInstance:
     - target: {fileID: 7916892858773072396, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_text
-      value: Buildings lost (Evecuation)
+      value: Buildings lost (Evacuation)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -801,6 +830,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.RepairPacksCollected
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -930,6 +969,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.WaspsKilled
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1081,12 +1130,12 @@ RectTransform:
   m_Children:
   - {fileID: 230510748}
   - {fileID: 925839814}
-  m_Father: {fileID: 307681899}
+  m_Father: {fileID: 1665066097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 107.183}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -437}
+  m_SizeDelta: {x: 632.44604, y: 107.18298}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &620564481
 PrefabInstance:
@@ -1096,6 +1145,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.DamageHealed
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1327,6 +1381,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.EnergyCollected
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1435,7 +1499,7 @@ PrefabInstance:
     - target: {fileID: 7916892858773072396, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_text
-      value: Materials Collected
+      value: Energy Collected
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1456,6 +1520,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.BuildingsLostTotal
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1586,8 +1660,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 925839814}
+  - component: {fileID: 925839819}
   - component: {fileID: 925839818}
-  - component: {fileID: 925839817}
   - component: {fileID: 925839816}
   - component: {fileID: 925839815}
   m_Layer: 5
@@ -1691,21 +1765,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &925839817
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 925839813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c76331618680954fa123ca16818d904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  button: {fileID: 925839815}
-  onPressButton: 0
-  sceneName: 
 --- !u!222 &925839818
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1714,6 +1773,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 925839813}
   m_CullTransparentMesh: 1
+--- !u!114 &925839819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925839813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: caa432450f925094ebb499b5b00d0f37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  button: {fileID: 925839815}
+  url: https://vicksonzero.itch.io/kaiju-city
 --- !u!1001 &954454394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1722,6 +1795,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.BossKillTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2018,6 +2101,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.DamageTaken
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2421,6 +2509,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.RepairPacksCollectTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2702,6 +2800,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 307681899}
+  - {fileID: 524449915}
   m_Father: {fileID: 755007700}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -2755,6 +2854,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.BossKilled
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -2859,6 +2968,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Result Entry (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3512100949139171850, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7916892858773072396, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
@@ -3034,6 +3148,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.HenshinCount
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x
@@ -3163,6 +3287,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 307681899}
     m_Modifications:
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: key
+      value: Stats.GameTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 684214727870774239, guid: 9c5c4d48c97095042b4dafb980efa334,
+        type: 3}
+      propertyPath: type
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120959644890014699, guid: 9c5c4d48c97095042b4dafb980efa334,
         type: 3}
       propertyPath: m_Pivot.x

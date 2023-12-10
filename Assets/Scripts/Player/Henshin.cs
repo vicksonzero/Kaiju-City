@@ -220,6 +220,8 @@ public class Henshin : MonoBehaviour
             henshinRequirementsDone = false;
             henshinButton.gameObject.SetActive(false);
             henshinPcLabel.gameObject.SetActive(false);
+            
+            FindObjectOfType<ArcadeObjective>().OnHenshinEnd();
 
             FindObjectOfType<KaijuTv>().OnGiantLeave();
         }
@@ -241,6 +243,8 @@ public class Henshin : MonoBehaviour
 
             henshinButton.gameObject.SetActive(false);
             henshinPcLabel.gameObject.SetActive(false);
+            
+            FindObjectOfType<ArcadeObjective>().OnHenshinStart();
 
             audioSource.PlayOneShot(henshinSfx, sfxVolume);
 

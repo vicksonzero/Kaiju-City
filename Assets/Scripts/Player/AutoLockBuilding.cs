@@ -71,6 +71,7 @@ namespace StarterAssets
 
         private void OnDrawGizmos()
         {
+            if (!cursor) return;
             var center = new Vector2(
                 (cursor.anchoredPosition.x) / uiCanvas.sizeDelta.x + 0.5f,
                 (cursor.anchoredPosition.y) / uiCanvas.sizeDelta.y + 0.5f
