@@ -11729,6 +11729,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2274118099045555586, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
         type: 3}
+      propertyPath: inputAsset
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 4419d82f33d36e848b3ed5af4c8da37e,
+        type: 3}
+    - target: {fileID: 2274118099045555586, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
+        type: 3}
+      propertyPath: lookAction
+      value: 
+      objectReference: {fileID: -3787169064211337688, guid: 4419d82f33d36e848b3ed5af4c8da37e,
+        type: 3}
+    - target: {fileID: 2274118099045555586, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
+        type: 3}
       propertyPath: lookControl
       value: 
       objectReference: {fileID: 1228824299}
@@ -11737,6 +11749,11 @@ PrefabInstance:
       propertyPath: shootControl
       value: 
       objectReference: {fileID: 2039963255}
+    - target: {fileID: 2274118099045555586, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
+        type: 3}
+      propertyPath: inputAction.m_Name
+      value: Input
+      objectReference: {fileID: 0}
     - target: {fileID: 2613618733424366988, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -11940,7 +11957,7 @@ PrefabInstance:
     - target: {fileID: 6272944179311488513, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -578.81934
+      value: -593.81934
       objectReference: {fileID: 0}
     - target: {fileID: 7048204031599243831, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
         type: 3}
@@ -12005,7 +12022,7 @@ PrefabInstance:
     - target: {fileID: 7570834083747366223, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -671.9211
+      value: -701.9211
       objectReference: {fileID: 0}
     - target: {fileID: 7853641425177081751, guid: aeb9aa0bdbfdee54fb6637cce6b210f4,
         type: 3}
@@ -88779,7 +88796,7 @@ PrefabInstance:
     - target: {fileID: 593346031307489181, guid: 7484ce6f8ca3d81408c606b5ae8b9ff3,
         type: 3}
       propertyPath: sensitivityModifiers.y
-      value: 0.4
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 593346031307489181, guid: 7484ce6f8ca3d81408c606b5ae8b9ff3,
         type: 3}
@@ -128918,11 +128935,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6773067375229720858}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e3a9779c4a347d2b01cef9c0822d49b, type: 3}
+  m_Script: {fileID: 11500000, guid: 932165279f4827f47bf454db9831ba73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   deathAnimationPrefab: {fileID: 3803529854071383806, guid: 2568c3e43ff8f1b4c88f9b87fc330fc8,
     type: 3}
+  playerVirtualCamera: {fileID: 3833874742745467123}
 --- !u!4 &7425664165918793298
 Transform:
   m_ObjectHideFlags: 0

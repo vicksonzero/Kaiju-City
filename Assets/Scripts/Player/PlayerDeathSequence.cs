@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class PlayerDeathSequence : MonoBehaviour
 {
@@ -15,8 +17,9 @@ public class PlayerDeathSequence : MonoBehaviour
     void Start()
     {
         DOVirtual.DelayedCall(0.2f, () =>
-                chasis.DOLocalMove(Random.insideUnitSphere * shakeDistance, 0.2f))
-            .SetLoops(-1);
+            chasis.DOLocalMove(Random.insideUnitSphere * shakeDistance, 0.2f)
+                .SetLoops(-1)
+        );
         DOVirtual.DelayedCall(delay, () =>
         {
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
@@ -24,5 +27,10 @@ public class PlayerDeathSequence : MonoBehaviour
             FindObjectOfType<ArcadeObjective>().OnPlayerDeathAnimationFinished();
             Destroy(gameObject);
         });
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(chasis);
     }
 }

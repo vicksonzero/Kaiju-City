@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 
@@ -19,6 +20,10 @@ public class Settings : MonoBehaviour
     public UIVirtualTouchZone lookControl;
 
     public UIVirtualTouchZone shootControl;
+    public InputActionReference lookAction;
+    public Vector2 pcLookScale = new(1.5f, -1);
+    public Vector2 joystickLookScale = new(1, 1);
+    public Vector2 trackpadLookScale = new(2, 1.2f);
 
     [Header("UI")]
     public string masterVolumeKey = "MasterVolume";
@@ -128,13 +133,19 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetFloat(rStickSensitivityXKey, valueFloat);
         // effect
         if (!lookControl) return;
+
+        var lookMode = PlayerPrefs.GetString(lookModeKey, "Trackpad");
+        var scale = lookMode == "Trackpad"
+            ? trackpadLookScale
+            : joystickLookScale;
         lookControl.sensitivityModifiers = new Vector2(
-            valueFloat,
+            valueFloat * scale.x,
             lookControl.sensitivityModifiers.y);
 
         shootControl.sensitivityModifiers = new Vector2(
-            valueFloat,
+            valueFloat * scale.x,
             shootControl.sensitivityModifiers.y);
+        // lookAction.action.ApplyParameterOverride("scaleVector2:x", valueFloat * pcLookScale.x);
     }
 
     public void SetLookSensitivityY(string value)
@@ -148,12 +159,18 @@ public class Settings : MonoBehaviour
         PlayerPrefs.SetFloat(rStickSensitivityYKey, valueFloat);
         // effect
         if (!lookControl) return;
+
+        var lookMode = PlayerPrefs.GetString(lookModeKey, "Trackpad");
+        var scale = lookMode == "Trackpad"
+            ? trackpadLookScale
+            : joystickLookScale;
         lookControl.sensitivityModifiers = new Vector2(
             lookControl.sensitivityModifiers.x,
-            valueFloat);
+            valueFloat * scale.y);
         shootControl.sensitivityModifiers = new Vector2(
             shootControl.sensitivityModifiers.x,
-            valueFloat);
+            valueFloat * scale.y);
+        // lookAction.action.ApplyParameterOverride("scaleVector2:y", valueFloat * pcLookScale.y);
     }
 
     public void SaveVolume()
