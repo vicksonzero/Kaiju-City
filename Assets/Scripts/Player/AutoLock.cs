@@ -35,11 +35,12 @@ namespace StarterAssets
 
         private void Start()
         {
-            DOVirtual.DelayedCall(scanInterval, UpdateLock).SetLoops(-1);
+            DOVirtual.DelayedCall(scanInterval, UpdateLock, false).SetLoops(-1);
         }
 
         private void Update()
         {
+            if (GamePause.Inst.isPaused) return;
             if (target)
             {
                 var screenPoint = autoLockCamera.WorldToViewportPoint(target.autoAimRoot.position);
@@ -71,7 +72,7 @@ namespace StarterAssets
                         _player.transform.forward);
             _aiming.AimAtRay(ray);
 
-            if (_input.shoot)
+            if (_input.shoot && !GamePause.Inst.isPaused)
             {
                 if (!_lastShootState || (!target && targetCandidate))
                 {
@@ -80,7 +81,7 @@ namespace StarterAssets
                 }
             }
 
-            if (!_input.shoot && _lastShootState)
+            if (!_input.shoot && !GamePause.Inst.isPaused && _lastShootState)
             {
                 UpdateLock();
             }

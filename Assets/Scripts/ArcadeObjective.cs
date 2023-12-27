@@ -44,6 +44,8 @@ public class ArcadeObjective : MonoBehaviour
     public float gameOverTime = -1;
     public float gameTime = -1;
 
+    // public float debugScaledTime;
+
     [Header("Protect buildings")]
     public bool finishedProtectBuildings = false;
 
@@ -194,7 +196,7 @@ public class ArcadeObjective : MonoBehaviour
 
         if (startGameOnCreate)
         {
-            DOVirtual.DelayedCall(3f, StartGame);
+            DOVirtual.DelayedCall(3f, StartGame, false);
         }
 
 
@@ -204,6 +206,7 @@ public class ArcadeObjective : MonoBehaviour
 
     private void Update()
     {
+        // debugScaledTime = Time.time;
         if (gameIsRunning && !finishedEvacuation && Time.time >= evacuationTimer)
         {
             finishedProtectBuildings = true;
@@ -213,7 +216,7 @@ public class ArcadeObjective : MonoBehaviour
             {
                 if (!gameIsRunning) return;
                 _noticePanel.ShowMessage(NoticePanel.NoticeType.NewObjective);
-            });
+            }, false);
         }
     }
 
@@ -273,13 +276,13 @@ public class ArcadeObjective : MonoBehaviour
             });
 
 
-        _objectiveLabelTimer = DOVirtual.DelayedCall(0.02f, UpdateObjectiveLabel).SetLoops(-1);
-        _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter, ActivateBoss);
+        _objectiveLabelTimer = DOVirtual.DelayedCall(0.02f, UpdateObjectiveLabel, false).SetLoops(-1);
+        _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter, ActivateBoss, false);
         gameStartTime = Time.time;
         // gameOverTime = gameStartTime + timeLimitInMinutes * 60f;
         evacuationTimer = gameStartTime + evacuationTimeInMinutes * 60f;
 
-        _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter - bossBgmIntroLength, StartBossBgm);
+        _spawnBossTimer = DOVirtual.DelayedCall(bossSpawnAfter - bossBgmIntroLength, StartBossBgm, false);
 
         gameIsRunning = true;
     }

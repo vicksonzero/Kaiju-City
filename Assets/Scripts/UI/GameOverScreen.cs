@@ -26,9 +26,9 @@ public class GameOverScreen : MonoBehaviour
 
         if (gameObject) gameObject.SetActive(true);
         winLabel.gameObject.SetActive(isWin);
-        DOVirtual.DelayedCall(2f, () => winOkButton.gameObject.SetActive(true));
+        DOVirtual.DelayedCall(2f, () => winOkButton.gameObject.SetActive(true), false);
 
         loseLabel.gameObject.SetActive(!isWin);
-        DOVirtual.DelayedCall(2f, () => loseOkButton.gameObject.SetActive(true));
+        DOVirtual.DelayedCall(2f, () => loseOkButton.gameObject.SetActive(true), false);
     }
 }

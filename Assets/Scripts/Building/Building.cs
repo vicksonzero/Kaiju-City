@@ -74,7 +74,7 @@ public class Building : MonoBehaviour
             {
                 damageTransitionPs.Play();
                 damagedSfx.Play();
-            });
+            }, false);
             damagedPs.Play();
             var cubeRenderer = cube.GetComponent<MeshRenderer>();
             cubeRenderer.material = damagedMaterial;
@@ -87,7 +87,7 @@ public class Building : MonoBehaviour
             {
                 damageTransitionPs.Play();
                 veryDamagedSfx.Play();
-            });
+            }, false);
             veryDamagedPs.Play();
             var cubeRenderer = cube.GetComponent<MeshRenderer>();
             cubeRenderer.material = damagedMaterial;

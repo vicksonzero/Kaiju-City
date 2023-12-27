@@ -21,8 +21,20 @@ public class OpenSettingsWithButton : MonoBehaviour
     {
         if (_inputs.settings)
         {
-            settingsPanel.gameObject.SetActive(!settingsPanel.gameObject.activeInHierarchy);
+            ShowSettings();
             _inputs.settings = false;
         }
+    }
+
+    public void ShowSettings()
+    {
+        var value = !settingsPanel.gameObject.activeInHierarchy;
+        GamePause.Inst.TogglePause(value);
+        settingsPanel.gameObject.SetActive(value);
+    }
+
+    public void HideSettings()
+    {
+        GamePause.Inst.Unpause();
     }
 }

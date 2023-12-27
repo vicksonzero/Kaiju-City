@@ -54,7 +54,7 @@ public class WaspEnemyGun : MonoBehaviour
             StopCharging();
             _burstFireTween?.Kill();
             ShootCannonBullet();
-            _burstFireTween = DOVirtual.DelayedCall(burstInterval, ShootCannonBullet)
+            _burstFireTween = DOVirtual.DelayedCall(burstInterval, ShootCannonBullet, false)
                 .SetLoops(burstCount - 1);
             // ChargeCompleted?.Invoke();
         }

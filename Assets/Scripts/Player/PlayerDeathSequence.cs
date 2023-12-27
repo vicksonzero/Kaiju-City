@@ -18,7 +18,8 @@ public class PlayerDeathSequence : MonoBehaviour
     {
         DOVirtual.DelayedCall(0.2f, () =>
             chasis.DOLocalMove(Random.insideUnitSphere * shakeDistance, 0.2f)
-                .SetLoops(-1)
+                .SetLoops(-1), 
+            false
         );
         DOVirtual.DelayedCall(delay, () =>
         {
@@ -26,7 +27,7 @@ public class PlayerDeathSequence : MonoBehaviour
 
             FindObjectOfType<ArcadeObjective>().OnPlayerDeathAnimationFinished();
             Destroy(gameObject);
-        });
+        }, false);
     }
 
     private void OnDestroy()

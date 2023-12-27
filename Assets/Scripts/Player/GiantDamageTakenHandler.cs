@@ -35,7 +35,7 @@ public class GiantDamageTakenHandler : MonoBehaviour
         {
             _controller.canControlMovement = true;
             _animator.SetBool(_animIdIsHurt, false);
-        });
+        }, false);
         GetComponent<HealthInvincibility>().ApplyTimedInvincibility();
     }
 }

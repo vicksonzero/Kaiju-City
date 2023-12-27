@@ -33,7 +33,7 @@ public class SpiderSphere : ADeathHandler
             return;
         }
 
-        DOVirtual.DelayedCall(Random.Range(openInterval.x, openInterval.y), TryOpen);
+        DOVirtual.DelayedCall(Random.Range(openInterval.x, openInterval.y), TryOpen, false);
     }
 
     void Open()
@@ -41,7 +41,7 @@ public class SpiderSphere : ADeathHandler
         sphere.DOScale(Vector3.one, 0.5f);
         _health.canTakeDamage = true;
         col.enabled = true;
-        DOVirtual.DelayedCall(Random.Range(openDuration.x, openDuration.y), Close);
+        DOVirtual.DelayedCall(Random.Range(openDuration.x, openDuration.y), Close, false);
     }
 
     void Close()
@@ -49,7 +49,7 @@ public class SpiderSphere : ADeathHandler
         sphere.DOScale(Vector3.zero, 0.5f);
         _health.canTakeDamage = false;
         col.enabled = false;
-        DOVirtual.DelayedCall(Random.Range(openInterval.x, openInterval.y), TryOpen);
+        DOVirtual.DelayedCall(Random.Range(openInterval.x, openInterval.y), TryOpen, false);
     }
 
     public override void Die(Vector3? hitPoint, Vector3? hitNormal, Vector3? hitImpulse)

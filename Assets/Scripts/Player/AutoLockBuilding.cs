@@ -30,7 +30,7 @@ namespace StarterAssets
 
         private void Start()
         {
-            DOVirtual.DelayedCall(scanInterval, UpdateLock).SetLoops(-1);
+            DOVirtual.DelayedCall(scanInterval, UpdateLock, false).SetLoops(-1);
         }
 
         private void Update()

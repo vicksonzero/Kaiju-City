@@ -101,7 +101,7 @@ public class NoticePanel : MonoBehaviour
                     {
                         Cursor.lockState = CursorLockMode.None;
                         missionAccomplishedButton.gameObject.SetActive(true);
-                    });
+                    }, false);
                 break;
             case NoticeType.MissionFailed:
                 missionFailedSubtitle.text = subtitle;
@@ -110,21 +110,21 @@ public class NoticePanel : MonoBehaviour
                     {
                         Cursor.lockState = CursorLockMode.None;
                         missionFailedButton.gameObject.SetActive(true);
-                    });
+                    }, false);
                 break;
         }
 
         _seq?.Kill();
 
         var showHideSeq = DOTween.Sequence()
-                .Append(DOVirtual.DelayedCall(messageFlashInterval, () => message.gameObject.SetActive(false)))
-                .Append(DOVirtual.DelayedCall(messageFlashInterval, () => message.gameObject.SetActive(true)))
+                .Append(DOVirtual.DelayedCall(messageFlashInterval, () => message.gameObject.SetActive(false), false))
+                .Append(DOVirtual.DelayedCall(messageFlashInterval, () => message.gameObject.SetActive(true), false))
             ;
         _seq = DOTween.Sequence()
                 .Join(bg.DOAnchorPos(Vector2.zero, bgEnterTime).From(Vector2.left * 1920))
                 .AppendCallback(() => message.gameObject.SetActive(true))
                 .Append(showHideSeq.SetLoops(messageFlashTimes))
-                .Insert(0, DOVirtual.DelayedCall(duration, () => HideAllMessages(true)))
+                .Insert(0, DOVirtual.DelayedCall(duration, () => HideAllMessages(true), false))
                 .Play()
             ;
     }

@@ -40,6 +40,7 @@ public class PlayerAiming : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GamePause.Inst.isPaused) return;
         // if (_input.aim)
         if (false)
         {
@@ -65,7 +66,7 @@ public class PlayerAiming : MonoBehaviour
             UseCrosshair(CrosshairType.BasicCrosshair);
         }
 
-        if (_controller.canControlMovement && _input.shoot)
+        if (_controller.canControlMovement && _input.shoot && !GamePause.Inst.isPaused)
         {
             foreach (var weapon in _weapons)
             {

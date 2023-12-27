@@ -87,7 +87,7 @@ public class Henshin : MonoBehaviour
         // {
         //     henshinRequirementsDone = true;
         //     TryShowHenshin();
-        // });
+        // }, false);
 
 
         foreach (var bar in bars)

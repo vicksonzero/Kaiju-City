@@ -28,7 +28,7 @@ public class SpiderJump : MonoBehaviour
 
     [Header("Shockwave")]
     public ParticleSystem shockwavePs;
-    
+
     public float kineticDamage = 10;
     public LayerMask damageTheseLayers;
 
@@ -49,7 +49,7 @@ public class SpiderJump : MonoBehaviour
     private void Start()
     {
         jumpMarker.SetParent(jumpMarkerNewParent);
-        DOVirtual.DelayedCall(cooldown, Jump).SetLoops(-1);
+        DOVirtual.DelayedCall(cooldown, Jump, false).SetLoops(-1);
 
         jumpPs.Stop();
     }
@@ -101,10 +101,11 @@ public class SpiderJump : MonoBehaviour
         seq.Join(transform.DOMoveY(midPoint.y, airTime / 2f)
             .SetOptions(AxisConstraint.Y)
             .SetEase(Ease.OutCubic));
-        
+
         seq.AppendCallback(() => jumpPs.Stop());
         seq.Join(DOVirtual.DelayedCall(airTime * 0.5f * 2f / 3f,
-            () => jumpMarker.gameObject.SetActive(false)));
+            () => jumpMarker.gameObject.SetActive(false),
+            false));
         seq.Join(transform.DOMoveX(targetPosition.x, airTime / 2f)
             .SetOptions(AxisConstraint.X)
             .SetEase(Ease.Linear));
@@ -146,7 +147,7 @@ public class SpiderJump : MonoBehaviour
         ShootBuildingBullet();
         shockwavePs.Play();
     }
-    
+
     void ShootBullet()
     {
         var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity, bulletDisplayList);
@@ -154,7 +155,7 @@ public class SpiderJump : MonoBehaviour
         bullet.damageTheseLayers = damageTheseLayers;
         bullet.effectDisplayList = effectDisplayList;
     }
-    
+
     void ShootBuildingBullet()
     {
         var bullet = Instantiate(buildingBulletPrefab, transform.position, Quaternion.identity, bulletDisplayList);
