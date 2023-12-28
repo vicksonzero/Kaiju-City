@@ -41,6 +41,8 @@ public class SpiderJump : MonoBehaviour
     private Vector3 startingPosition;
     private Vector3 targetPosition;
 
+    private Tween _jumpTimer;
+
     private void Awake()
     {
         jumpMarker.gameObject.SetActive(false);
@@ -49,9 +51,18 @@ public class SpiderJump : MonoBehaviour
     private void Start()
     {
         jumpMarker.SetParent(jumpMarkerNewParent);
-        DOVirtual.DelayedCall(cooldown, Jump, false).SetLoops(-1);
 
         jumpPs.Stop();
+    }
+
+    private void OnEnable()
+    {
+        _jumpTimer = DOVirtual.DelayedCall(cooldown, Jump, false).SetLoops(-1);
+    }
+
+    private void OnDisable()
+    {
+        _jumpTimer?.Kill();
     }
 
     [Button()]
