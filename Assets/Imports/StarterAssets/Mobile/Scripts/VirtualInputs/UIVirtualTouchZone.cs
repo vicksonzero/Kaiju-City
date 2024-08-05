@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
@@ -54,9 +55,12 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector2 handlePositionStart;
     public bool longPressIsDown;
 
+    public TMP_Text pointerPositionDebugLabel;
+
     void Start()
     {
         SetupHandle();
+        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "";
     }
 
     private void SetupHandle()
@@ -98,6 +102,9 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         Debug.Log("OnPointerDown");
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
             eventData.pressEventCamera, out pointerDownPosition);
+        Debug.Log($"pointerDownPosition: {pointerDownPosition.ToString()}");
+
+        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "1 " + pointerDownPosition.ToString();
         lastOutputPosition = null;
 
         if (handleRect)
@@ -119,6 +126,8 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     {
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
             eventData.pressEventCamera, out currentPointerPosition);
+
+        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "D " + currentPointerPosition.ToString();
 
         var positionDelta = GetDeltaBetweenPositions(pointerDownPosition, currentPointerPosition);
 

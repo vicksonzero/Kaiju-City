@@ -28,8 +28,8 @@ public class SpiderDamageTakenHandler : MonoBehaviour
         
         var relativeImpulse = displaceRoot.InverseTransformDirection(impulse.Value);
 
-        var debugImpulseLine = Instantiate(debugImpulseLinePrefab, point ?? transform.position, Quaternion.identity);
-        debugImpulseLine.direction = impulse.Value;
+        // var debugImpulseLine = Instantiate(debugImpulseLinePrefab, point ?? transform.position, Quaternion.identity);
+        // debugImpulseLine.direction = impulse.Value;
 
         _displaceTween?.Kill();
         _displaceTween = displaceRoot.DOPunchPosition(relativeImpulse * punchMultiplier, punchTime, 5, 0.5f)
