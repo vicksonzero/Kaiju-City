@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
 
 public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
@@ -47,6 +48,7 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     private Vector2? lastOutputPosition;
 
     [Header("Output")]
+    public int fingerId = -1;
     public Event touchZoneOutputEvent;
 
     public ButtonEvent touchZoneButtonOutputEvent;
@@ -100,11 +102,21 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
     public void OnPointerDown(PointerEventData eventData)
     {
         Debug.Log("OnPointerDown");
+        if (fingerId > -1)
+        {
+            Debug.Log($"'{name}'.OnPointerDown ignores touches from {eventData.pointerId}");
+            return;
+        }
+
+        fingerId = eventData.pointerId;
+        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "" + fingerId.ToString();
+
+        
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
             eventData.pressEventCamera, out pointerDownPosition);
         Debug.Log($"pointerDownPosition: {pointerDownPosition.ToString()}");
 
-        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "1 " + pointerDownPosition.ToString();
+        // if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "1 " + pointerDownPosition.ToString();
         lastOutputPosition = null;
 
         if (handleRect)
@@ -124,10 +136,20 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnDrag(PointerEventData eventData)
     {
+        if (fingerId < 0)
+        {
+            Debug.Log($"'{name}'.OnDrag without an active touch.");
+            return;
+        }
+        if (fingerId > -1 && fingerId != eventData.pointerId)
+        {
+            Debug.Log($"'{name}'.OnDrag ignores touches from {eventData.pointerId}");
+            return;
+        }
         RectTransformUtility.ScreenPointToLocalPointInRectangle(containerRect, eventData.position,
             eventData.pressEventCamera, out currentPointerPosition);
 
-        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "D " + currentPointerPosition.ToString();
+        // if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "D " + currentPointerPosition.ToString();
 
         var positionDelta = GetDeltaBetweenPositions(pointerDownPosition, currentPointerPosition);
 
@@ -151,6 +173,11 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        if (fingerId > -1 && fingerId != eventData.pointerId)
+        {
+            Debug.Log($"'{name}'.OnPointerUp ignores touches from {eventData.pointerId}");
+            return;
+        }
         pointerDownPosition = Vector2.zero;
         currentPointerPosition = Vector2.zero;
 
@@ -158,6 +185,8 @@ public class UIVirtualTouchZone : MonoBehaviour, IPointerDownHandler, IDragHandl
         OutputButtonEventValue(false);
         longPressIsDown = false;
         longPressTimer = 0;
+        fingerId = -1;
+        if (pointerPositionDebugLabel) pointerPositionDebugLabel.text = "" + fingerId.ToString();
 
         OutputPointerEventValue(Vector2.zero);
 
